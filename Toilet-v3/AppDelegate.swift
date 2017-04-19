@@ -27,16 +27,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NSApp.setActivationPolicy(.accessory)
         statusItem.menu = menu
+        statusItem.toolTip = "Empty = Free \n Filled in = Occupied"
         updateImage(isFree: true)
         doWebSocketStuff()
     }
 
     private func doWebSocketStuff() {
-        socket.on("close") { data, ack in
-            print("socket closed")
+        socket.on("error") { data, ack in
+            self.statusItem.button?.appearsDisabled = true
+            print(data)
         }
 
         socket.on("data") { data, ack in
+            self.statusItem.button?.appearsDisabled = false
+
             for something in data {
                 guard let object = something as? [String: AnyObject] else { return }
                 guard let lightState = object["lightState"] as? String else { return }
@@ -49,6 +53,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 
             ack.with("HAHA!", "THX")
+            print(data)
         }
 
         socket.connect()

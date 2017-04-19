@@ -7,18 +7,70 @@
 //
 
 import Cocoa
+import SocketIO
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    private let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
+    let socket = SocketIOClient(
+        socketURL: URL(string: "http://internals.gridstone.com.au")!,
+        config: [.forceWebsockets(true)])
+
+    private lazy var menu: NSMenu = {
+        let menu = NSMenu()
+        menu.addItem(NSMenuItem(title: "Terminate", action: #selector(terminate), keyEquivalent: ""))
+        return menu
+    }()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+        NSApp.setActivationPolicy(.accessory)
+        statusItem.menu = menu
+        updateImage(isFree: true)
+        doWebSocketStuff()
     }
 
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
+    private func doWebSocketStuff() {
+        socket.on("close") { data, ack in
+            print("socket closed")
+        }
+
+        socket.on("data") { data, ack in
+            var isFree = false
+
+            for something in data {
+                guard let object = something as? [String: AnyObject] else { return }
+                guard let lightState = object["lightState"] as? String else { return }
+
+                isFree = lightState == "1"
+                self.updateImage(isFree: isFree)
+
+                if isFree == true { break }
+            }
+
+
+            ack.with("HAHA!", "THX")
+        }
+
+        socket.connect()
     }
 
+
+    private func updateImage(isFree: Bool) {
+        var icon: NSImage?
+
+        if isFree {
+            icon = NSImage(named: "toilet-yes")
+        } else {
+            icon = NSImage(named: "toilet-no")
+        }
+
+        icon?.isTemplate = true
+        self.statusItem.button?.image = icon
+    }
+
+    @objc private func terminate() {
+        NSApp.terminate(nil)
+    }
 }
 

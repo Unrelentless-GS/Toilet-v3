@@ -13,7 +13,6 @@ import SocketIO
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     private let statusItem = NSStatusBar.system().statusItem(withLength: NSSquareStatusItemLength)
-
     private let socket = SocketIOClient(
         socketURL: URL(string: "http://internals.gridstone.com.au")!,
         config: [.forceWebsockets(true)])

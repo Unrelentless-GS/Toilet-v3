@@ -18,27 +18,51 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         socketURL: URL(string: "http://internals.gridstone.com.au")!,
         config: [.forceWebsockets(true)])
 
-    private lazy var menu: NSMenu = {
+    private lazy var menu: NSMenu = { [unowned self] in
         let menu = NSMenu()
+        menu.addItem(self.menuItem)
         menu.addItem(NSMenuItem(title: "Terminate", action: #selector(terminate), keyEquivalent: ""))
         return menu
+        }()
+
+
+    private lazy var dateComponentsFormatter: DateComponentsFormatter = {
+        let dateComponentsFormatter = DateComponentsFormatter()
+        dateComponentsFormatter.allowedUnits = [.hour,.minute,.second]
+        dateComponentsFormatter.maximumUnitCount = 2
+        dateComponentsFormatter.unitsStyle = .abbreviated
+
+        return dateComponentsFormatter
     }()
+
+    private let menuItem = NSMenuItem(title: "Vacant for:", action: nil, keyEquivalent: "")
+    private var timer: Timer?
+
+    private var status = 1
+    private var sinceDate = Date()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NSApp.setActivationPolicy(.accessory)
         statusItem.menu = menu
-        statusItem.toolTip = "Empty = Free \n Filled in = Occupied"
         updateImage(isFree: true)
         doWebSocketStuff()
+
+        self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            self.refreshStats()
+        }
     }
 
     private func doWebSocketStuff() {
         socket.on("error") { data, ack in
+            self.sinceDate = Date()
             self.statusItem.button?.appearsDisabled = true
+            self.status = -1
+            self.refreshStats()
             print(data)
         }
 
         socket.on("data") { data, ack in
+            self.sinceDate = Date()
             self.statusItem.button?.appearsDisabled = false
 
             for something in data {
@@ -46,6 +70,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 guard let lightState = object["lightState"] as? String else { return }
 
                 let isFree = lightState == "1"
+                self.status = isFree ? 1 : 0
                 self.updateImage(isFree: isFree)
 
                 if isFree == true { break }
@@ -54,11 +79,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
             ack.with("HAHA!", "THX")
             print(data)
+            self.refreshStats()
         }
 
         socket.connect()
     }
 
+    private func refreshStats() {
+        let timeString = dateComponentsFormatter.string(from: self.sinceDate, to: Date())
+        let statusString = self.status == -1 ? "Offline" : self.status == 0 ? "Occupied" : "Vacant"
+        self.menuItem.title = "\(statusString) for: \(timeString!)"
+    }
 
     private func updateImage(isFree: Bool) {
         var icon: NSImage?
@@ -69,8 +100,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             icon = NSImage(named: "toilet-no")
         }
 
-        self.statusItem.button?.image = icon
-        self.statusItem.button?.image?.isTemplate = true
+        statusItem.button?.image = icon
+        statusItem.button?.image?.isTemplate = true
+        statusItem.button?.toolTip = "Empty = Vacant \nFilled = Occupied"
     }
     
     @objc private func terminate() {

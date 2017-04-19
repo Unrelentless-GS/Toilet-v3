@@ -12,8 +12,9 @@ import SocketIO
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    private let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
-    let socket = SocketIOClient(
+    private let statusItem = NSStatusBar.system().statusItem(withLength: NSSquareStatusItemLength)
+
+    private let socket = SocketIOClient(
         socketURL: URL(string: "http://internals.gridstone.com.au")!,
         config: [.forceWebsockets(true)])
 
@@ -36,13 +37,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         socket.on("data") { data, ack in
-            var isFree = false
-
             for something in data {
                 guard let object = something as? [String: AnyObject] else { return }
                 guard let lightState = object["lightState"] as? String else { return }
 
-                isFree = lightState == "1"
+                let isFree = lightState == "1"
                 self.updateImage(isFree: isFree)
 
                 if isFree == true { break }
@@ -65,10 +64,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             icon = NSImage(named: "toilet-no")
         }
 
-        icon?.isTemplate = true
         self.statusItem.button?.image = icon
+        self.statusItem.button?.image?.isTemplate = true
     }
-
+    
     @objc private func terminate() {
         NSApp.terminate(nil)
     }

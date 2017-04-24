@@ -20,11 +20,11 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="Hz6-mo-xeY">
-            <rect key="frame" x="0.0" y="0.0" width="301" height="313"/>
+            <rect key="frame" x="0.0" y="0.0" width="301" height="297"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="4nd-IC-Y5m" customClass="PieGraph" customModule="Toilet_v3" customModuleProvider="target">
-                    <rect key="frame" x="61" y="92" width="180" height="180"/>
+                    <rect key="frame" x="61" y="76" width="180" height="180"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="180" id="KOl-GG-BrG"/>
                         <constraint firstAttribute="width" constant="180" id="dM1-m5-rd1"/>
@@ -45,7 +45,7 @@
                     </connections>
                 </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QAL-jy-fou">
-                    <rect key="frame" x="18" y="272" width="265" height="21"/>
+                    <rect key="frame" x="18" y="256" width="265" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="Seu-d4-GSj"/>
                     </constraints>
@@ -112,7 +112,7 @@
                 </textField>
             </subviews>
             <constraints>
-                <constraint firstItem="sgt-Vo-Zr2" firstAttribute="top" secondItem="4nd-IC-Y5m" secondAttribute="bottom" constant="11" id="37k-Uh-YjE"/>
+                <constraint firstItem="sgt-Vo-Zr2" firstAttribute="top" secondItem="4nd-IC-Y5m" secondAttribute="bottom" constant="-5" id="37k-Uh-YjE"/>
                 <constraint firstItem="4nd-IC-Y5m" firstAttribute="top" secondItem="QAL-jy-fou" secondAttribute="bottom" id="3Ar-A1-3w7"/>
                 <constraint firstItem="QAL-jy-fou" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="9Lg-pT-avb"/>
                 <constraint firstItem="H5V-0r-ow7" firstAttribute="leading" secondItem="lhH-uq-p2z" secondAttribute="trailing" constant="30" id="FYH-ag-L14"/>

@@ -12,6 +12,17 @@ import SocketIO
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    private var vacantTime: TimeInterval = 0.0
+    private var occupiedTime: TimeInterval = 0.0
+    private var offlineTime: TimeInterval = 0.0
+
+    let popover = NSPopover()
+    var eventMonitor: EventMonitor?
+
+    var viewController: ContentViewController {
+        return popover.contentViewController as! ContentViewController
+    }
+
     private let statusItem = NSStatusBar.system().statusItem(withLength: NSSquareStatusItemLength)
     private let socket = SocketIOClient(
         socketURL: URL(string: "http://internals.gridstone.com.au")!,
@@ -42,13 +53,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NSApp.setActivationPolicy(.accessory)
-        statusItem.menu = menu
+        //        statusItem.menu = menu
+        statusItem.button?.action = #selector(togglePopover)
+        popover.contentViewController = ContentViewController(nibName: String(describing: ContentViewController.self), bundle: nil)
+
         updateImage(isFree: true)
         doWebSocketStuff()
 
-        self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            self.refreshStats()
+        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(refreshStats), userInfo: nil, repeats: true)
+
+        eventMonitor = EventMonitor(mask: [.leftMouseDown, .rightMouseDown]) { [unowned self] event in
+            if self.popover.isShown {
+                self.closePopover(sender: event)
+            }
         }
+        eventMonitor?.start()
     }
 
     private func doWebSocketStuff() {
@@ -68,7 +87,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 guard let object = something as? [String: AnyObject] else { return }
                 guard let lightState = object["lightState"] as? String else { return }
 
-                let isFree = lightState == "1"
+                let isFree = lightState == "0"
                 self.status = isFree ? 1 : 0
                 self.updateImage(isFree: isFree)
 
@@ -84,10 +103,33 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         socket.connect()
     }
 
-    private func refreshStats() {
-        let timeString = dateComponentsFormatter.string(from: self.sinceDate, to: Date())
-        let statusString = self.status == -1 ? "Offline" : self.status == 0 ? "Occupied" : "Vacant"
-        self.menuItem.title = "\(statusString) for: \(timeString!)"
+    @objc private func refreshStats() {
+        var timeString: String?
+        var statusString: String?
+
+        switch self.status {
+        case 0: //occupied
+            timeString = "[Classified]"
+            statusString = "Occupied"
+            occupiedTime += Date().timeIntervalSince(sinceDate)
+        case 1: //vacant
+            timeString = dateComponentsFormatter.string(from: self.sinceDate, to: Date())
+            statusString = "Vacant"
+            vacantTime += Date().timeIntervalSince(sinceDate)
+        case -1:
+            timeString = dateComponentsFormatter.string(from: self.sinceDate, to: Date())
+            statusString = "Offline"
+            offlineTime += Date().timeIntervalSince(sinceDate)
+        default: break
+        }
+
+        //        self.menuItem.title = "\(statusString!) for: \(timeString!)"
+        viewController.desc = "\(statusString!) for: \(timeString!)"
+        viewController.data = [
+            "vacant": vacantTime,
+            "occupied": occupiedTime,
+            "offline": offlineTime
+        ]
     }
 
     private func updateImage(isFree: Bool) {
@@ -103,9 +145,52 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.button?.image?.isTemplate = true
         statusItem.button?.toolTip = "Empty = Vacant \nFilled = Occupied"
     }
-    
+
     @objc private func terminate() {
         NSApp.terminate(nil)
     }
+
+    @objc private func togglePopover(sender: AnyObject?) {
+        if popover.isShown {
+            closePopover(sender: sender)
+        } else {
+            showPopover(sender: sender)
+        }
+    }
+
+    private func showPopover(sender: AnyObject?) {
+        if let button = statusItem.button {
+            popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+        }
+    }
+    
+    private func closePopover(sender: AnyObject?) {
+        popover.performClose(sender)
+    }
 }
 
+public class EventMonitor {
+    private var monitor: AnyObject?
+    private let mask: NSEventMask
+    private let handler: (NSEvent?) -> ()
+
+    public init(mask: NSEventMask, handler: @escaping (NSEvent?) -> ()) {
+        self.mask = mask
+        self.handler = handler
+    }
+
+    deinit {
+        stop()
+    }
+
+    public func start() {
+        monitor = NSEvent.addGlobalMonitorForEvents(matching: mask, handler: handler) as AnyObject
+    }
+
+    public func stop() {
+        if monitor != nil {
+            NSEvent.removeMonitor(monitor!)
+            monitor = nil
+        }
+    }
+}

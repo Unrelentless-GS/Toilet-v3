@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12118"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ContentViewController" customModule="Toilet_v3" customModuleProvider="target">
+            <connections>
+                <outlet property="descriptionLabel" destination="QAL-jy-fou" id="K9g-GH-aHm"/>
+                <outlet property="pieChartView" destination="4nd-IC-Y5m" id="noT-1b-j2z"/>
+                <outlet property="terminateButton" destination="zHv-7i-t1C" id="92O-oR-c8D"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="391" height="303"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="4nd-IC-Y5m" customClass="PieChartView" customModule="Charts">
+                    <rect key="frame" x="106" y="57" width="180" height="180"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="180" id="KOl-GG-BrG"/>
+                        <constraint firstAttribute="width" constant="180" id="dM1-m5-rd1"/>
+                    </constraints>
+                </customView>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zHv-7i-t1C">
+                    <rect key="frame" x="145" y="13" width="101" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="aQq-El-hhG"/>
+                        <constraint firstAttribute="width" constant="89" id="m7s-80-KTk"/>
+                    </constraints>
+                    <buttonCell key="cell" type="push" title="Terminate" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jkt-of-mJt">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="terminateHandler:" target="-2" id="c5h-tI-9dR"/>
+                    </connections>
+                </button>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QAL-jy-fou">
+                    <rect key="frame" x="18" y="253" width="355" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="Seu-d4-GSj"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" usesSingleLineMode="YES" id="Y7R-kH-ugj">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstItem="4nd-IC-Y5m" firstAttribute="top" secondItem="QAL-jy-fou" secondAttribute="bottom" constant="16" id="3Ar-A1-3w7"/>
+                <constraint firstItem="QAL-jy-fou" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="9Lg-pT-avb"/>
+                <constraint firstAttribute="trailing" secondItem="QAL-jy-fou" secondAttribute="trailing" constant="20" id="XPN-Nm-jYC"/>
+                <constraint firstItem="QAL-jy-fou" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="20" id="bQi-Je-iSD"/>
+                <constraint firstItem="zHv-7i-t1C" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="d6u-lo-9jS"/>
+                <constraint firstAttribute="bottom" secondItem="zHv-7i-t1C" secondAttribute="bottom" constant="20" id="kaT-Nb-P8V"/>
+                <constraint firstItem="4nd-IC-Y5m" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="lfW-fA-Ff3"/>
+                <constraint firstItem="zHv-7i-t1C" firstAttribute="top" secondItem="4nd-IC-Y5m" secondAttribute="bottom" constant="16" id="oWq-Qi-HGy"/>
+            </constraints>
+            <point key="canvasLocation" x="94.5" y="180.5"/>
+        </customView>
+    </objects>
+</document>

@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1202716B1EADB93A0048298C /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120271691EADB93A0048298C /* ContentViewController.swift */; };
+		1202716C1EADB93A0048298C /* ContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1202716A1EADB93A0048298C /* ContentViewController.xib */; };
+		120271701EADB9660048298C /* Charts.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 1202716E1EADB9660048298C /* Charts.framework.dSYM */; };
+		120271711EADB96E0048298C /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1202716D1EADB9660048298C /* Charts.framework */; };
+		120271721EADB96E0048298C /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1202716D1EADB9660048298C /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		12CE48681EA71DD700EAF189 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CE48671EA71DD700EAF189 /* AppDelegate.swift */; };
 		12CE486C1EA71DD700EAF189 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12CE486B1EA71DD700EAF189 /* Assets.xcassets */; };
 		12CE486F1EA71DD700EAF189 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 12CE486D1EA71DD700EAF189 /* Main.storyboard */; };
@@ -23,6 +28,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				12CE487E1EA7205000EAF189 /* SocketIO.framework in Embed Frameworks */,
+				120271721EADB96E0048298C /* Charts.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -30,6 +36,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		120271691EADB93A0048298C /* ContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
+		1202716A1EADB93A0048298C /* ContentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContentViewController.xib; sourceTree = "<group>"; };
+		1202716D1EADB9660048298C /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Charts.framework; sourceTree = "<group>"; };
+		1202716E1EADB9660048298C /* Charts.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = Charts.framework.dSYM; sourceTree = "<group>"; };
 		12CE48641EA71DD700EAF189 /* Toilet-v3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Toilet-v3.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		12CE48671EA71DD700EAF189 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		12CE486B1EA71DD700EAF189 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -45,6 +55,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				12CE487D1EA7205000EAF189 /* SocketIO.framework in Frameworks */,
+				120271711EADB96E0048298C /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +86,8 @@
 				12CE486B1EA71DD700EAF189 /* Assets.xcassets */,
 				12CE486D1EA71DD700EAF189 /* Main.storyboard */,
 				12CE48701EA71DD700EAF189 /* Info.plist */,
+				120271691EADB93A0048298C /* ContentViewController.swift */,
+				1202716A1EADB93A0048298C /* ContentViewController.xib */,
 			);
 			path = "Toilet-v3";
 			sourceTree = "<group>";
@@ -98,6 +111,8 @@
 		12CE48781EA7204A00EAF189 /* Mac */ = {
 			isa = PBXGroup;
 			children = (
+				1202716D1EADB9660048298C /* Charts.framework */,
+				1202716E1EADB9660048298C /* Charts.framework.dSYM */,
 				12CE48791EA7204A00EAF189 /* SocketIO.framework */,
 				12CE487A1EA7204A00EAF189 /* SocketIO.framework.dSYM */,
 			);
@@ -165,8 +180,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1202716C1EADB93A0048298C /* ContentViewController.xib in Resources */,
 				12CE486C1EA71DD700EAF189 /* Assets.xcassets in Resources */,
 				12CE487C1EA7204A00EAF189 /* SocketIO.framework.dSYM in Resources */,
+				120271701EADB9660048298C /* Charts.framework.dSYM in Resources */,
 				12CE486F1EA71DD700EAF189 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -178,6 +195,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1202716B1EADB93A0048298C /* ContentViewController.swift in Sources */,
 				12CE48681EA71DD700EAF189 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -237,7 +255,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -281,7 +299,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -292,16 +310,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = FNW7L4X44S;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = "Toilet-v3/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "au.com.gridstone.Toilet-v3";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -310,16 +331,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = FNW7L4X44S;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				INFOPLIST_FILE = "Toilet-v3/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "au.com.gridstone.Toilet-v3";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

@@ -7,13 +7,12 @@
 //
 
 import Cocoa
-import Charts
 
 internal class ContentViewController: NSViewController {
 
     @IBOutlet weak var descriptionLabel: NSTextField!
-    @IBOutlet weak var pieChartView: PieChartView!
     @IBOutlet weak var terminateButton: NSButton!
+    @IBOutlet weak var pieGraph: PieGraph!
 
     internal var desc: String = "Loading..."
     internal var data: [String: TimeInterval]? = [String: TimeInterval]()
@@ -22,7 +21,6 @@ internal class ContentViewController: NSViewController {
         super.viewWillAppear()
         updateDescription()
         updatePieChart()
-        pieChartView.animate(xAxisDuration: 0.0, yAxisDuration: 1.0)
     }
 
     internal func updateDescription() {
@@ -30,42 +28,50 @@ internal class ContentViewController: NSViewController {
     }
 
     internal func updatePieChart() {
-        pieChartView.data = PieChartData(dataSets: newDataSet())
-    }
 
-    private func newDataSet() -> [PieChartDataSet] {
-        var dataSets = [PieChartDataSet]()
-
-        let ds1: PieChartDataSet?
-        let ds2: PieChartDataSet?
-        let ds3: PieChartDataSet?
-
-        if self.data?["vacant"] != 0.0 {
-            ds1 = PieChartDataSet()
-            ds1!.label = "Vacant"
-            let _ = ds1!.addEntry(PieChartDataEntry(value: self.data!["vacant"]!))
-            dataSets.append(ds1!)
-        }
-
-        if self.data?["occupied"] != 0.0 {
-            ds2 = PieChartDataSet()
-            ds2!.label = "Occupied"
-            let _ = ds2!.addEntry(PieChartDataEntry(value: self.data!["occupied"]!))
-            dataSets.append(ds2!)
-        }
-
-        if self.data?["offline"] != 0.0 {
-            ds3 = PieChartDataSet()
-            ds3!.label = "Offline"
-            let _ = ds3!.addEntry(PieChartDataEntry(value: self.data!["offline"]!))
-            dataSets.append(ds3!)
-        }
-
-        print("updatng dataset")
-        return dataSets
     }
 
     @IBAction func terminateHandler(_ sender: NSButton) {
         NSApp.terminate(sender)
+    }
+}
+
+internal class PieGraph: NSView {
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+        drawPieChart()
+    }
+
+    func drawPieChart() {
+
+        // 1
+        let rect = CGRect(x: 20, y: 20, width: self.bounds.size.width - 40, height: self.bounds.size.height - 40)
+        let circle = NSBezierPath(ovalIn: rect)
+        NSColor.blue.setFill()
+        NSColor.green.setStroke()
+        circle.stroke()
+        circle.fill()
+
+        // 2
+        let path = NSBezierPath()
+        let center = CGPoint(x: rect.midX, y: rect.midY)
+        let usedPercent = Double(50 - 100) / Double(100)
+        let endAngle = CGFloat(360 * usedPercent)
+        let radius = rect.size.width / 2.0
+        path.move(to: center)
+        path.line(to: CGPoint(x: rect.maxX, y: center.y))
+        path.appendArc(withCenter: center, radius: radius,
+                       startAngle: 0, endAngle: endAngle)
+        path.close()
+
+
+        // 3
+        NSColor.red.setFill()
+        NSColor.red.setStroke()
+        path.stroke()
+
+        if let gradient = NSGradient(starting: NSColor.red, ending: NSColor.black) {
+            gradient.draw(in: path, angle: 45)
+        }
     }
 }

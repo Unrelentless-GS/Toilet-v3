@@ -9,9 +9,6 @@
 /* Begin PBXBuildFile section */
 		1202716B1EADB93A0048298C /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120271691EADB93A0048298C /* ContentViewController.swift */; };
 		1202716C1EADB93A0048298C /* ContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1202716A1EADB93A0048298C /* ContentViewController.xib */; };
-		120271701EADB9660048298C /* Charts.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 1202716E1EADB9660048298C /* Charts.framework.dSYM */; };
-		120271711EADB96E0048298C /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1202716D1EADB9660048298C /* Charts.framework */; };
-		120271721EADB96E0048298C /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1202716D1EADB9660048298C /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		12CE48681EA71DD700EAF189 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CE48671EA71DD700EAF189 /* AppDelegate.swift */; };
 		12CE486C1EA71DD700EAF189 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12CE486B1EA71DD700EAF189 /* Assets.xcassets */; };
 		12CE486F1EA71DD700EAF189 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 12CE486D1EA71DD700EAF189 /* Main.storyboard */; };
@@ -28,7 +25,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				12CE487E1EA7205000EAF189 /* SocketIO.framework in Embed Frameworks */,
-				120271721EADB96E0048298C /* Charts.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -38,8 +34,6 @@
 /* Begin PBXFileReference section */
 		120271691EADB93A0048298C /* ContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		1202716A1EADB93A0048298C /* ContentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContentViewController.xib; sourceTree = "<group>"; };
-		1202716D1EADB9660048298C /* Charts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Charts.framework; sourceTree = "<group>"; };
-		1202716E1EADB9660048298C /* Charts.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = Charts.framework.dSYM; sourceTree = "<group>"; };
 		12CE48641EA71DD700EAF189 /* Toilet-v3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Toilet-v3.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		12CE48671EA71DD700EAF189 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		12CE486B1EA71DD700EAF189 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -55,7 +49,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				12CE487D1EA7205000EAF189 /* SocketIO.framework in Frameworks */,
-				120271711EADB96E0048298C /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,8 +104,6 @@
 		12CE48781EA7204A00EAF189 /* Mac */ = {
 			isa = PBXGroup;
 			children = (
-				1202716D1EADB9660048298C /* Charts.framework */,
-				1202716E1EADB9660048298C /* Charts.framework.dSYM */,
 				12CE48791EA7204A00EAF189 /* SocketIO.framework */,
 				12CE487A1EA7204A00EAF189 /* SocketIO.framework.dSYM */,
 			);
@@ -183,7 +174,6 @@
 				1202716C1EADB93A0048298C /* ContentViewController.xib in Resources */,
 				12CE486C1EA71DD700EAF189 /* Assets.xcassets in Resources */,
 				12CE487C1EA7204A00EAF189 /* SocketIO.framework.dSYM in Resources */,
-				120271701EADB9660048298C /* Charts.framework.dSYM in Resources */,
 				12CE486F1EA71DD700EAF189 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

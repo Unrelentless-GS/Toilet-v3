@@ -10,6 +10,7 @@
             <connections>
                 <outlet property="descriptionLabel" destination="QAL-jy-fou" id="K9g-GH-aHm"/>
                 <outlet property="pieChartView" destination="4nd-IC-Y5m" id="noT-1b-j2z"/>
+                <outlet property="pieGraph" destination="4nd-IC-Y5m" id="K5W-3j-w0h"/>
                 <outlet property="terminateButton" destination="zHv-7i-t1C" id="92O-oR-c8D"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
@@ -20,7 +21,7 @@
             <rect key="frame" x="0.0" y="0.0" width="391" height="303"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="4nd-IC-Y5m" customClass="PieChartView" customModule="Charts">
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="4nd-IC-Y5m" customClass="PieGraph" customModule="Toilet_v3" customModuleProvider="target">
                     <rect key="frame" x="106" y="57" width="180" height="180"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="180" id="KOl-GG-BrG"/>

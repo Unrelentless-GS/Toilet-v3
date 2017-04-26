@@ -94,9 +94,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.sinceDate = Date()
             self.statusItem.button?.appearsDisabled = false
 
-            for (index, something) in data.enumerated() {
+            for something in data {
                 guard let object = something as? [String: AnyObject] else { return }
                 guard let lightState = object["lightState"] as? String else { return }
+                guard let deviceId = object["deviceId"] as? String else { return }
+                guard let index = self.deviceIDs.index(of: deviceId) else { return }
 
                 let isFree = lightState == "0"
                 self.updateImage(isFree: isFree)

@@ -101,7 +101,6 @@ internal class PieGraph: NSView {
 
     internal var data: [String: TimeInterval] = [String: TimeInterval]() {
         didSet {
-            Swift.print("Data: \(data)")
             setNeedsDisplay(self.bounds)
         }
     }

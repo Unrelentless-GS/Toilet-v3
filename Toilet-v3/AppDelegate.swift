@@ -12,6 +12,9 @@ import SocketIO
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    private var poopCode = ""
+    private var revealTime = false
+
     private var vacantTimes: [TimeInterval] = [0, 0]
     private var occupiedTimes: [TimeInterval] = [0, 0]
     private var offlineTimes: [TimeInterval] = [0, 0]
@@ -51,6 +54,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var status2 = 1
 
     private var sinceDate = Date()
+    private var sinceDate2 = Date()
     private var deviceIDs = [String]()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -70,17 +74,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
         eventMonitor?.start()
+
+        NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
+            self.keyDown(with: $0)
+            return $0
+        }
     }
 
     private func doWebSocketStuff() {
         socket.on("error") { data, ack in
             self.sinceDate = Date()
+            self.sinceDate2 = Date()
             self.statusItem.button?.appearsDisabled = true
             self.status = -1
             self.status2 = -1
             self.refreshStats(toiletNumber: 0, status: -1)
             self.refreshStats(toiletNumber: 1, status: -1)
-            print(data)
         }
 
         socket.on("devices") { data, ack in
@@ -91,7 +100,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         socket.on("data") { data, ack in
-            self.sinceDate = Date()
             self.statusItem.button?.appearsDisabled = false
 
             for something in data {
@@ -101,19 +109,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 guard let index = self.deviceIDs.index(of: deviceId) else { return }
 
                 let isFree = lightState == "0"
-                self.updateImage(isFree: isFree)
 
                 if index == 0 {
+                    self.sinceDate = Date()
                     self.status = isFree ? 1 : 0
                 } else {
+                    self.sinceDate2 = Date()
                     self.status2 = isFree ? 1 : 0
                 }
 
                 self.refreshStats(toiletNumber: index, status: isFree ? 1 : 0)
             }
 
+            self.updateImage(isFree: (self.status == 1 || self.status2 == 1) ? true : false)
+
             ack.with("HAHA!", "THX")
-            print(data)
         }
 
         socket.connect()
@@ -131,15 +141,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         switch status {
         case 0: //occupied
-            timeString = "[Classified]"
+            let sinceDate = toiletNumber == 0 ? self.sinceDate : self.sinceDate2
+            timeString = revealTime ? dateComponentsFormatter.string(from: sinceDate, to: Date()) : "[Classified]"
             statusString = "Occupied"
             occupiedTimes[toiletNumber] += Date().timeIntervalSince(sinceDate)
         case 1: //vacant
-            timeString = dateComponentsFormatter.string(from: self.sinceDate, to: Date())
+            let sinceDate = toiletNumber == 0 ? self.sinceDate : self.sinceDate2
+            timeString = dateComponentsFormatter.string(from: sinceDate, to: Date())
             statusString = "Vacant"
             vacantTimes[toiletNumber] += Date().timeIntervalSince(sinceDate)
         case -1:
-            timeString = dateComponentsFormatter.string(from: self.sinceDate, to: Date())
+            let sinceDate = toiletNumber == 0 ? self.sinceDate : self.sinceDate2
+            timeString = dateComponentsFormatter.string(from: sinceDate, to: Date())
             statusString = "Offline"
             offlineTimes[toiletNumber] += Date().timeIntervalSince(sinceDate)
         default: break
@@ -198,6 +211,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func closePopover(sender: AnyObject?) {
         popover.performClose(sender)
+        poopCode = ""
+        revealTime = false
+    }
+
+
+    func keyDown(with event: NSEvent) {
+        guard let characters = event.characters else { return }
+
+        poopCode += characters
+
+        if poopCode == "qps" {
+            revealTime = true
+        } else {
+            revealTime = false
+        }
     }
 }
 

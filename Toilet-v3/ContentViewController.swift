@@ -15,8 +15,10 @@ let offlineColour = NSColor(red: 255/255.0, green: 102/255.0, blue: 102/255.0, a
 internal class ContentViewController: NSViewController {
 
     @IBOutlet weak var descriptionLabel: NSTextField!
+    @IBOutlet weak var descriptionLabel2: NSTextField!
     @IBOutlet weak var terminateButton: NSButton!
     @IBOutlet weak var pieGraph: PieGraph!
+    @IBOutlet weak var pieGraph2: PieGraph!
 
     @IBOutlet weak var legend1Colour: NSTextField!
     @IBOutlet weak var legend2Colour: NSTextField!
@@ -28,10 +30,23 @@ internal class ContentViewController: NSViewController {
             descriptionLabel.stringValue = desc
         }
     }
-    internal var data: [String: TimeInterval]? = [String: TimeInterval]() {
+    internal var data: [String: TimeInterval] = [String: TimeInterval]() {
         didSet {
             guard self.view != nil else { return }
             pieGraph.data = data
+        }
+    }
+
+    internal var desc2: String = "Loading..." {
+        didSet {
+            guard self.view != nil else { return }
+            descriptionLabel2.stringValue = desc2
+        }
+    }
+    internal var data2: [String: TimeInterval] = [String: TimeInterval]() {
+        didSet {
+            guard self.view != nil else { return }
+            pieGraph2.data = data2
         }
     }
 
@@ -52,6 +67,9 @@ internal class ContentViewController: NSViewController {
         legend3Colour.wantsLayer = true
         legend3Colour.backgroundColor = offlineColour
         legend3Colour.layer?.cornerRadius = 2
+
+        pieGraph.number = 1
+        pieGraph2.number = 2
     }
 
     override func viewWillAppear() {
@@ -62,10 +80,12 @@ internal class ContentViewController: NSViewController {
 
     internal func updateDescription() {
         descriptionLabel.stringValue = desc
+        descriptionLabel2.stringValue = desc2
     }
 
     internal func updatePieChart() {
         pieGraph.data = data
+        pieGraph2.data = data2
     }
 
     @IBAction func terminateHandler(_ sender: NSButton) {
@@ -77,8 +97,11 @@ internal class PieGraph: NSView {
 
     private var count = 0
 
-    internal var data: [String: TimeInterval]? = [String: TimeInterval]() {
+    internal var number: Int = 0
+
+    internal var data: [String: TimeInterval] = [String: TimeInterval]() {
         didSet {
+            Swift.print("Data: \(data)")
             setNeedsDisplay(self.bounds)
         }
     }
@@ -95,7 +118,7 @@ internal class PieGraph: NSView {
         let center = CGPoint(x: rect.midX, y: rect.midY)
         let radius = rect.size.width / 2.0
 
-        let total = data?.values.reduce(0.0) { result, next in
+        let total = data.values.reduce(0.0) { result, next in
             result + next
         }
 
@@ -105,7 +128,7 @@ internal class PieGraph: NSView {
 
             // 3
             let path = NSBezierPath()
-            let usedPercent = value / total!
+            let usedPercent = value / total
             endAngle = nextAngle + CGFloat(360 * usedPercent)
             path.move(to: center)
             path.appendArc(withCenter: center, radius: radius,
@@ -138,16 +161,19 @@ internal class PieGraph: NSView {
 
     func valueFor(count: Int) -> Double {
         switch count {
-        case 0: return data!["vacant"]!
-        case 1: return data!["occupied"]!
-        case 2: return data!["offline"]!
+        case 0:
+            return data["vacant"]!
+        case 1:
+            return data["occupied"]!
+        case 2:
+            return data["offline"]!
         default: return 0
         }
     }
 
     func fakeData() {
-        data?["vacant"] = 50
-        data?["offline"] = 25
-        data?["occupied"] = 25
+        data["vacant"] = 50
+        data["offline"] = 25
+        data["occupied"] = 25
     }
 }

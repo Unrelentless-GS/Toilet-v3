@@ -12,9 +12,9 @@ import SocketIO
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    private var vacantTime: TimeInterval = 0.0
-    private var occupiedTime: TimeInterval = 0.0
-    private var offlineTime: TimeInterval = 0.0
+    private var vacantTimes: [TimeInterval] = [0, 0]
+    private var occupiedTimes: [TimeInterval] = [0, 0]
+    private var offlineTimes: [TimeInterval] = [0, 0]
 
     let popover = NSPopover()
     var eventMonitor: EventMonitor?
@@ -35,7 +35,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return menu
         }()
 
-
     private lazy var dateComponentsFormatter: DateComponentsFormatter = {
         let dateComponentsFormatter = DateComponentsFormatter()
         dateComponentsFormatter.allowedUnits = [.hour,.minute,.second]
@@ -49,7 +48,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var timer: Timer?
 
     private var status = 1
+    private var status2 = 1
+
     private var sinceDate = Date()
+    private var deviceIDs = [String]()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NSApp.setActivationPolicy(.accessory)
@@ -60,7 +62,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         updateImage(isFree: true)
         doWebSocketStuff()
 
-        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(refreshStats), userInfo: nil, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(refreshBothStats), userInfo: nil, repeats: true)
 
         eventMonitor = EventMonitor(mask: [.leftMouseDown, .rightMouseDown]) { [unowned self] event in
             if self.popover.isShown {
@@ -75,61 +77,89 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.sinceDate = Date()
             self.statusItem.button?.appearsDisabled = true
             self.status = -1
-            self.refreshStats()
+            self.status2 = -1
+            self.refreshStats(toiletNumber: 0, status: -1)
+            self.refreshStats(toiletNumber: 1, status: -1)
             print(data)
+        }
+
+        socket.on("devices") { data, ack in
+            self.deviceIDs = data
+                .map{$0 as! [[String: AnyObject]]}
+                .flatMap{$0}
+                .flatMap{$0["deviceId"]} as! [String]
         }
 
         socket.on("data") { data, ack in
             self.sinceDate = Date()
             self.statusItem.button?.appearsDisabled = false
 
-            for something in data {
+            for (index, something) in data.enumerated() {
                 guard let object = something as? [String: AnyObject] else { return }
                 guard let lightState = object["lightState"] as? String else { return }
 
                 let isFree = lightState == "0"
-                self.status = isFree ? 1 : 0
                 self.updateImage(isFree: isFree)
 
-                if isFree == true { break }
-            }
+                if index == 0 {
+                    self.status = isFree ? 1 : 0
+                } else {
+                    self.status2 = isFree ? 1 : 0
+                }
 
+                self.refreshStats(toiletNumber: index, status: isFree ? 1 : 0)
+            }
 
             ack.with("HAHA!", "THX")
             print(data)
-            self.refreshStats()
         }
 
         socket.connect()
     }
 
-    @objc private func refreshStats() {
+
+    @objc private func refreshBothStats() {
+        self.refreshStats(toiletNumber: 0, status: status)
+        self.refreshStats(toiletNumber: 1, status: status2)
+    }
+
+    private func refreshStats(toiletNumber: Int, status: Int) {
         var timeString: String?
         var statusString: String?
 
-        switch self.status {
+        switch status {
         case 0: //occupied
             timeString = "[Classified]"
             statusString = "Occupied"
-            occupiedTime += Date().timeIntervalSince(sinceDate)
+            occupiedTimes[toiletNumber] += Date().timeIntervalSince(sinceDate)
         case 1: //vacant
             timeString = dateComponentsFormatter.string(from: self.sinceDate, to: Date())
             statusString = "Vacant"
-            vacantTime += Date().timeIntervalSince(sinceDate)
+            vacantTimes[toiletNumber] += Date().timeIntervalSince(sinceDate)
         case -1:
             timeString = dateComponentsFormatter.string(from: self.sinceDate, to: Date())
             statusString = "Offline"
-            offlineTime += Date().timeIntervalSince(sinceDate)
+            offlineTimes[toiletNumber] += Date().timeIntervalSince(sinceDate)
         default: break
         }
 
         //        self.menuItem.title = "\(statusString!) for: \(timeString!)"
-        viewController.desc = "\(statusString!) for: \(timeString!)"
-        viewController.data = [
-            "vacant": vacantTime,
-            "occupied": occupiedTime,
-            "offline": offlineTime
-        ]
+
+        if toiletNumber == 0 {
+            viewController.desc = "\(statusString!) for: \(timeString!)"
+            viewController.data = [
+                "vacant": vacantTimes[0],
+                "occupied": occupiedTimes[0],
+                "offline": offlineTimes[0]
+            ]
+        } else {
+            viewController.desc2 = "\(statusString!) for: \(timeString!)"
+            viewController.data2 = [
+                "vacant": vacantTimes[1],
+                "occupied": occupiedTimes[1],
+                "offline": offlineTimes[1]
+            ]
+        }
     }
 
     private func updateImage(isFree: Bool) {
@@ -163,7 +193,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
         }
     }
-    
+
     private func closePopover(sender: AnyObject?) {
         popover.performClose(sender)
     }
@@ -186,7 +216,7 @@ public class EventMonitor {
     public func start() {
         monitor = NSEvent.addGlobalMonitorForEvents(matching: mask, handler: handler) as AnyObject
     }
-
+    
     public func stop() {
         if monitor != nil {
             NSEvent.removeMonitor(monitor!)

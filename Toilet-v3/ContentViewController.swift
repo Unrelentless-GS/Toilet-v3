@@ -20,6 +20,15 @@ internal class ContentViewController: NSViewController {
     @IBOutlet weak var legend2Colour: NSTextField!
     @IBOutlet weak var legend3Colour: NSTextField!
 
+    @IBOutlet weak var spacerView: NSView!
+    @IBOutlet weak var totalTime: NSTextField!
+
+    internal var totalTimeString: String = "" {
+        didSet {
+            totalTime.stringValue = totalTimeString
+        }
+    }
+
     internal var desc: String = "Loading..." {
         didSet {
             guard self.view != nil else { return }
@@ -66,12 +75,17 @@ internal class ContentViewController: NSViewController {
 
         pieGraph.number = 1
         pieGraph2.number = 2
+
+        spacerView.wantsLayer = true
+        spacerView.layer?.backgroundColor = NSColor(red: 144/255.0, green: 144/255.0, blue: 144/255.0, alpha: 1.0).cgColor
     }
 
     override func viewWillAppear() {
         super.viewWillAppear()
         updateDescription()
         updatePieChart()
+
+        totalTime.stringValue = totalTimeString
     }
 
     internal func updateDescription() {

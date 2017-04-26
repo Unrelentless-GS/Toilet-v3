@@ -19,6 +19,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var occupiedTimes: [TimeInterval] = [0, 0]
     private var offlineTimes: [TimeInterval] = [0, 0]
 
+    private var startDate = Date()
+
     let popover = NSPopover()
     var eventMonitor: EventMonitor?
 
@@ -129,7 +131,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         socket.connect()
     }
 
-
     @objc private func refreshBothStats() {
         self.refreshStats(toiletNumber: 0, status: status)
         self.refreshStats(toiletNumber: 1, status: status2)
@@ -175,6 +176,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 "offline": offlineTimes[1]
             ]
         }
+
+        let timeInterval = NSDate().timeIntervalSince(self.startDate)
+        guard let string = dateComponentsFormatter.string(from: timeInterval) else { return }
+        viewController.totalTimeString = "Total time: \(string)"
     }
 
     private func updateImage(isFree: Bool) {

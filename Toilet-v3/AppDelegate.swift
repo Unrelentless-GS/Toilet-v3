@@ -87,6 +87,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.keyDown(with: $0)
             return $0
         }
+
+        viewController.notifyCallback = { [unowned self] in
+            let state = self.status == .occupied ? self.status2 == .occupied ? "1" : "2" : "1"
+            let notification = NSUserNotification()
+            notification.title = "Toilet Available"
+            notification.subtitle = "Toilet number \(state) is now available"
+            notification.soundName = NSUserNotificationDefaultSoundName
+            NSUserNotificationCenter.default.deliver(notification)
+        }
     }
 
     private func doWebSocketStuff() {
@@ -130,6 +139,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
 
             self.updateImage(isFree: (self.status == .vacant || self.status2 == .vacant) ? true : false)
+            self.viewController.isFree = (self.status == .vacant || self.status2 == .vacant) ? true : false
 
             ack.with("HAHA!", "THX")
         }
@@ -248,11 +258,11 @@ public class EventMonitor {
         self.mask = mask
         self.handler = handler
     }
-
+    
     deinit {
         stop()
     }
-
+    
     public func start() {
         monitor = NSEvent.addGlobalMonitorForEvents(matching: mask, handler: handler) as AnyObject
     }

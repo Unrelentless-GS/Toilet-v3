@@ -22,8 +22,8 @@ internal class ContentViewController: NSViewController {
 
     @IBOutlet weak var spacerView: NSView!
     @IBOutlet weak var totalTime: NSTextField!
-
     @IBOutlet weak var percentLabel: NSTextField!
+    @IBOutlet weak var notifyCheckBox: NSButton!
     
     internal var totalTimeString: String = "" {
         didSet {
@@ -57,7 +57,21 @@ internal class ContentViewController: NSViewController {
         }
     }
 
+    internal var isFree: Bool = false {
+        didSet {
+            defer {
+                wasFree = isFree
+            }
+            if isFree == true, wasFree == false, notifyCheckBox.state == 1 {
+                notifyCallback?()
+                notifyCheckBox.state = 0
+            }
+        }
+    }
+    internal var wasFree: Bool = false
+
     internal var motionCallback: ((Double?) -> ())?
+    internal var notifyCallback: (() -> ())?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,6 +107,7 @@ internal class ContentViewController: NSViewController {
         spacerView.wantsLayer = true
         spacerView.layer?.backgroundColor = NSColor(red: 144/255.0, green: 144/255.0, blue: 144/255.0, alpha: 1.0).cgColor
 
+        notifyCheckBox.state = 0
     }
 
     override func viewWillAppear() {
@@ -123,7 +138,6 @@ internal class ContentViewController: NSViewController {
 }
 
 extension Double {
-    /// Rounds the double to decimal places value
     func roundTo(places:Int) -> Double {
         let divisor = pow(10.0, Double(places))
         return (self * divisor).rounded() / divisor

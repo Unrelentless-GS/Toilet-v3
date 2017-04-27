@@ -24,9 +24,11 @@ internal class PieGraph: NSView {
         }
     }
 
+    internal var motionCallback: ((Double?) -> ())?
+
     private var count = 0
     private var total: Double {
-       let total = data.values.reduce(0.0) { result, next in
+        let total = data.values.reduce(0.0) { result, next in
             result + next
         }
 
@@ -126,24 +128,28 @@ internal class PieGraph: NSView {
     }
 
     override func mouseEntered(with event: NSEvent) {
-        Swift.print("Entered \(event.trackingArea?.userInfo)")
-
         let type = event.trackingArea?.userInfo?["status"] as! ToiletStatus
+        var percent: Double = 0.0
+        var inView: Bool? = false
 
         switch type {
         case .vacant:
-            let vacant = (data[.vacant]! /  self.total) * 100
-            Swift.print(vacant)
+            percent = (data[.vacant]! / self.total) * 100
+            inView = bezierPaths[0]?.contains(self.convert(event.locationInWindow, from: nil))
         case .occupied:
-            let occupied = (data[.occupied]! /  self.total) * 100
-            Swift.print(occupied)
+            percent = (data[.occupied]! / self.total) * 100
+            inView = bezierPaths[1]?.contains(self.convert(event.locationInWindow, from: nil))
         case .offline:
-            let offline = (data[.offline]! /  self.total) * 100
-            Swift.print(offline)
+            percent = (data[.offline]! / self.total) * 100
+            inView = bezierPaths[2]?.contains(self.convert(event.locationInWindow, from: nil))
+        }
+
+        if inView == true {
+            motionCallback?(percent)
         }
     }
     
     override func mouseExited(with event: NSEvent) {
-        Swift.print("Exited \(event.trackingArea?.userInfo)")
+        motionCallback?(nil)
     }
 }

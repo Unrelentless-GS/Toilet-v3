@@ -57,6 +57,8 @@ internal class ContentViewController: NSViewController {
         }
     }
 
+    internal var motionCallback: ((Double?) -> ())?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -75,11 +77,22 @@ internal class ContentViewController: NSViewController {
         legend3Colour.backgroundColor = offlineColour
         legend3Colour.layer?.cornerRadius = 2
 
+        motionCallback = { [unowned self] percentage in
+            guard let percent = percentage?.roundTo(places: 1) else {
+                self.percentLabel.stringValue = ""
+                return
+            }
+            self.percentLabel.stringValue = "\(percent)%"
+        }
+
         pieGraph.number = 1
         pieGraph2.number = 2
+        pieGraph.motionCallback = motionCallback
+        pieGraph2.motionCallback = motionCallback
 
         spacerView.wantsLayer = true
         spacerView.layer?.backgroundColor = NSColor(red: 144/255.0, green: 144/255.0, blue: 144/255.0, alpha: 1.0).cgColor
+
     }
 
     override func viewWillAppear() {
@@ -106,5 +119,13 @@ internal class ContentViewController: NSViewController {
 
     @IBAction func terminateHandler(_ sender: NSButton) {
         NSApp.terminate(sender)
+    }
+}
+
+extension Double {
+    /// Rounds the double to decimal places value
+    func roundTo(places:Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (self * divisor).rounded() / divisor
     }
 }

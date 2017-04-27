@@ -14,14 +14,23 @@ let offlineColour = NSColor(red: 255/255.0, green: 102/255.0, blue: 102/255.0, a
 
 internal class PieGraph: NSView {
 
-    private var count = 0
-
+    internal var bezierPaths = [Int: NSBezierPath]()
+    internal var tAreas = [NSTrackingArea(), NSTrackingArea(), NSTrackingArea()]
     internal var number: Int = 0
-
-    internal var data: [String: TimeInterval] = [String: TimeInterval]() {
+    internal var data: [ToiletStatus: TimeInterval] = [ToiletStatus: TimeInterval]() {
         didSet {
             setNeedsDisplay(self.bounds)
+            track()
         }
+    }
+
+    private var count = 0
+    private var total: Double {
+       let total = data.values.reduce(0.0) { result, next in
+            result + next
+        }
+
+        return total
     }
 
     override func draw(_ dirtyRect: NSRect) {
@@ -36,17 +45,13 @@ internal class PieGraph: NSView {
         let center = CGPoint(x: rect.midX, y: rect.midY)
         let radius = rect.size.width / 2.0
 
-        let total = data.values.reduce(0.0) { result, next in
-            result + next
-        }
-
         var endAngle = nextAngle
 
         if value != 0.0 {
 
             // 3
             let path = NSBezierPath()
-            let usedPercent = value / total
+            let usedPercent = value / self.total
             endAngle = nextAngle + CGFloat(360 * usedPercent)
             path.move(to: center)
             path.appendArc(withCenter: center, radius: radius,
@@ -58,6 +63,8 @@ internal class PieGraph: NSView {
             path.stroke()
             path.fill()
             path.close()
+
+            bezierPaths[count] = path
         }
 
         count += 1
@@ -68,7 +75,7 @@ internal class PieGraph: NSView {
         drawArc(value: valueFor(count: count), colour: colourFor(count: count), nextAngle: endAngle)
     }
 
-    func colourFor(count: Int) -> NSColor {
+    private func colourFor(count: Int) -> NSColor {
         switch count {
         case 0: return vacantColour
         case 1: return occupiedColour
@@ -77,21 +84,66 @@ internal class PieGraph: NSView {
         }
     }
 
-    func valueFor(count: Int) -> Double {
+    private func valueFor(count: Int) -> Double {
         switch count {
         case 0:
-            return data["vacant"]!
+            return data[.vacant]!
         case 1:
-            return data["occupied"]!
+            return data[.occupied]!
         case 2:
-            return data["offline"]!
+            return data[.offline]!
         default: return 0
         }
     }
 
-    func fakeData() {
-        data["vacant"] = 50
-        data["offline"] = 25
-        data["occupied"] = 25
+    private func fakeData() {
+        data[.vacant] = 50
+        data[.offline] = 25
+        data[.occupied] = 25
+    }
+
+    private func track() {
+        if let path = self.bezierPaths[0] {
+            self.removeTrackingArea(tAreas[0])
+            let area = NSTrackingArea(rect: path.bounds, options: [.activeAlways, .mouseEnteredAndExited], owner: self, userInfo: ["status": ToiletStatus.vacant])
+            tAreas[0] = area
+            self.addTrackingArea(area)
+        }
+
+        if let path = self.bezierPaths[1] {
+            self.removeTrackingArea(tAreas[1])
+            let area = NSTrackingArea(rect: path.bounds, options: [.activeAlways, .mouseEnteredAndExited], owner: self, userInfo: ["status": ToiletStatus.occupied])
+            tAreas[1] = area
+            self.addTrackingArea(area)
+        }
+
+        if let path = self.bezierPaths[2] {
+            self.removeTrackingArea(tAreas[2])
+            let area = NSTrackingArea(rect: path.bounds, options: [.activeAlways, .mouseEnteredAndExited], owner: self, userInfo: ["status": ToiletStatus.offline])
+            tAreas[2] = area
+            self.addTrackingArea(area)
+        }
+    }
+
+    override func mouseEntered(with event: NSEvent) {
+        Swift.print("Entered \(event.trackingArea?.userInfo)")
+
+        let type = event.trackingArea?.userInfo?["status"] as! ToiletStatus
+
+        switch type {
+        case .vacant:
+            let vacant = (data[.vacant]! /  self.total) * 100
+            Swift.print(vacant)
+        case .occupied:
+            let occupied = (data[.occupied]! /  self.total) * 100
+            Swift.print(occupied)
+        case .offline:
+            let offline = (data[.offline]! /  self.total) * 100
+            Swift.print(offline)
+        }
+    }
+    
+    override func mouseExited(with event: NSEvent) {
+        Swift.print("Exited \(event.trackingArea?.userInfo)")
     }
 }

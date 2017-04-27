@@ -9,6 +9,12 @@
 import Cocoa
 import SocketIO
 
+enum ToiletStatus: Int {
+    case offline = -1
+    case occupied = 0
+    case vacant = 1
+}
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
@@ -52,8 +58,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let menuItem = NSMenuItem(title: "Vacant for:", action: nil, keyEquivalent: "")
     private var timer: Timer?
 
-    private var status = 1
-    private var status2 = 1
+    private var status: ToiletStatus = .vacant
+    private var status2: ToiletStatus = .vacant
 
     private var sinceDate = Date()
     private var sinceDate2 = Date()
@@ -88,10 +94,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.sinceDate = Date()
             self.sinceDate2 = Date()
             self.statusItem.button?.appearsDisabled = true
-            self.status = -1
-            self.status2 = -1
-            self.refreshStats(toiletNumber: 0, status: -1)
-            self.refreshStats(toiletNumber: 1, status: -1)
+            self.status = .offline
+            self.status2 = .offline
+            self.refreshStats(toiletNumber: 0, status: .offline)
+            self.refreshStats(toiletNumber: 1, status: .offline)
         }
 
         socket.on("devices") { data, ack in
@@ -114,16 +120,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
                 if index == 0 {
                     self.sinceDate = Date()
-                    self.status = isFree ? 1 : 0
+                    self.status = isFree ? .vacant : .occupied
                 } else {
                     self.sinceDate2 = Date()
-                    self.status2 = isFree ? 1 : 0
+                    self.status2 = isFree ? .vacant : .occupied
                 }
 
-                self.refreshStats(toiletNumber: index, status: isFree ? 1 : 0)
+                self.refreshStats(toiletNumber: index, status: isFree ? .vacant : .occupied)
             }
 
-            self.updateImage(isFree: (self.status == 1 || self.status2 == 1) ? true : false)
+            self.updateImage(isFree: (self.status == .vacant || self.status2 == .vacant) ? true : false)
 
             ack.with("HAHA!", "THX")
         }
@@ -136,27 +142,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.refreshStats(toiletNumber: 1, status: status2)
     }
 
-    private func refreshStats(toiletNumber: Int, status: Int) {
+    private func refreshStats(toiletNumber: Int, status: ToiletStatus) {
         var timeString: String?
         var statusString: String?
 
         switch status {
-        case 0: //occupied
+        case .occupied: //occupied
             let sinceDate = toiletNumber == 0 ? self.sinceDate : self.sinceDate2
             timeString = revealTime ? dateComponentsFormatter.string(from: sinceDate, to: Date()) : "[Classified]"
             statusString = "Occupied"
             occupiedTimes[toiletNumber] += Date().timeIntervalSince(sinceDate)
-        case 1: //vacant
+        case .vacant: //vacant
             let sinceDate = toiletNumber == 0 ? self.sinceDate : self.sinceDate2
             timeString = dateComponentsFormatter.string(from: sinceDate, to: Date())
             statusString = "Vacant"
             vacantTimes[toiletNumber] += Date().timeIntervalSince(sinceDate)
-        case -1:
+        case .offline:
             let sinceDate = toiletNumber == 0 ? self.sinceDate : self.sinceDate2
             timeString = dateComponentsFormatter.string(from: sinceDate, to: Date())
             statusString = "Offline"
             offlineTimes[toiletNumber] += Date().timeIntervalSince(sinceDate)
-        default: break
         }
 
         //        self.menuItem.title = "\(statusString!) for: \(timeString!)"
@@ -164,16 +169,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if toiletNumber == 0 {
             viewController.desc = "\(statusString!) for: \(timeString!)"
             viewController.data = [
-                "vacant": vacantTimes[0],
-                "occupied": occupiedTimes[0],
-                "offline": offlineTimes[0]
+                .vacant: vacantTimes[0],
+                .occupied: occupiedTimes[0],
+                .offline: offlineTimes[0]
             ]
         } else {
             viewController.desc2 = "\(statusString!) for: \(timeString!)"
             viewController.data2 = [
-                "vacant": vacantTimes[1],
-                "occupied": occupiedTimes[1],
-                "offline": offlineTimes[1]
+                .vacant: vacantTimes[1],
+                .occupied: occupiedTimes[1],
+                .offline: offlineTimes[1]
             ]
         }
 

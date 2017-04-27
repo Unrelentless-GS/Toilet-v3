@@ -23,6 +23,8 @@ internal class ContentViewController: NSViewController {
     @IBOutlet weak var spacerView: NSView!
     @IBOutlet weak var totalTime: NSTextField!
 
+    @IBOutlet weak var percentLabel: NSTextField!
+    
     internal var totalTimeString: String = "" {
         didSet {
             totalTime.stringValue = totalTimeString
@@ -35,7 +37,7 @@ internal class ContentViewController: NSViewController {
             descriptionLabel.stringValue = desc
         }
     }
-    internal var data: [String: TimeInterval] = [String: TimeInterval]() {
+    internal var data: [ToiletStatus: TimeInterval] = [ToiletStatus: TimeInterval]() {
         didSet {
             guard self.view != nil else { return }
             pieGraph.data = data
@@ -48,7 +50,7 @@ internal class ContentViewController: NSViewController {
             descriptionLabel2.stringValue = desc2
         }
     }
-    internal var data2: [String: TimeInterval] = [String: TimeInterval]() {
+    internal var data2: [ToiletStatus: TimeInterval] = [ToiletStatus: TimeInterval]() {
         didSet {
             guard self.view != nil else { return }
             pieGraph2.data = data2
@@ -86,6 +88,10 @@ internal class ContentViewController: NSViewController {
         updatePieChart()
 
         totalTime.stringValue = totalTimeString
+    }
+
+    override func viewDidAppear() {
+        super.viewDidAppear()
     }
 
     internal func updateDescription() {

@@ -12,6 +12,7 @@
                 <outlet property="legend1Colour" destination="sgt-Vo-Zr2" id="WtV-nG-gd5"/>
                 <outlet property="legend2Colour" destination="8Xt-1e-dDU" id="9Da-v1-yYE"/>
                 <outlet property="legend3Colour" destination="H5V-0r-ow7" id="rNr-Kg-xvN"/>
+                <outlet property="percentLabel" destination="4e5-Qa-wqD" id="5b6-l4-b1F"/>
                 <outlet property="pieGraph" destination="4nd-IC-Y5m" id="K5W-3j-w0h"/>
                 <outlet property="pieGraph2" destination="k9I-l7-Urz" id="asS-4B-7QJ"/>
                 <outlet property="spacerView" destination="bcl-Cm-fmp" id="xge-HR-axU"/>
@@ -123,6 +124,17 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4e5-Qa-wqD">
+                    <rect key="frame" x="222" y="239" width="37" height="17"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="17" id="tuo-0y-1rf"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="Mln-iW-g6L">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QAL-jy-fou">
                     <rect key="frame" x="38" y="324" width="184" height="21"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" usesSingleLineMode="YES" id="Y7R-kH-ugj">
@@ -167,9 +179,12 @@
                 <constraint firstItem="bcl-Cm-fmp" firstAttribute="top" secondItem="Pqx-CH-3JL" secondAttribute="bottom" constant="25" id="6HP-r7-x4M"/>
                 <constraint firstItem="H5V-0r-ow7" firstAttribute="leading" secondItem="lhH-uq-p2z" secondAttribute="trailing" constant="30" id="8iF-xy-2HA"/>
                 <constraint firstItem="QAL-jy-fou" firstAttribute="top" secondItem="zHr-Bp-xNj" secondAttribute="bottom" constant="9" id="92x-gW-Llj"/>
+                <constraint firstItem="4e5-Qa-wqD" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="9NE-jQ-oAl"/>
+                <constraint firstItem="4e5-Qa-wqD" firstAttribute="top" secondItem="zcm-bS-4lC" secondAttribute="bottom" constant="2" id="9Rz-fn-Z3q"/>
                 <constraint firstItem="lhH-uq-p2z" firstAttribute="leading" secondItem="8Xt-1e-dDU" secondAttribute="trailing" constant="5" id="BfP-P6-Sn3"/>
                 <constraint firstItem="lhH-uq-p2z" firstAttribute="height" secondItem="2Gr-0j-RZf" secondAttribute="height" id="CFc-bQ-lgT"/>
                 <constraint firstItem="zHv-7i-t1C" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="Cz8-kV-BQa"/>
+                <constraint firstItem="4e5-Qa-wqD" firstAttribute="leading" secondItem="4nd-IC-Y5m" secondAttribute="trailing" constant="4" id="Enu-bn-J4p"/>
                 <constraint firstItem="zHr-Bp-xNj" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="20" id="H8Z-Es-gT5"/>
                 <constraint firstItem="QAL-jy-fou" firstAttribute="height" secondItem="zHr-Bp-xNj" secondAttribute="height" id="HJ1-cH-BNV"/>
                 <constraint firstItem="4nd-IC-Y5m" firstAttribute="top" secondItem="zcm-bS-4lC" secondAttribute="bottom" constant="-10" id="Hj1-Re-oOb"/>
@@ -188,6 +203,7 @@
                 <constraint firstItem="8Xt-1e-dDU" firstAttribute="top" secondItem="sgt-Vo-Zr2" secondAttribute="top" id="YKz-oS-fXt"/>
                 <constraint firstItem="QAL-jy-fou" firstAttribute="centerX" secondItem="zHr-Bp-xNj" secondAttribute="centerX" id="YYr-z0-rh4"/>
                 <constraint firstItem="lhH-uq-p2z" firstAttribute="centerY" secondItem="8Xt-1e-dDU" secondAttribute="centerY" id="ZiB-iG-ATQ"/>
+                <constraint firstItem="k9I-l7-Urz" firstAttribute="leading" secondItem="4e5-Qa-wqD" secondAttribute="trailing" constant="3" id="c23-86-IY3"/>
                 <constraint firstItem="2Gr-0j-RZf" firstAttribute="leading" secondItem="sgt-Vo-Zr2" secondAttribute="trailing" constant="5" id="duZ-0K-dZb"/>
                 <constraint firstItem="zHv-7i-t1C" firstAttribute="top" secondItem="8Xt-1e-dDU" secondAttribute="bottom" constant="23" id="eYC-9J-FwM"/>
                 <constraint firstItem="QAL-jy-fou" firstAttribute="width" secondItem="zHr-Bp-xNj" secondAttribute="width" id="ec3-dt-szc"/>

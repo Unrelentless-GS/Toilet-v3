@@ -25,6 +25,8 @@ internal class ContentViewController: NSViewController {
     @IBOutlet weak var percentLabel: NSTextField!
     @IBOutlet weak var notifyCheckBox: NSButton!
     
+    @IBOutlet weak var versionLabel: NSTextField!
+
     internal var totalTimeString: String = "" {
         didSet {
             totalTime.stringValue = totalTimeString
@@ -57,18 +59,19 @@ internal class ContentViewController: NSViewController {
         }
     }
 
+    internal var wasFree: Bool = false
     internal var isFree: Bool = false {
         didSet {
-            defer {
-                wasFree = isFree
-            }
+            if isFree == false { notifyCheckBox.isHidden = false }
+            defer { wasFree = isFree }
             if isFree == true, wasFree == false, notifyCheckBox.state == 1 {
                 notifyCallback?()
                 notifyCheckBox.state = 0
+                notifyCheckBox.isHidden = true
             }
+            if isFree == true { self.notifyCheckBox.isHidden = true }
         }
     }
-    internal var wasFree: Bool = false
 
     internal var motionCallback: ((Double?) -> ())?
     internal var notifyCallback: (() -> ())?
@@ -108,6 +111,10 @@ internal class ContentViewController: NSViewController {
         spacerView.layer?.backgroundColor = NSColor(red: 144/255.0, green: 144/255.0, blue: 144/255.0, alpha: 1.0).cgColor
 
         notifyCheckBox.state = 0
+
+        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            self.versionLabel.stringValue = "v\(version)"
+        }
     }
 
     override func viewWillAppear() {

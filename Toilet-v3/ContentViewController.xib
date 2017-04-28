@@ -19,6 +19,7 @@
                 <outlet property="spacerView" destination="bcl-Cm-fmp" id="xge-HR-axU"/>
                 <outlet property="terminateButton" destination="zHv-7i-t1C" id="92O-oR-c8D"/>
                 <outlet property="totalTime" destination="zcm-bS-4lC" id="d1s-NB-8ob"/>
+                <outlet property="versionLabel" destination="tWc-Dq-ty5" id="KQj-0B-E0G"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -169,7 +170,7 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <button horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="P06-3M-KZi">
+                <button hidden="YES" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="P06-3M-KZi">
                     <rect key="frame" x="327" y="12" width="145" height="18"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="14" id="LXr-cJ-4fc"/>
@@ -180,6 +181,14 @@
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                 </button>
+                <textField horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tWc-Dq-ty5">
+                    <rect key="frame" x="18" y="13" width="4" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="hNn-Wn-63c">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
             </subviews>
             <constraints>
                 <constraint firstItem="k9I-l7-Urz" firstAttribute="top" secondItem="4nd-IC-Y5m" secondAttribute="top" id="4Pw-FL-yKs"/>
@@ -220,6 +229,7 @@
                 <constraint firstItem="Pqx-CH-3JL" firstAttribute="centerX" secondItem="6cr-rb-RWv" secondAttribute="centerX" id="grc-c3-fsf"/>
                 <constraint firstItem="4e5-Qa-wqD" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="hpf-gu-a0O"/>
                 <constraint firstItem="k9I-l7-Urz" firstAttribute="leading" secondItem="4nd-IC-Y5m" secondAttribute="trailing" constant="40" id="iHr-my-zQD"/>
+                <constraint firstItem="tWc-Dq-ty5" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="k0u-LO-GKr"/>
                 <constraint firstItem="vmQ-c7-yKb" firstAttribute="leading" secondItem="H5V-0r-ow7" secondAttribute="trailing" constant="5" id="lAo-UJ-6IN"/>
                 <constraint firstItem="bcl-Cm-fmp" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="mNa-If-e6t"/>
                 <constraint firstItem="k9I-l7-Urz" firstAttribute="width" secondItem="4nd-IC-Y5m" secondAttribute="width" id="nE0-De-S3L"/>
@@ -231,6 +241,7 @@
                 <constraint firstItem="vmQ-c7-yKb" firstAttribute="centerY" secondItem="H5V-0r-ow7" secondAttribute="centerY" id="u8W-Tu-uVl"/>
                 <constraint firstItem="6cr-rb-RWv" firstAttribute="width" secondItem="zHr-Bp-xNj" secondAttribute="width" id="vty-hJ-KdE"/>
                 <constraint firstItem="H5V-0r-ow7" firstAttribute="height" secondItem="8Xt-1e-dDU" secondAttribute="height" id="wdH-6n-MXx"/>
+                <constraint firstItem="tWc-Dq-ty5" firstAttribute="centerY" secondItem="P06-3M-KZi" secondAttribute="centerY" id="xs0-Py-8v5"/>
                 <constraint firstItem="6cr-rb-RWv" firstAttribute="leading" secondItem="zHr-Bp-xNj" secondAttribute="trailing" constant="40" id="yAL-7x-wEk"/>
                 <constraint firstItem="zcm-bS-4lC" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="40" id="yK6-ie-dmY"/>
                 <constraint firstAttribute="bottom" secondItem="zHv-7i-t1C" secondAttribute="bottom" constant="30" id="z6W-qz-Nco"/>

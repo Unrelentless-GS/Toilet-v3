@@ -84,7 +84,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(refreshBothStats), userInfo: nil, repeats: true)
 
         eventMonitor = EventMonitor(mask: [.leftMouseDown, .rightMouseDown]) { [unowned self] event in
-            if self.testPopover.isShown {
+            if self.popover.isShown {
                 self.closePopover(sender: event)
             }
         }
@@ -165,6 +165,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         let hour = Calendar.current.component(.hour, from: Date()) - 7
 
+        guard hour > 0 else { return }
+        guard hour < 13 else { return }
+
         switch status {
         case .occupied: //occupied
             let sinceDate = toiletNumber == 0 ? self.sinceDate : self.sinceDate2
@@ -187,17 +190,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         if toiletNumber == 0 {
             viewController.desc = "\(statusString!) for: \(timeString!)"
+            let vacant = vacantTimes.flatMap{$0[0]}.reduce(0) { $0 + $1 }
+            let occupied = occupiedTimes.flatMap{$0[0]}.reduce(0) { $0 + $1 }
+            let offline = offlineTimes.flatMap{$0[0]}.reduce(0) { $0 + $1 }
+
             viewController.data = [
-                .vacant: vacantTimes.flatMap{$0}[0],
-                .occupied: occupiedTimes.flatMap{$0}[0],
-                .offline: offlineTimes.flatMap{$0}[0]
+                .vacant: vacant,
+                .occupied: occupied,
+                .offline: offline
             ]
         } else {
             viewController.desc2 = "\(statusString!) for: \(timeString!)"
+            let vacant = vacantTimes.flatMap{$0[1]}.reduce(0) { $0 + $1 }
+            let occupied = occupiedTimes.flatMap{$0[1]}.reduce(0) { $0 + $1 }
+            let offline = offlineTimes.flatMap{$0[1]}.reduce(0) { $0 + $1 }
+
             viewController.data2 = [
-                .vacant: vacantTimes.flatMap{$0}[1],
-                .occupied: occupiedTimes.flatMap{$0}[1],
-                .offline: offlineTimes.flatMap{$0}[1]
+                .vacant: vacant,
+                .occupied: occupied,
+                .offline: offline
             ]
         }
 
@@ -208,15 +219,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         var data: [[ToiletStatus: TimeInterval]] = [[ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval]()]
 
         vacantTimes.enumerated().forEach { (index, _) in
-            let vacantTotal = vacantTimes[index].reduce(vacantTimes[index][0]){$0 + $1}
-            let occupiedTotal = occupiedTimes[index].reduce(occupiedTimes[index][0]){$0 + $1}
-            let offlineTotal = offlineTimes[index].reduce(offlineTimes[index][0]){$0 + $1}
+            let vacantTotal = vacantTimes[index].reduce(0){$0 + $1}
+            let occupiedTotal = occupiedTimes[index].reduce(0){$0 + $1}
+            let offlineTotal = offlineTimes[index].reduce(0){$0 + $1}
 
-            data[index][.vacant] = vacantTotal
-            data[index][.occupied] = occupiedTotal + offlineTotal
+            data[index][.vacant] = vacantTotal + offlineTotal
+            data[index][.occupied] = occupiedTotal
         }
 
-        testVC.data = data
+        viewController.barData = data
     }
 
     private func updateImage(isFree: Bool) {
@@ -238,7 +249,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func togglePopover(sender: AnyObject?) {
-        if testPopover.isShown {
+        if popover.isShown {
             closePopover(sender: sender)
         } else {
             showPopover(sender: sender)
@@ -247,12 +258,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func showPopover(sender: AnyObject?) {
         if let button = statusItem.button {
-            testPopover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+            popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
         }
     }
 
     private func closePopover(sender: AnyObject?) {
-        testPopover.performClose(sender)
+        popover.performClose(sender)
         poopCode = ""
         revealTime = false
     }

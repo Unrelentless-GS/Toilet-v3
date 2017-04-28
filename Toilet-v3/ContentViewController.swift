@@ -13,14 +13,18 @@ internal class ContentViewController: NSViewController {
     @IBOutlet weak var descriptionLabel: NSTextField!
     @IBOutlet weak var descriptionLabel2: NSTextField!
     @IBOutlet weak var terminateButton: NSButton!
+
     @IBOutlet weak var pieGraph: PieGraph!
     @IBOutlet weak var pieGraph2: PieGraph!
+
+    @IBOutlet weak var barGraph: BarGraph!
 
     @IBOutlet weak var legend1Colour: NSTextField!
     @IBOutlet weak var legend2Colour: NSTextField!
     @IBOutlet weak var legend3Colour: NSTextField!
 
     @IBOutlet weak var spacerView: NSView!
+    @IBOutlet weak var spacerView2: NSView!
     @IBOutlet weak var totalTime: NSTextField!
     @IBOutlet weak var percentLabel: NSTextField!
     @IBOutlet weak var notifyCheckBox: NSButton!
@@ -52,10 +56,18 @@ internal class ContentViewController: NSViewController {
             descriptionLabel2.stringValue = desc2
         }
     }
+
     internal var data2: [ToiletStatus: TimeInterval] = [ToiletStatus: TimeInterval]() {
         didSet {
             guard self.view != nil else { return }
             pieGraph2.data = data2
+        }
+    }
+
+    internal var barData: [[ToiletStatus: TimeInterval]] = [[ToiletStatus: TimeInterval]]() {
+        didSet {
+            guard self.view != nil else { return }
+            barGraph.data = barData
         }
     }
 
@@ -108,7 +120,9 @@ internal class ContentViewController: NSViewController {
         pieGraph2.motionCallback = motionCallback
 
         spacerView.wantsLayer = true
-        spacerView.layer?.backgroundColor = NSColor(red: 144/255.0, green: 144/255.0, blue: 144/255.0, alpha: 1.0).cgColor
+        spacerView2.wantsLayer = true
+        spacerView.layer?.backgroundColor = spacerColour.cgColor
+        spacerView2.layer?.backgroundColor = spacerColour.cgColor
 
         notifyCheckBox.state = 0
 
@@ -120,7 +134,7 @@ internal class ContentViewController: NSViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
         updateDescription()
-        updatePieChart()
+        updateCharts()
 
         totalTime.stringValue = totalTimeString
     }
@@ -134,9 +148,10 @@ internal class ContentViewController: NSViewController {
         descriptionLabel2.stringValue = desc2
     }
 
-    internal func updatePieChart() {
+    internal func updateCharts() {
         pieGraph.data = data
         pieGraph2.data = data2
+        barGraph.data = barData
     }
 
     @IBAction func terminateHandler(_ sender: NSButton) {

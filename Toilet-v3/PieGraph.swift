@@ -11,6 +11,7 @@ import Cocoa
 let vacantColour = NSColor(red: 102/255.0, green: 255/255.0, blue: 178/255.0, alpha: 1.0)
 let occupiedColour = NSColor(red: 146/255.0, green: 109/255.0, blue: 69/255.0, alpha: 1.0)
 let offlineColour = NSColor(red: 255/255.0, green: 102/255.0, blue: 102/255.0, alpha: 1.0)
+let spacerColour = NSColor(red: 144/255.0, green: 144/255.0, blue: 144/255.0, alpha: 1.0)
 
 internal class PieGraph: NSView {
 

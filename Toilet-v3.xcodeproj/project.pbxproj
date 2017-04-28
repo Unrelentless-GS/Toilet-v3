@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		1202716B1EADB93A0048298C /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120271691EADB93A0048298C /* ContentViewController.swift */; };
 		1202716C1EADB93A0048298C /* ContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1202716A1EADB93A0048298C /* ContentViewController.xib */; };
+		12233F2F1EB2E8B5005610B6 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12233F2D1EB2E8B5005610B6 /* TestViewController.swift */; };
+		12233F301EB2E8B5005610B6 /* TestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 12233F2E1EB2E8B5005610B6 /* TestViewController.xib */; };
+		12233F321EB2E8C8005610B6 /* BarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12233F311EB2E8C8005610B6 /* BarGraph.swift */; };
 		125CCAA11EB06B8900C6B2E7 /* PieGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125CCAA01EB06B8900C6B2E7 /* PieGraph.swift */; };
 		12CE48681EA71DD700EAF189 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CE48671EA71DD700EAF189 /* AppDelegate.swift */; };
 		12CE486C1EA71DD700EAF189 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12CE486B1EA71DD700EAF189 /* Assets.xcassets */; };
@@ -35,6 +38,9 @@
 /* Begin PBXFileReference section */
 		120271691EADB93A0048298C /* ContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		1202716A1EADB93A0048298C /* ContentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContentViewController.xib; sourceTree = "<group>"; };
+		12233F2D1EB2E8B5005610B6 /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		12233F2E1EB2E8B5005610B6 /* TestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestViewController.xib; sourceTree = "<group>"; };
+		12233F311EB2E8C8005610B6 /* BarGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraph.swift; sourceTree = "<group>"; };
 		125CCAA01EB06B8900C6B2E7 /* PieGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieGraph.swift; sourceTree = "<group>"; };
 		12CE48641EA71DD700EAF189 /* Toilet-v3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Toilet-v3.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		12CE48671EA71DD700EAF189 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -84,6 +90,9 @@
 				120271691EADB93A0048298C /* ContentViewController.swift */,
 				1202716A1EADB93A0048298C /* ContentViewController.xib */,
 				125CCAA01EB06B8900C6B2E7 /* PieGraph.swift */,
+				12233F2D1EB2E8B5005610B6 /* TestViewController.swift */,
+				12233F2E1EB2E8B5005610B6 /* TestViewController.xib */,
+				12233F311EB2E8C8005610B6 /* BarGraph.swift */,
 			);
 			path = "Toilet-v3";
 			sourceTree = "<group>";
@@ -175,6 +184,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1202716C1EADB93A0048298C /* ContentViewController.xib in Resources */,
+				12233F301EB2E8B5005610B6 /* TestViewController.xib in Resources */,
 				12CE486C1EA71DD700EAF189 /* Assets.xcassets in Resources */,
 				12CE487C1EA7204A00EAF189 /* SocketIO.framework.dSYM in Resources */,
 				12CE486F1EA71DD700EAF189 /* Main.storyboard in Resources */,
@@ -188,8 +198,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				12233F321EB2E8C8005610B6 /* BarGraph.swift in Sources */,
 				1202716B1EADB93A0048298C /* ContentViewController.swift in Sources */,
 				12CE48681EA71DD700EAF189 /* AppDelegate.swift in Sources */,
+				12233F2F1EB2E8B5005610B6 /* TestViewController.swift in Sources */,
 				125CCAA11EB06B8900C6B2E7 /* PieGraph.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

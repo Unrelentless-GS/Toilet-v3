@@ -28,10 +28,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var startDate = Date()
 
     let popover = NSPopover()
+    let testPopover = NSPopover()
+
     var eventMonitor: EventMonitor?
 
     var viewController: ContentViewController {
         return popover.contentViewController as! ContentViewController
+    }
+
+    var testVC: TestViewController {
+        return popover.contentViewController as! TestViewController
     }
 
     private let statusItem = NSStatusBar.system().statusItem(withLength: NSSquareStatusItemLength)
@@ -70,6 +76,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         //        statusItem.menu = menu
         statusItem.button?.action = #selector(togglePopover)
         popover.contentViewController = ContentViewController(nibName: String(describing: ContentViewController.self), bundle: nil)
+        testPopover.contentViewController = TestViewController(nibName: String(describing: TestViewController.self), bundle: nil)
 
         updateImage(isFree: true)
         doWebSocketStuff()
@@ -77,7 +84,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(refreshBothStats), userInfo: nil, repeats: true)
 
         eventMonitor = EventMonitor(mask: [.leftMouseDown, .rightMouseDown]) { [unowned self] event in
-            if self.popover.isShown {
+            if self.testPopover.isShown {
                 self.closePopover(sender: event)
             }
         }
@@ -216,7 +223,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func togglePopover(sender: AnyObject?) {
-        if popover.isShown {
+        if testPopover.isShown {
             closePopover(sender: sender)
         } else {
             showPopover(sender: sender)
@@ -225,12 +232,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func showPopover(sender: AnyObject?) {
         if let button = statusItem.button {
-            popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
+            testPopover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
         }
     }
 
     private func closePopover(sender: AnyObject?) {
-        popover.performClose(sender)
+        testPopover.performClose(sender)
         poopCode = ""
         revealTime = false
     }

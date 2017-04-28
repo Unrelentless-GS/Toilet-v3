@@ -39,34 +39,29 @@ internal class ContentViewController: NSViewController {
 
     internal var desc: String = "Loading..." {
         didSet {
-            guard self.view != nil else { return }
             descriptionLabel.stringValue = desc
         }
     }
     internal var data: [ToiletStatus: TimeInterval] = [ToiletStatus: TimeInterval]() {
         didSet {
-            guard self.view != nil else { return }
             pieGraph.data = data
         }
     }
 
     internal var desc2: String = "Loading..." {
         didSet {
-            guard self.view != nil else { return }
             descriptionLabel2.stringValue = desc2
         }
     }
 
     internal var data2: [ToiletStatus: TimeInterval] = [ToiletStatus: TimeInterval]() {
         didSet {
-            guard self.view != nil else { return }
             pieGraph2.data = data2
         }
     }
 
     internal var barData: [[ToiletStatus: TimeInterval]] = [[ToiletStatus: TimeInterval]]() {
         didSet {
-            guard self.view != nil else { return }
             barGraph.data = barData
         }
     }

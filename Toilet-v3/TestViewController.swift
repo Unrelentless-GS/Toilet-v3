@@ -14,7 +14,6 @@ class TestViewController: NSViewController {
 
     internal var data: [[ToiletStatus: TimeInterval]] = [[ToiletStatus: TimeInterval]]() {
         didSet {
-            guard self.view != nil else { return }
             barGraph.data = data
         }
     }

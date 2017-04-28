@@ -76,7 +76,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         //        statusItem.menu = menu
         statusItem.button?.action = #selector(togglePopover)
         popover.contentViewController = ContentViewController(nibName: String(describing: ContentViewController.self), bundle: nil)
-        testPopover.contentViewController = TestViewController(nibName: String(describing: TestViewController.self), bundle: nil)
+        let _ = viewController.view
 
         updateImage(isFree: true)
         doWebSocketStuff()
@@ -164,9 +164,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         var statusString: String?
 
         let hour = Calendar.current.component(.hour, from: Date()) - 7
+        let day = Calendar.current.component(.weekday, from: Date())
 
-        guard hour > 0 else { return }
-        guard hour < 13 else { return }
+        guard day > 1, day < 7 else { return }
+        guard hour > 0, hour < 13 else { return }
 
         switch status {
         case .occupied: //occupied

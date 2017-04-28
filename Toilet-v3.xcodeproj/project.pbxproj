@@ -10,8 +10,6 @@
 		1202716B1EADB93A0048298C /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120271691EADB93A0048298C /* ContentViewController.swift */; };
 		1202716C1EADB93A0048298C /* ContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1202716A1EADB93A0048298C /* ContentViewController.xib */; };
 		125CCAA11EB06B8900C6B2E7 /* PieGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125CCAA01EB06B8900C6B2E7 /* PieGraph.swift */; };
-		12C4EA9E1EB1CCE300D2FCE7 /* NotifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C4EA9C1EB1CCE300D2FCE7 /* NotifyViewController.swift */; };
-		12C4EA9F1EB1CCE300D2FCE7 /* NotifyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 12C4EA9D1EB1CCE300D2FCE7 /* NotifyViewController.xib */; };
 		12CE48681EA71DD700EAF189 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CE48671EA71DD700EAF189 /* AppDelegate.swift */; };
 		12CE486C1EA71DD700EAF189 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12CE486B1EA71DD700EAF189 /* Assets.xcassets */; };
 		12CE486F1EA71DD700EAF189 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 12CE486D1EA71DD700EAF189 /* Main.storyboard */; };
@@ -38,8 +36,6 @@
 		120271691EADB93A0048298C /* ContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		1202716A1EADB93A0048298C /* ContentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContentViewController.xib; sourceTree = "<group>"; };
 		125CCAA01EB06B8900C6B2E7 /* PieGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieGraph.swift; sourceTree = "<group>"; };
-		12C4EA9C1EB1CCE300D2FCE7 /* NotifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotifyViewController.swift; sourceTree = "<group>"; };
-		12C4EA9D1EB1CCE300D2FCE7 /* NotifyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifyViewController.xib; sourceTree = "<group>"; };
 		12CE48641EA71DD700EAF189 /* Toilet-v3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Toilet-v3.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		12CE48671EA71DD700EAF189 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		12CE486B1EA71DD700EAF189 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -88,8 +84,6 @@
 				120271691EADB93A0048298C /* ContentViewController.swift */,
 				1202716A1EADB93A0048298C /* ContentViewController.xib */,
 				125CCAA01EB06B8900C6B2E7 /* PieGraph.swift */,
-				12C4EA9C1EB1CCE300D2FCE7 /* NotifyViewController.swift */,
-				12C4EA9D1EB1CCE300D2FCE7 /* NotifyViewController.xib */,
 			);
 			path = "Toilet-v3";
 			sourceTree = "<group>";
@@ -184,7 +178,6 @@
 				12CE486C1EA71DD700EAF189 /* Assets.xcassets in Resources */,
 				12CE487C1EA7204A00EAF189 /* SocketIO.framework.dSYM in Resources */,
 				12CE486F1EA71DD700EAF189 /* Main.storyboard in Resources */,
-				12C4EA9F1EB1CCE300D2FCE7 /* NotifyViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,7 +189,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1202716B1EADB93A0048298C /* ContentViewController.swift in Sources */,
-				12C4EA9E1EB1CCE300D2FCE7 /* NotifyViewController.swift in Sources */,
 				12CE48681EA71DD700EAF189 /* AppDelegate.swift in Sources */,
 				125CCAA11EB06B8900C6B2E7 /* PieGraph.swift in Sources */,
 			);

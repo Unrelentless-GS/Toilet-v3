@@ -10,8 +10,7 @@ import Cocoa
 
 class BarGraph: NSView {
 
-    private var initialDraw = true
-    private var bytesFormatter = ByteCountFormatter()
+    private let numbers: [NSString] = ["7am", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm"]
 
     private var bottomLeftPoint: CGPoint {
         return CGPoint(x: self.bounds.origin.x + 20.0, y: 20)
@@ -36,19 +35,39 @@ class BarGraph: NSView {
         return CGSize(width: sizeX, height: sizeY)
     }
 
+    internal var data: [[ToiletStatus: TimeInterval]] = [[ToiletStatus: TimeInterval]]()
+
     override func awakeFromNib() {
         super.awakeFromNib()
+
+//        fakeData()
+    }
+
+    private func fakeData() {
+        let dataDict: [ToiletStatus: TimeInterval] = [.occupied: 50.0, .vacant: 50.0]
+        let dataDict2: [ToiletStatus: TimeInterval] = [.occupied: 50.0, .vacant: 50.0]
+        let dataDict3: [ToiletStatus: TimeInterval] = [.occupied: 25.0, .vacant: 75.0]
+        let dataDict4: [ToiletStatus: TimeInterval] = [.occupied: 66.0, .vacant: 33.0]
+        let dataDict5: [ToiletStatus: TimeInterval] = [.occupied: 11.0, .vacant: 89.0]
+        let dataDict6: [ToiletStatus: TimeInterval] = [.occupied: 78.0, .vacant: 22.0]
+
+        data.append(dataDict)
+        data.append(dataDict2)
+        data.append(dataDict3)
+        data.append(dataDict4)
+        data.append(dataDict5)
+        data.append(dataDict6)
     }
 
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
 
-        if initialDraw == true {
-            drawBackground()
-            drawAxes()
-            drawXLabels()
-            drawYLabels()
-        }
+        drawBackground()
+        drawAxes()
+        drawXLabels()
+        drawYLabels()
+
+        drawGraph()
     }
 
     private func drawAxes() {
@@ -79,35 +98,26 @@ class BarGraph: NSView {
         let colour = vacantColour.withAlphaComponent(0.5).cgColor
 
         let context = NSGraphicsContext.current()?.cgContext
-
-        // 1
         let path = CGMutablePath()
 
-        // 2
         path.move(to: bottomLeftPoint)
         path.addRect(CGRect(origin: bottomLeftPoint, size: totalSize))
         path.closeSubpath()
 
-        // 3
-        context?.setLineWidth(1.0)
         context?.setFillColor(colour)
-        context?.setStrokeColor(colour)
-
-        // 4
         context?.addPath(path)
-        context?.drawPath(using: .fillStroke)
+        context?.drawPath(using: .fill)
     }
 
     private func drawXLabels() {
-        let numbers: [NSString] = ["7am", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm"]
         let attrs = [NSFontAttributeName: NSFont(name: "HelveticaNeue-Thin", size: 8)!]
 
         numbers.enumerated().forEach { (index, number) in
+            let stringSize = number.size(withAttributes: attrs)
             let space = totalSize.width / CGFloat(numbers.count - 1)
-            let bottomX = bottomLeftPoint.x + (CGFloat(index) * space)
+            let bottomX = (bottomLeftPoint.x + (CGFloat(index) * space)) - (stringSize.width / 2)
             let bottomY = bottomLeftPoint.y
 
-            let stringSize = number.size(withAttributes: attrs)
             let rect = CGRect(x: bottomX,
                               y: bottomY - stringSize.height,
                               width: stringSize.width,
@@ -133,10 +143,32 @@ class BarGraph: NSView {
                            y:bottomLeftPoint.y,
                            width: stringSize2.width,
                            height: stringSize2.height)
-        
+
         top.draw(in: rect, withAttributes: attrs)
         bottom.draw(in: rect2, withAttributes: attrs)
+    }
+
+    private func drawGraph() {
+        let colour = occupiedColour.withAlphaComponent(0.9).cgColor
+        let context = NSGraphicsContext.current()?.cgContext
+
+        data.enumerated().forEach { (index, info) in
+            let total = info[.vacant]! + info[.occupied]!
+            let space = totalSize.width / CGFloat(numbers.count - 1)
+            let sizeY = totalSize.height * CGFloat((info[.occupied]! / total))
+            let origin = CGPoint(x: bottomLeftPoint.x + (space * CGFloat(index)), y: bottomLeftPoint.y)
+            let size = CGSize(width: space, height: sizeY)
+
+            let path = CGMutablePath()
+
+            path.move(to: bottomLeftPoint)
+            path.addRect(CGRect(origin: origin, size: size))
+            path.closeSubpath()
+            
+            context?.setFillColor(colour)
+            context?.addPath(path)
+            context?.drawPath(using: .fill)
+        }
         
-        initialDraw = false
     }
 }

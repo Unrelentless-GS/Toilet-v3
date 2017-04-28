@@ -21,9 +21,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var poopCode = ""
     private var revealTime = false
 
-    private var vacantTimes: [TimeInterval] = [0, 0]
-    private var occupiedTimes: [TimeInterval] = [0, 0]
-    private var offlineTimes: [TimeInterval] = [0, 0]
+    private var vacantTimes: [[TimeInterval]] = [[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0]]
+    private var occupiedTimes: [[TimeInterval]] = [[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0]]
+    private var offlineTimes: [[TimeInterval]] = [[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0]]
 
     private var startDate = Date()
 
@@ -37,7 +37,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     var testVC: TestViewController {
-        return popover.contentViewController as! TestViewController
+        return testPopover.contentViewController as! TestViewController
     }
 
     private let statusItem = NSStatusBar.system().statusItem(withLength: NSSquareStatusItemLength)
@@ -163,22 +163,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         var timeString: String?
         var statusString: String?
 
+        let hour = Calendar.current.component(.hour, from: Date()) - 7
+
         switch status {
         case .occupied: //occupied
             let sinceDate = toiletNumber == 0 ? self.sinceDate : self.sinceDate2
             timeString = revealTime ? dateComponentsFormatter.string(from: sinceDate, to: Date()) : "[Classified]"
             statusString = "Occupied"
-            occupiedTimes[toiletNumber] += Date().timeIntervalSince(sinceDate)
+            occupiedTimes[hour][toiletNumber] += Date().timeIntervalSince(sinceDate)
         case .vacant: //vacant
             let sinceDate = toiletNumber == 0 ? self.sinceDate : self.sinceDate2
             timeString = dateComponentsFormatter.string(from: sinceDate, to: Date())
             statusString = "Vacant"
-            vacantTimes[toiletNumber] += Date().timeIntervalSince(sinceDate)
+            vacantTimes[hour][toiletNumber] += Date().timeIntervalSince(sinceDate)
         case .offline:
             let sinceDate = toiletNumber == 0 ? self.sinceDate : self.sinceDate2
             timeString = dateComponentsFormatter.string(from: sinceDate, to: Date())
             statusString = "Offline"
-            offlineTimes[toiletNumber] += Date().timeIntervalSince(sinceDate)
+            offlineTimes[hour][toiletNumber] += Date().timeIntervalSince(sinceDate)
         }
 
         //        self.menuItem.title = "\(statusString!) for: \(timeString!)"
@@ -186,22 +188,35 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if toiletNumber == 0 {
             viewController.desc = "\(statusString!) for: \(timeString!)"
             viewController.data = [
-                .vacant: vacantTimes[0],
-                .occupied: occupiedTimes[0],
-                .offline: offlineTimes[0]
+                .vacant: vacantTimes.flatMap{$0}[0],
+                .occupied: occupiedTimes.flatMap{$0}[0],
+                .offline: offlineTimes.flatMap{$0}[0]
             ]
         } else {
             viewController.desc2 = "\(statusString!) for: \(timeString!)"
             viewController.data2 = [
-                .vacant: vacantTimes[1],
-                .occupied: occupiedTimes[1],
-                .offline: offlineTimes[1]
+                .vacant: vacantTimes.flatMap{$0}[1],
+                .occupied: occupiedTimes.flatMap{$0}[1],
+                .offline: offlineTimes.flatMap{$0}[1]
             ]
         }
 
         let timeInterval = NSDate().timeIntervalSince(self.startDate)
         guard let string = dateComponentsFormatter.string(from: timeInterval) else { return }
         viewController.totalTimeString = "Total time: \(string)"
+
+        var data: [[ToiletStatus: TimeInterval]] = [[ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval]()]
+
+        vacantTimes.enumerated().forEach { (index, _) in
+            let vacantTotal = vacantTimes[index].reduce(vacantTimes[index][0]){$0 + $1}
+            let occupiedTotal = occupiedTimes[index].reduce(occupiedTimes[index][0]){$0 + $1}
+            let offlineTotal = offlineTimes[index].reduce(offlineTimes[index][0]){$0 + $1}
+
+            data[index][.vacant] = vacantTotal
+            data[index][.occupied] = occupiedTotal + offlineTotal
+        }
+
+        testVC.data = data
     }
 
     private func updateImage(isFree: Bool) {
@@ -265,15 +280,15 @@ public class EventMonitor {
         self.mask = mask
         self.handler = handler
     }
-    
+
     deinit {
         stop()
     }
-    
+
     public func start() {
         monitor = NSEvent.addGlobalMonitorForEvents(matching: mask, handler: handler) as AnyObject
     }
-    
+
     public func stop() {
         if monitor != nil {
             NSEvent.removeMonitor(monitor!)
@@ -281,3 +296,39 @@ public class EventMonitor {
         }
     }
 }
+
+//public extension Date {
+//
+//    func isDate(date: Date, between startDate: Date, andDate endDate: Date) -> Bool {
+//        return date.compare(startDate) == .orderedAscending || date.compare(endDate) == .orderedDescending
+//    }
+//
+//    func dataAt(hours: Int) -> Date {
+//        let calendar = NSCalendar(calendarIdentifier: NSCalendar.Identifier.gregorian)!
+//        var dateComponents = calendar.components(
+//            [NSCalendar.Unit.year,
+//             NSCalendar.Unit.month,
+//             NSCalendar.Unit.day],
+//            from: self)
+//
+//        dateComponents.hour = hours
+//        dateComponents.minute = 0
+//        dateComponents.second = 0
+//
+//        let newDate = calendar.date(from: dateComponents)!
+//        return newDate
+//    }
+//
+//    func isDate(date: Date, between startHour: Int, and endHour: Int) -> Bool {
+//        let now = Date()
+//        let start = now.dateAt(hours: startHour)
+//        let end = now.dateAt(hours: endHour)
+//        
+//        if now >= start && now <= end {
+//            return true
+//        } else {
+//            return false
+//        }
+//    }
+//}
+

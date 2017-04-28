@@ -12,6 +12,13 @@ class TestViewController: NSViewController {
 
     @IBOutlet weak var barGraph: BarGraph!
 
+    internal var data: [[ToiletStatus: TimeInterval]] = [[ToiletStatus: TimeInterval]]() {
+        didSet {
+            guard self.view != nil else { return }
+            barGraph.data = data
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

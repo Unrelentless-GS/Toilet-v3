@@ -35,7 +35,11 @@ class BarGraph: NSView {
         return CGSize(width: sizeX, height: sizeY)
     }
 
-    internal var data: [[ToiletStatus: TimeInterval]] = [[ToiletStatus: TimeInterval]]()
+    internal var data: [[ToiletStatus: TimeInterval]] = [[ToiletStatus: TimeInterval]]() {
+        didSet {
+            setNeedsDisplay(self.bounds)
+        }
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -154,6 +158,9 @@ class BarGraph: NSView {
 
         data.enumerated().forEach { (index, info) in
             let total = info[.vacant]! + info[.occupied]!
+
+            guard total != 0.0 else { return }
+            
             let space = totalSize.width / CGFloat(numbers.count - 1)
             let sizeY = totalSize.height * CGFloat((info[.occupied]! / total))
             let origin = CGPoint(x: bottomLeftPoint.x + (space * CGFloat(index)), y: bottomLeftPoint.y)

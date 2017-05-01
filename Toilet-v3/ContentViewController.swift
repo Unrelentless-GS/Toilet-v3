@@ -42,7 +42,7 @@ internal class ContentViewController: NSViewController {
             descriptionLabel.stringValue = desc
         }
     }
-    internal var data: [ToiletStatus: TimeInterval] = [ToiletStatus: TimeInterval]() {
+    internal var data: PieChartModel? {
         didSet {
             pieGraph.data = data
         }
@@ -54,15 +54,15 @@ internal class ContentViewController: NSViewController {
         }
     }
 
-    internal var data2: [ToiletStatus: TimeInterval] = [ToiletStatus: TimeInterval]() {
+    internal var data2: PieChartModel? {
         didSet {
             pieGraph2.data = data2
         }
     }
 
-    internal var barData: [[ToiletStatus: TimeInterval]] = [[ToiletStatus: TimeInterval]]() {
+    internal var barData: BarGraphModel? {
         didSet {
-            barGraph.data = barData
+            barGraph.data = barData!
         }
     }
 
@@ -146,7 +146,7 @@ internal class ContentViewController: NSViewController {
     internal func updateCharts() {
         pieGraph.data = data
         pieGraph2.data = data2
-        barGraph.data = barData
+        barGraph.data = barData!
     }
 
     @IBAction func terminateHandler(_ sender: NSButton) {

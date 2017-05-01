@@ -21,23 +21,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var poopCode = ""
     private var revealTime = false
 
-    private var vacantTimes: [[TimeInterval]] = [[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0]]
-    private var occupiedTimes: [[TimeInterval]] = [[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0]]
-    private var offlineTimes: [[TimeInterval]] = [[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0],[0, 0]]
+    private var toilet1 = Toilet(number: 1)
+    private var toilet2 = Toilet(number: 2)
 
     private var startDate = Date()
 
     let popover = NSPopover()
-    let testPopover = NSPopover()
 
     var eventMonitor: EventMonitor?
-
     var viewController: ContentViewController {
         return popover.contentViewController as! ContentViewController
-    }
-
-    var testVC: TestViewController {
-        return testPopover.contentViewController as! TestViewController
     }
 
     private let statusItem = NSStatusBar.system().statusItem(withLength: NSSquareStatusItemLength)
@@ -45,35 +38,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         socketURL: URL(string: "http://internals.gridstone.com.au")!,
         config: [.forceWebsockets(true)])
 
-    private lazy var menu: NSMenu = { [unowned self] in
-        let menu = NSMenu()
-        menu.addItem(self.menuItem)
-        menu.addItem(NSMenuItem(title: "Terminate", action: #selector(terminate), keyEquivalent: ""))
-        return menu
-        }()
-
     private lazy var dateComponentsFormatter: DateComponentsFormatter = {
         let dateComponentsFormatter = DateComponentsFormatter()
-        dateComponentsFormatter.allowedUnits = [.hour,.minute,.second]
+        dateComponentsFormatter.allowedUnits = [.day, .hour, .minute, .second]
         dateComponentsFormatter.maximumUnitCount = 2
         dateComponentsFormatter.unitsStyle = .abbreviated
 
         return dateComponentsFormatter
     }()
 
-    private let menuItem = NSMenuItem(title: "Vacant for:", action: nil, keyEquivalent: "")
     private var timer: Timer?
-
-    private var status: ToiletStatus = .vacant
-    private var status2: ToiletStatus = .vacant
-
-    private var sinceDate = Date()
-    private var sinceDate2 = Date()
     private var deviceIDs = [String]()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NSApp.setActivationPolicy(.accessory)
-        //        statusItem.menu = menu
         statusItem.button?.action = #selector(togglePopover)
         popover.contentViewController = ContentViewController(nibName: String(describing: ContentViewController.self), bundle: nil)
         let _ = viewController.view
@@ -96,7 +74,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         viewController.notifyCallback = { [unowned self] in
-            let state = self.status == .occupied ? self.status2 == .occupied ? "1" : "2" : "1"
+            let state = self.toilet1.status == .occupied ? self.toilet2.status == .occupied ? "1" : "2" : "1"
             let notification = NSUserNotification()
             notification.title = "Toilet Available"
             notification.subtitle = "Toilet number \(state) is now available"
@@ -107,13 +85,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func doWebSocketStuff() {
         socket.on("error") { data, ack in
-            self.sinceDate = Date()
-            self.sinceDate2 = Date()
+            self.toilet1.sinceDate = Date()
+            self.toilet2.sinceDate = Date()
             self.statusItem.button?.appearsDisabled = true
-            self.status = .offline
-            self.status2 = .offline
-            self.refreshStats(toiletNumber: 0, status: .offline)
-            self.refreshStats(toiletNumber: 1, status: .offline)
+            self.toilet1.status = .offline
+            self.toilet2.status = .offline
+            self.refreshStats(toilet: self.toilet1)
+            self.refreshStats(toilet: self.toilet2)
         }
 
         socket.on("devices") { data, ack in
@@ -135,18 +113,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 let isFree = lightState == "0"
 
                 if index == 0 {
-                    self.sinceDate = Date()
-                    self.status = isFree ? .vacant : .occupied
+                    self.toilet1.sinceDate = Date()
+                    self.toilet1.status = isFree ? .vacant : .occupied
+                    self.refreshStats(toilet: self.toilet1)
                 } else {
-                    self.sinceDate2 = Date()
-                    self.status2 = isFree ? .vacant : .occupied
+                    self.toilet2.sinceDate = Date()
+                    self.toilet2.status = isFree ? .vacant : .occupied
+                    self.refreshStats(toilet: self.toilet2)
                 }
-
-                self.refreshStats(toiletNumber: index, status: isFree ? .vacant : .occupied)
             }
 
-            self.updateImage(isFree: (self.status == .vacant || self.status2 == .vacant) ? true : false)
-            self.viewController.isFree = (self.status == .vacant || self.status2 == .vacant) ? true : false
+            self.updateImage(isFree: (self.toilet1.status == .vacant || self.toilet2.status == .vacant) ? true : false)
+            self.viewController.isFree = (self.toilet1.status == .vacant || self.toilet2.status == .vacant) ? true : false
 
             ack.with("HAHA!", "THX")
         }
@@ -155,11 +133,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func refreshBothStats() {
-        self.refreshStats(toiletNumber: 0, status: status)
-        self.refreshStats(toiletNumber: 1, status: status2)
+        self.refreshStats(toilet: toilet1)
+        self.refreshStats(toilet: toilet2)
     }
 
-    private func refreshStats(toiletNumber: Int, status: ToiletStatus) {
+    private func refreshStats(toilet: Toilet) {
+        let status = toilet.status
         var timeString: String?
         var statusString: String?
 
@@ -169,66 +148,51 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         guard day > 1, day < 7 else { return }
         guard hour > 0, hour < 13 else { return }
 
+        let sinceDate = toilet.sinceDate
+
         switch status {
         case .occupied: //occupied
-            let sinceDate = toiletNumber == 0 ? self.sinceDate : self.sinceDate2
             timeString = revealTime ? dateComponentsFormatter.string(from: sinceDate, to: Date()) : "[Classified]"
             statusString = "Occupied"
-            occupiedTimes[hour][toiletNumber] += Date().timeIntervalSince(sinceDate)
+            toilet.occupiedHours[hour] += Date().timeIntervalSince(sinceDate)
         case .vacant: //vacant
-            let sinceDate = toiletNumber == 0 ? self.sinceDate : self.sinceDate2
             timeString = dateComponentsFormatter.string(from: sinceDate, to: Date())
             statusString = "Vacant"
-            vacantTimes[hour][toiletNumber] += Date().timeIntervalSince(sinceDate)
-        case .offline:
-            let sinceDate = toiletNumber == 0 ? self.sinceDate : self.sinceDate2
+            toilet.vacantHours[hour] += Date().timeIntervalSince(sinceDate)
+        case .offline: //offline
             timeString = dateComponentsFormatter.string(from: sinceDate, to: Date())
             statusString = "Offline"
-            offlineTimes[hour][toiletNumber] += Date().timeIntervalSince(sinceDate)
+            toilet.offlineHours[hour] += Date().timeIntervalSince(sinceDate)
         }
 
-        //        self.menuItem.title = "\(statusString!) for: \(timeString!)"
+        let pieModel = PieChartModel(toilet: toilet)
 
-        if toiletNumber == 0 {
+        switch toilet.number {
+        case 1:
             viewController.desc = "\(statusString!) for: \(timeString!)"
-            let vacant = vacantTimes.flatMap{$0[0]}.reduce(0) { $0 + $1 }
-            let occupied = occupiedTimes.flatMap{$0[0]}.reduce(0) { $0 + $1 }
-            let offline = offlineTimes.flatMap{$0[0]}.reduce(0) { $0 + $1 }
-
-            viewController.data = [
-                .vacant: vacant,
-                .occupied: occupied,
-                .offline: offline
-            ]
-        } else {
+            viewController.data = pieModel
+        case 2:
             viewController.desc2 = "\(statusString!) for: \(timeString!)"
-            let vacant = vacantTimes.flatMap{$0[1]}.reduce(0) { $0 + $1 }
-            let occupied = occupiedTimes.flatMap{$0[1]}.reduce(0) { $0 + $1 }
-            let offline = offlineTimes.flatMap{$0[1]}.reduce(0) { $0 + $1 }
-
-            viewController.data2 = [
-                .vacant: vacant,
-                .occupied: occupied,
-                .offline: offline
-            ]
+            viewController.data2 = pieModel
+        default: break
         }
 
         let timeInterval = NSDate().timeIntervalSince(self.startDate)
         guard let string = dateComponentsFormatter.string(from: timeInterval) else { return }
         viewController.totalTimeString = "Total time: \(string)"
 
-        var data: [[ToiletStatus: TimeInterval]] = [[ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval](), [ToiletStatus: TimeInterval]()]
+        let model = BarGraphModel(toilets: [toilet1, toilet2])
 
-        vacantTimes.enumerated().forEach { (index, _) in
-            let vacantTotal = vacantTimes[index].reduce(0){$0 + $1}
-            let occupiedTotal = occupiedTimes[index].reduce(0){$0 + $1}
-            let offlineTotal = offlineTimes[index].reduce(0){$0 + $1}
+//        vacantTimes.enumerated().forEach { (index, _) in
+//            let vacantTotal = vacantTimes[index].reduce(0){$0 + $1}
+//            let occupiedTotal = occupiedTimes[index].reduce(0){$0 + $1}
+//            let offlineTotal = offlineTimes[index].reduce(0){$0 + $1}
+//
+//            data[index][.vacant] = vacantTotal + offlineTotal
+//            data[index][.occupied] = occupiedTotal
+//        }
 
-            data[index][.vacant] = vacantTotal + offlineTotal
-            data[index][.occupied] = occupiedTotal
-        }
-
-        viewController.barData = data
+        viewController.barData = model
     }
 
     private func updateImage(isFree: Bool) {

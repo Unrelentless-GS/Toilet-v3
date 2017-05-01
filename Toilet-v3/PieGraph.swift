@@ -15,30 +15,21 @@ let spacerColour = NSColor(red: 144/255.0, green: 144/255.0, blue: 144/255.0, al
 
 internal class PieGraph: NSView {
 
+    internal var motionCallback: ((Double?) -> ())?
     internal var bezierPaths = [Int: NSBezierPath]()
     internal var tAreas = [NSTrackingArea(), NSTrackingArea(), NSTrackingArea()]
     internal var number: Int = 0
-    internal var data: [ToiletStatus: TimeInterval] = [ToiletStatus: TimeInterval]() {
+    internal var data: PieChartModel? {
         didSet {
             setNeedsDisplay(self.bounds)
             track()
         }
     }
 
-    internal var motionCallback: ((Double?) -> ())?
-
     private var count = 0
-    private var total: Double {
-        let total = data.values.reduce(0.0) { result, next in
-            result + next
-        }
-
-        return total
-    }
 
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
-        //        fakeData()
         drawArc(value: valueFor(count: count), colour: colourFor(count: count), nextAngle: 0)
     }
 
@@ -54,7 +45,7 @@ internal class PieGraph: NSView {
 
             // 3
             let path = NSBezierPath()
-            let usedPercent = value / self.total
+            let usedPercent = value / data!.totalTime
             endAngle = nextAngle + CGFloat(360 * usedPercent)
             path.move(to: center)
             path.appendArc(withCenter: center, radius: radius,
@@ -90,19 +81,13 @@ internal class PieGraph: NSView {
     private func valueFor(count: Int) -> Double {
         switch count {
         case 0:
-            return data[.vacant]!
+            return data!.vacantTime
         case 1:
-            return data[.occupied]!
+            return data!.occupiedTime
         case 2:
-            return data[.offline]!
+            return data!.offlineTime
         default: return 0
         }
-    }
-
-    private func fakeData() {
-        data[.vacant] = 50
-        data[.offline] = 25
-        data[.occupied] = 25
     }
 
     private func track() {
@@ -135,13 +120,13 @@ internal class PieGraph: NSView {
 
         switch type {
         case .vacant:
-            percent = (data[.vacant]! / self.total) * 100
+            percent = (data!.vacantTime / data!.totalTime) * 100
             inView = bezierPaths[0]?.contains(self.convert(event.locationInWindow, from: nil))
         case .occupied:
-            percent = (data[.occupied]! / self.total) * 100
+            percent = (data!.occupiedTime / data!.totalTime) * 100
             inView = bezierPaths[1]?.contains(self.convert(event.locationInWindow, from: nil))
         case .offline:
-            percent = (data[.offline]! / self.total) * 100
+            percent = (data!.offlineTime / data!.totalTime) * 100
             inView = bezierPaths[2]?.contains(self.convert(event.locationInWindow, from: nil))
         }
 

@@ -35,7 +35,7 @@ class BarGraph: NSView {
         return CGSize(width: sizeX, height: sizeY)
     }
 
-    internal var data: [[ToiletStatus: TimeInterval]] = [[ToiletStatus: TimeInterval]]() {
+    internal var data: BarGraphModel? {
         didSet {
             setNeedsDisplay(self.bounds)
         }
@@ -43,24 +43,6 @@ class BarGraph: NSView {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-
-//        fakeData()
-    }
-
-    private func fakeData() {
-        let dataDict: [ToiletStatus: TimeInterval] = [.occupied: 50.0, .vacant: 50.0]
-        let dataDict2: [ToiletStatus: TimeInterval] = [.occupied: 50.0, .vacant: 50.0]
-        let dataDict3: [ToiletStatus: TimeInterval] = [.occupied: 25.0, .vacant: 75.0]
-        let dataDict4: [ToiletStatus: TimeInterval] = [.occupied: 66.0, .vacant: 33.0]
-        let dataDict5: [ToiletStatus: TimeInterval] = [.occupied: 11.0, .vacant: 89.0]
-        let dataDict6: [ToiletStatus: TimeInterval] = [.occupied: 78.0, .vacant: 22.0]
-
-        data.append(dataDict)
-        data.append(dataDict2)
-        data.append(dataDict3)
-        data.append(dataDict4)
-        data.append(dataDict5)
-        data.append(dataDict6)
     }
 
     override func draw(_ dirtyRect: NSRect) {
@@ -156,13 +138,14 @@ class BarGraph: NSView {
         let colour = occupiedColour.withAlphaComponent(0.9).cgColor
         let context = NSGraphicsContext.current()?.cgContext
 
-        data.enumerated().forEach { (index, info) in
-            let total = info[.vacant]! + info[.occupied]!
+        data!.totalTimes.enumerated().forEach { (index, total) in
+            let occupied = data!.totalOccupiedTimes[index]
+            let total = total + occupied
 
             guard total != 0.0 else { return }
             
             let space = totalSize.width / CGFloat(numbers.count - 1)
-            let sizeY = totalSize.height * CGFloat((info[.occupied]! / total))
+            let sizeY = totalSize.height * CGFloat((occupied / total))
             let origin = CGPoint(x: bottomLeftPoint.x + (space * CGFloat(index)), y: bottomLeftPoint.y)
             let size = CGSize(width: space, height: sizeY)
 

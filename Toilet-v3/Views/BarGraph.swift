@@ -143,7 +143,7 @@ class BarGraph: NSView {
             let total = data!.totalTime(forIndex: index)
             let percentage = CGFloat((occupied / total))
 
-            guard total != 0.0 else { return }
+            guard total != 0.0 else { continue }
 
             let space = totalSize.width / CGFloat(numbers.count - 1)
             let sizeY = totalSize.height * percentage

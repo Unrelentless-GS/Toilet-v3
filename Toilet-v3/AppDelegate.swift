@@ -142,7 +142,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         var timeString: String?
         var statusString: String?
 
-        let hour = Calendar.current.component(.hour, from: Date()) - 7
+        let hour = Calendar.current.component(.hour, from: Date())
         let sinceDate = toilet.sinceDate
 
         switch status {

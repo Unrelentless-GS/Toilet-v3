@@ -43,7 +43,6 @@ internal class PieGraph: NSView {
 
         if value != 0.0 {
 
-            // 3
             let path = NSBezierPath()
             let usedPercent = value / data!.totalTime
             endAngle = nextAngle + CGFloat(360 * usedPercent)

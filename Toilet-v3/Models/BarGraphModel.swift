@@ -29,6 +29,10 @@ struct BarGraphModel {
             return total.reduce( 0 ) { $0 + $1[i] }
         }
 
+        print("Vacant: \(vacant.reduce(0, +))")
+        print("Occupied: \(occupied.reduce(0, +))")
+        print("Total: \(results.reduce(0, +))")
+
         return results
     }
 

@@ -183,15 +183,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         let model = BarGraphModel(toilets: [toilet1, toilet2])
 
-//        vacantTimes.enumerated().forEach { (index, _) in
-//            let vacantTotal = vacantTimes[index].reduce(0){$0 + $1}
-//            let occupiedTotal = occupiedTimes[index].reduce(0){$0 + $1}
-//            let offlineTotal = offlineTimes[index].reduce(0){$0 + $1}
-//
-//            data[index][.vacant] = vacantTotal + offlineTotal
-//            data[index][.occupied] = occupiedTotal
-//        }
-
         viewController.barData = model
     }
 
@@ -272,39 +263,4 @@ public class EventMonitor {
         }
     }
 }
-
-//public extension Date {
-//
-//    func isDate(date: Date, between startDate: Date, andDate endDate: Date) -> Bool {
-//        return date.compare(startDate) == .orderedAscending || date.compare(endDate) == .orderedDescending
-//    }
-//
-//    func dataAt(hours: Int) -> Date {
-//        let calendar = NSCalendar(calendarIdentifier: NSCalendar.Identifier.gregorian)!
-//        var dateComponents = calendar.components(
-//            [NSCalendar.Unit.year,
-//             NSCalendar.Unit.month,
-//             NSCalendar.Unit.day],
-//            from: self)
-//
-//        dateComponents.hour = hours
-//        dateComponents.minute = 0
-//        dateComponents.second = 0
-//
-//        let newDate = calendar.date(from: dateComponents)!
-//        return newDate
-//    }
-//
-//    func isDate(date: Date, between startHour: Int, and endHour: Int) -> Bool {
-//        let now = Date()
-//        let start = now.dateAt(hours: startHour)
-//        let end = now.dateAt(hours: endHour)
-//        
-//        if now >= start && now <= end {
-//            return true
-//        } else {
-//            return false
-//        }
-//    }
-//}
-
+ 

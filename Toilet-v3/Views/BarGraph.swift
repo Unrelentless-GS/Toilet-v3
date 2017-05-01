@@ -140,16 +140,18 @@ class BarGraph: NSView {
 
         data!.totalTimes.enumerated().forEach { (index, total) in
             let occupied = data!.totalOccupiedTimes[index]
-            let total = total + occupied
+            let percentage = CGFloat((occupied / total))
 
             guard total != 0.0 else { return }
-            
+
             let space = totalSize.width / CGFloat(numbers.count - 1)
-            let sizeY = totalSize.height * CGFloat((occupied / total))
+            let sizeY = totalSize.height * percentage
             let origin = CGPoint(x: bottomLeftPoint.x + (space * CGFloat(index)), y: bottomLeftPoint.y)
             let size = CGSize(width: space, height: sizeY)
 
             let path = CGMutablePath()
+
+            Swift.print(percentage)
 
             path.move(to: bottomLeftPoint)
             path.addRect(CGRect(origin: origin, size: size))

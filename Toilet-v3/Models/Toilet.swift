@@ -20,7 +20,7 @@ class Toilet {
 
     init(number: Int) {
         self.number = number
-        for _ in 0...11 {
+        for _ in 0..<24 {
             occupiedHours.append(0)
             vacantHours.append(0)
             offlineHours.append(0)

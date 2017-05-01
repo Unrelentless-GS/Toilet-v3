@@ -138,8 +138,9 @@ class BarGraph: NSView {
         let colour = occupiedColour.withAlphaComponent(0.9).cgColor
         let context = NSGraphicsContext.current()?.cgContext
 
-        data!.totalTimes.enumerated().forEach { (index, total) in
-            let occupied = data!.totalOccupiedTimes[index]
+        for index in 0..<numbers.count {
+            let occupied = data!.occupiedTime(forIndex: index)
+            let total = data!.totalTime(forIndex: index)
             let percentage = CGFloat((occupied / total))
 
             guard total != 0.0 else { return }
@@ -156,7 +157,7 @@ class BarGraph: NSView {
             path.move(to: bottomLeftPoint)
             path.addRect(CGRect(origin: origin, size: size))
             path.closeSubpath()
-            
+
             context?.setFillColor(colour)
             context?.addPath(path)
             context?.drawPath(using: .fill)

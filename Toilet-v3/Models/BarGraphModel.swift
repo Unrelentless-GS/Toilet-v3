@@ -29,10 +29,6 @@ struct BarGraphModel {
             return total.reduce( 0 ) { $0 + $1[i] }
         }
 
-        print("Vacant: \(vacant.reduce(0, +))")
-        print("Occupied: \(occupied.reduce(0, +))")
-        print("Total: \(results.reduce(0, +))")
-
         return results
     }
 
@@ -42,6 +38,14 @@ struct BarGraphModel {
             return first.reduce( 0 ) { $0 + $1[i] }
         }
         return results
+    }
+
+    func occupiedTime(forIndex index: Int) -> TimeInterval {
+        return totalOccupiedTimes[index + 7]
+    }
+
+    func totalTime(forIndex index: Int) -> TimeInterval {
+        return totalTimes[index + 7]
     }
 
     init(toilets: [Toilet]) {

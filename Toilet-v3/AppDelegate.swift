@@ -143,11 +143,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         var statusString: String?
 
         let hour = Calendar.current.component(.hour, from: Date()) - 7
-        let day = Calendar.current.component(.weekday, from: Date())
-
-        guard day > 1, day < 7 else { return }
-        guard hour > 0, hour < 13 else { return }
-
         let sinceDate = toilet.sinceDate
 
         switch status {
@@ -223,7 +218,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         poopCode = ""
         revealTime = false
     }
-
 
     func keyDown(with event: NSEvent) {
         guard let characters = event.characters else { return }

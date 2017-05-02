@@ -1,4 +1,0 @@
-/* Display name and description for this extension. */
-"CFBundleDisplayName" = "iQ2P-Today";
-"com.apple.notificationcenter.widget.description" = "Sample description";
-

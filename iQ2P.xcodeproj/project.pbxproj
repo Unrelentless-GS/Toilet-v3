@@ -14,11 +14,6 @@
 		12703FC01EB6FE910070CBE8 /* Toilet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12703FBA1EB6FE910070CBE8 /* Toilet.swift */; };
 		12703FC11EB6FE910070CBE8 /* BarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12703FBC1EB6FE910070CBE8 /* BarGraph.swift */; };
 		12703FC21EB6FE910070CBE8 /* PieGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12703FBD1EB6FE910070CBE8 /* PieGraph.swift */; };
-		129041EE1EB84E45009CE7DB /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 129041ED1EB84E45009CE7DB /* NotificationCenter.framework */; };
-		129041F31EB84E45009CE7DB /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129041F21EB84E45009CE7DB /* TodayViewController.swift */; };
-		129041F61EB84E45009CE7DB /* TodayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 129041F41EB84E45009CE7DB /* TodayViewController.xib */; };
-		129041FA1EB84E45009CE7DB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 129041F81EB84E45009CE7DB /* InfoPlist.strings */; };
-		129041FD1EB84E45009CE7DB /* iQ2P-Today.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 129041EB1EB84E45009CE7DB /* iQ2P-Today.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		12CE48681EA71DD700EAF189 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CE48671EA71DD700EAF189 /* AppDelegate.swift */; };
 		12CE486C1EA71DD700EAF189 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12CE486B1EA71DD700EAF189 /* Assets.xcassets */; };
 		12CE486F1EA71DD700EAF189 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 12CE486D1EA71DD700EAF189 /* Main.storyboard */; };
@@ -27,16 +22,6 @@
 		12CE487E1EA7205000EAF189 /* SocketIO.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 12CE48791EA7204A00EAF189 /* SocketIO.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		129041FB1EB84E45009CE7DB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 12CE485C1EA71DD700EAF189 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 129041EA1EB84E45009CE7DB;
-			remoteInfo = "iQ2P-Today";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		129042011EB84E45009CE7DB /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -44,7 +29,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				129041FD1EB84E45009CE7DB /* iQ2P-Today.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -70,13 +54,7 @@
 		12703FBA1EB6FE910070CBE8 /* Toilet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toilet.swift; sourceTree = "<group>"; };
 		12703FBC1EB6FE910070CBE8 /* BarGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraph.swift; sourceTree = "<group>"; };
 		12703FBD1EB6FE910070CBE8 /* PieGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieGraph.swift; sourceTree = "<group>"; };
-		129041EB1EB84E45009CE7DB /* iQ2P-Today.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "iQ2P-Today.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		129041ED1EB84E45009CE7DB /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
-		129041F11EB84E45009CE7DB /* iQ2P_Today.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iQ2P_Today.entitlements; sourceTree = "<group>"; };
-		129041F21EB84E45009CE7DB /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
-		129041F51EB84E45009CE7DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TodayViewController.xib; sourceTree = "<group>"; };
-		129041F71EB84E45009CE7DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		129041F91EB84E45009CE7DB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		12CE48641EA71DD700EAF189 /* iQ2P.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iQ2P.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		12CE48671EA71DD700EAF189 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		12CE486B1EA71DD700EAF189 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -84,18 +62,9 @@
 		12CE48701EA71DD700EAF189 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		12CE48791EA7204A00EAF189 /* SocketIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SocketIO.framework; sourceTree = "<group>"; };
 		12CE487A1EA7204A00EAF189 /* SocketIO.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = SocketIO.framework.dSYM; sourceTree = "<group>"; };
-		12FB0E641EB8524C0042D78D /* iQ2P.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iQ2P.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		129041E81EB84E45009CE7DB /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				129041EE1EB84E45009CE7DB /* NotificationCenter.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		12CE48611EA71DD700EAF189 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -134,33 +103,11 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		129041EF1EB84E45009CE7DB /* iQ2P-Today */ = {
-			isa = PBXGroup;
-			children = (
-				129041F21EB84E45009CE7DB /* TodayViewController.swift */,
-				129041F41EB84E45009CE7DB /* TodayViewController.xib */,
-				129041F71EB84E45009CE7DB /* Info.plist */,
-				129041F81EB84E45009CE7DB /* InfoPlist.strings */,
-				129041F01EB84E45009CE7DB /* Supporting Files */,
-			);
-			path = "iQ2P-Today";
-			sourceTree = "<group>";
-		};
-		129041F01EB84E45009CE7DB /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				129041F11EB84E45009CE7DB /* iQ2P_Today.entitlements */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		12CE485B1EA71DD700EAF189 = {
 			isa = PBXGroup;
 			children = (
-				12FB0E641EB8524C0042D78D /* iQ2P.entitlements */,
 				12CE48761EA7204A00EAF189 /* Carthage */,
 				12CE48661EA71DD700EAF189 /* Toilet-v3 */,
-				129041EF1EB84E45009CE7DB /* iQ2P-Today */,
 				129041EC1EB84E45009CE7DB /* Frameworks */,
 				12CE48651EA71DD700EAF189 /* Products */,
 			);
@@ -170,7 +117,6 @@
 			isa = PBXGroup;
 			children = (
 				12CE48641EA71DD700EAF189 /* iQ2P.app */,
-				129041EB1EB84E45009CE7DB /* iQ2P-Today.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -218,23 +164,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		129041EA1EB84E45009CE7DB /* iQ2P-Today */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 129041FE1EB84E45009CE7DB /* Build configuration list for PBXNativeTarget "iQ2P-Today" */;
-			buildPhases = (
-				129041E71EB84E45009CE7DB /* Sources */,
-				129041E81EB84E45009CE7DB /* Frameworks */,
-				129041E91EB84E45009CE7DB /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "iQ2P-Today";
-			productName = "iQ2P-Today";
-			productReference = 129041EB1EB84E45009CE7DB /* iQ2P-Today.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 		12CE48631EA71DD700EAF189 /* iQ2P */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 12CE48731EA71DD700EAF189 /* Build configuration list for PBXNativeTarget "iQ2P" */;
@@ -248,7 +177,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				129041FC1EB84E45009CE7DB /* PBXTargetDependency */,
 			);
 			name = iQ2P;
 			productName = "Toilet-v3";
@@ -265,16 +193,6 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = GRIDSTONE;
 				TargetAttributes = {
-					129041EA1EB84E45009CE7DB = {
-						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = FNW7L4X44S;
-						ProvisioningStyle = Automatic;
-						SystemCapabilities = {
-							com.apple.ApplicationGroups.Mac = {
-								enabled = 1;
-							};
-						};
-					};
 					12CE48631EA71DD700EAF189 = {
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = FNW7L4X44S;
@@ -301,21 +219,11 @@
 			projectRoot = "";
 			targets = (
 				12CE48631EA71DD700EAF189 /* iQ2P */,
-				129041EA1EB84E45009CE7DB /* iQ2P-Today */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		129041E91EB84E45009CE7DB /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				129041F61EB84E45009CE7DB /* TodayViewController.xib in Resources */,
-				129041FA1EB84E45009CE7DB /* InfoPlist.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		12CE48621EA71DD700EAF189 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -330,14 +238,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		129041E71EB84E45009CE7DB /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				129041F31EB84E45009CE7DB /* TodayViewController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		12CE48601EA71DD700EAF189 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -354,31 +254,7 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		129041FC1EB84E45009CE7DB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 129041EA1EB84E45009CE7DB /* iQ2P-Today */;
-			targetProxy = 129041FB1EB84E45009CE7DB /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
-		129041F41EB84E45009CE7DB /* TodayViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				129041F51EB84E45009CE7DB /* Base */,
-			);
-			name = TodayViewController.xib;
-			sourceTree = "<group>";
-		};
-		129041F81EB84E45009CE7DB /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				129041F91EB84E45009CE7DB /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		12CE486D1EA71DD700EAF189 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -390,40 +266,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		129041FF1EB84E45009CE7DB /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "iQ2P-Today/iQ2P_Today.entitlements";
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = FNW7L4X44S;
-				INFOPLIST_FILE = "iQ2P-Today/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_BUNDLE_IDENTIFIER = "au.com.gridstone.Toilet-v3.iQ2P-Today";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
-			};
-			name = Debug;
-		};
-		129042001EB84E45009CE7DB /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "iQ2P-Today/iQ2P_Today.entitlements";
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = FNW7L4X44S;
-				INFOPLIST_FILE = "iQ2P-Today/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_BUNDLE_IDENTIFIER = "au.com.gridstone.Toilet-v3.iQ2P-Today";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
 		12CE48711EA71DD700EAF189 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -519,7 +361,6 @@
 		12CE48741EA71DD700EAF189 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = iQ2P.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
@@ -542,7 +383,6 @@
 		12CE48751EA71DD700EAF189 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = iQ2P.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
@@ -566,15 +406,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		129041FE1EB84E45009CE7DB /* Build configuration list for PBXNativeTarget "iQ2P-Today" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				129041FF1EB84E45009CE7DB /* Debug */,
-				129042001EB84E45009CE7DB /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		12CE485F1EA71DD700EAF189 /* Build configuration list for PBXProject "iQ2P" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

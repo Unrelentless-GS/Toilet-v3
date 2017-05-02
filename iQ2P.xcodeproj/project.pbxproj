@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		1202716B1EADB93A0048298C /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120271691EADB93A0048298C /* ContentViewController.swift */; };
 		1202716C1EADB93A0048298C /* ContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1202716A1EADB93A0048298C /* ContentViewController.xib */; };
+		121B63101EB8661A005CD571 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 129041ED1EB84E45009CE7DB /* NotificationCenter.framework */; };
+		121B63151EB8661A005CD571 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121B63141EB8661A005CD571 /* TodayViewController.swift */; };
+		121B63181EB8661A005CD571 /* TodayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 121B63161EB8661A005CD571 /* TodayViewController.xib */; };
+		121B631C1EB8661A005CD571 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 121B631A1EB8661A005CD571 /* InfoPlist.strings */; };
+		121B631F1EB8661A005CD571 /* iQ2P-Today.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 121B630F1EB8661A005CD571 /* iQ2P-Today.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		12703FBE1EB6FE910070CBE8 /* BarGraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12703FB81EB6FE910070CBE8 /* BarGraphModel.swift */; };
 		12703FBF1EB6FE910070CBE8 /* PieChartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12703FB91EB6FE910070CBE8 /* PieChartModel.swift */; };
 		12703FC01EB6FE910070CBE8 /* Toilet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12703FBA1EB6FE910070CBE8 /* Toilet.swift */; };
@@ -22,6 +27,16 @@
 		12CE487E1EA7205000EAF189 /* SocketIO.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 12CE48791EA7204A00EAF189 /* SocketIO.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		121B631D1EB8661A005CD571 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 12CE485C1EA71DD700EAF189 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 121B630E1EB8661A005CD571;
+			remoteInfo = "iQ2P-Today";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		129042011EB84E45009CE7DB /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -29,6 +44,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				121B631F1EB8661A005CD571 /* iQ2P-Today.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -49,6 +65,12 @@
 /* Begin PBXFileReference section */
 		120271691EADB93A0048298C /* ContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		1202716A1EADB93A0048298C /* ContentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContentViewController.xib; sourceTree = "<group>"; };
+		121B630F1EB8661A005CD571 /* iQ2P-Today.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "iQ2P-Today.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		121B63131EB8661A005CD571 /* iQ2P_Today.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iQ2P_Today.entitlements; sourceTree = "<group>"; };
+		121B63141EB8661A005CD571 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		121B63171EB8661A005CD571 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TodayViewController.xib; sourceTree = "<group>"; };
+		121B63191EB8661A005CD571 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		121B631B1EB8661A005CD571 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		12703FB81EB6FE910070CBE8 /* BarGraphModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraphModel.swift; sourceTree = "<group>"; };
 		12703FB91EB6FE910070CBE8 /* PieChartModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartModel.swift; sourceTree = "<group>"; };
 		12703FBA1EB6FE910070CBE8 /* Toilet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toilet.swift; sourceTree = "<group>"; };
@@ -65,6 +87,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		121B630C1EB8661A005CD571 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				121B63101EB8661A005CD571 /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		12CE48611EA71DD700EAF189 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -76,6 +106,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		121B63111EB8661A005CD571 /* iQ2P-Today */ = {
+			isa = PBXGroup;
+			children = (
+				121B63141EB8661A005CD571 /* TodayViewController.swift */,
+				121B63161EB8661A005CD571 /* TodayViewController.xib */,
+				121B63191EB8661A005CD571 /* Info.plist */,
+				121B631A1EB8661A005CD571 /* InfoPlist.strings */,
+				121B63121EB8661A005CD571 /* Supporting Files */,
+			);
+			path = "iQ2P-Today";
+			sourceTree = "<group>";
+		};
+		121B63121EB8661A005CD571 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				121B63131EB8661A005CD571 /* iQ2P_Today.entitlements */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		12703FB71EB6FE910070CBE8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -108,6 +158,7 @@
 			children = (
 				12CE48761EA7204A00EAF189 /* Carthage */,
 				12CE48661EA71DD700EAF189 /* Toilet-v3 */,
+				121B63111EB8661A005CD571 /* iQ2P-Today */,
 				129041EC1EB84E45009CE7DB /* Frameworks */,
 				12CE48651EA71DD700EAF189 /* Products */,
 			);
@@ -117,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				12CE48641EA71DD700EAF189 /* iQ2P.app */,
+				121B630F1EB8661A005CD571 /* iQ2P-Today.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -164,6 +216,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		121B630E1EB8661A005CD571 /* iQ2P-Today */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 121B63201EB8661A005CD571 /* Build configuration list for PBXNativeTarget "iQ2P-Today" */;
+			buildPhases = (
+				121B630B1EB8661A005CD571 /* Sources */,
+				121B630C1EB8661A005CD571 /* Frameworks */,
+				121B630D1EB8661A005CD571 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "iQ2P-Today";
+			productName = "iQ2P-Today";
+			productReference = 121B630F1EB8661A005CD571 /* iQ2P-Today.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		12CE48631EA71DD700EAF189 /* iQ2P */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 12CE48731EA71DD700EAF189 /* Build configuration list for PBXNativeTarget "iQ2P" */;
@@ -177,6 +246,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				121B631E1EB8661A005CD571 /* PBXTargetDependency */,
 			);
 			name = iQ2P;
 			productName = "Toilet-v3";
@@ -193,13 +263,18 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = GRIDSTONE;
 				TargetAttributes = {
+					121B630E1EB8661A005CD571 = {
+						CreatedOnToolsVersion = 8.3;
+						DevelopmentTeam = FNW7L4X44S;
+						ProvisioningStyle = Automatic;
+					};
 					12CE48631EA71DD700EAF189 = {
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = FNW7L4X44S;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.Mac = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -219,11 +294,21 @@
 			projectRoot = "";
 			targets = (
 				12CE48631EA71DD700EAF189 /* iQ2P */,
+				121B630E1EB8661A005CD571 /* iQ2P-Today */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		121B630D1EB8661A005CD571 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				121B63181EB8661A005CD571 /* TodayViewController.xib in Resources */,
+				121B631C1EB8661A005CD571 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		12CE48621EA71DD700EAF189 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -238,6 +323,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		121B630B1EB8661A005CD571 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				121B63151EB8661A005CD571 /* TodayViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		12CE48601EA71DD700EAF189 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -254,7 +347,31 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		121B631E1EB8661A005CD571 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 121B630E1EB8661A005CD571 /* iQ2P-Today */;
+			targetProxy = 121B631D1EB8661A005CD571 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
+		121B63161EB8661A005CD571 /* TodayViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				121B63171EB8661A005CD571 /* Base */,
+			);
+			name = TodayViewController.xib;
+			sourceTree = "<group>";
+		};
+		121B631A1EB8661A005CD571 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				121B631B1EB8661A005CD571 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		12CE486D1EA71DD700EAF189 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -266,6 +383,40 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		121B63211EB8661A005CD571 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "iQ2P-Today/iQ2P_Today.entitlements";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = FNW7L4X44S;
+				INFOPLIST_FILE = "iQ2P-Today/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = "au.com.gridstone.Toilet-v3.iQ2P-Today";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		121B63221EB8661A005CD571 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "iQ2P-Today/iQ2P_Today.entitlements";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = FNW7L4X44S;
+				INFOPLIST_FILE = "iQ2P-Today/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = "au.com.gridstone.Toilet-v3.iQ2P-Today";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		12CE48711EA71DD700EAF189 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -361,8 +512,8 @@
 		12CE48741EA71DD700EAF189 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = iQ2P.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
@@ -383,8 +534,8 @@
 		12CE48751EA71DD700EAF189 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = iQ2P.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
@@ -406,6 +557,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		121B63201EB8661A005CD571 /* Build configuration list for PBXNativeTarget "iQ2P-Today" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				121B63211EB8661A005CD571 /* Debug */,
+				121B63221EB8661A005CD571 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		12CE485F1EA71DD700EAF189 /* Build configuration list for PBXProject "iQ2P" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

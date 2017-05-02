@@ -16,8 +16,13 @@ internal class ContentViewController: NSViewController {
 
     @IBOutlet weak var pieGraph: PieGraph!
     @IBOutlet weak var pieGraph2: PieGraph!
-
     @IBOutlet weak var barGraph: BarGraph!
+
+    @IBOutlet weak var pieImageView: NSImageView!
+    @IBOutlet weak var barImageView: NSImageView!
+
+    @IBOutlet weak var pieHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var barHeightConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var legend1Colour: NSTextField!
     @IBOutlet weak var legend2Colour: NSTextField!
@@ -31,9 +36,11 @@ internal class ContentViewController: NSViewController {
     
     @IBOutlet weak var versionLabel: NSTextField!
 
+    private var state = false
+
     internal var totalTimeString: String = "" {
         didSet {
-            totalTime.stringValue = totalTimeString
+//            totalTime.stringValue = totalTimeString
         }
     }
 
@@ -44,7 +51,7 @@ internal class ContentViewController: NSViewController {
     }
     internal var data: PieChartModel? {
         didSet {
-            pieGraph.data = data
+//            pieGraph.data = data
         }
     }
 
@@ -56,13 +63,13 @@ internal class ContentViewController: NSViewController {
 
     internal var data2: PieChartModel? {
         didSet {
-            pieGraph2.data = data2
+//            pieGraph2.data = data2
         }
     }
 
     internal var barData: BarGraphModel? {
         didSet {
-            barGraph.data = barData!
+//            barGraph.data = barData!
         }
     }
 
@@ -86,20 +93,20 @@ internal class ContentViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        legend1Colour.drawsBackground = true
-        legend1Colour.wantsLayer = true
-        legend1Colour.backgroundColor = vacantColour
-        legend1Colour.layer?.cornerRadius = 2
-
-        legend2Colour.drawsBackground = true
-        legend2Colour.wantsLayer = true
-        legend2Colour.backgroundColor = occupiedColour
-        legend2Colour.layer?.cornerRadius = 2
-
-        legend3Colour.drawsBackground = true
-        legend3Colour.wantsLayer = true
-        legend3Colour.backgroundColor = offlineColour
-        legend3Colour.layer?.cornerRadius = 2
+//        legend1Colour.drawsBackground = true
+//        legend1Colour.wantsLayer = true
+//        legend1Colour.backgroundColor = vacantColour
+//        legend1Colour.layer?.cornerRadius = 2
+//
+//        legend2Colour.drawsBackground = true
+//        legend2Colour.wantsLayer = true
+//        legend2Colour.backgroundColor = occupiedColour
+//        legend2Colour.layer?.cornerRadius = 2
+//
+//        legend3Colour.drawsBackground = true
+//        legend3Colour.wantsLayer = true
+//        legend3Colour.backgroundColor = offlineColour
+//        legend3Colour.layer?.cornerRadius = 2
 
         motionCallback = { [unowned self] percentage in
             guard let percent = percentage?.roundTo(places: 1) else {
@@ -132,10 +139,13 @@ internal class ContentViewController: NSViewController {
         updateCharts()
 
         totalTime.stringValue = totalTimeString
+
     }
 
     override func viewDidAppear() {
         super.viewDidAppear()
+
+        print("")
     }
 
     internal func updateDescription() {
@@ -150,7 +160,14 @@ internal class ContentViewController: NSViewController {
     }
 
     @IBAction func terminateHandler(_ sender: NSButton) {
-        NSApp.terminate(sender)
+        state = !state
+
+        NSAnimationContext.beginGrouping()
+        NSAnimationContext.current().duration = 1
+        NSAnimationContext.current().timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseOut)
+        pieHeightConstraint.animator().constant = state ? 0 : 250
+        NSAnimationContext.endGrouping()
+//        NSApp.terminate(sender)
     }
 }
 

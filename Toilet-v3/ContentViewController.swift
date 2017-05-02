@@ -12,6 +12,9 @@ internal class ContentViewController: NSViewController {
 
     @IBOutlet weak var descriptionLabel: NSTextField!
     @IBOutlet weak var descriptionLabel2: NSTextField!
+    @IBOutlet weak var timeAmount1: NSTextField!
+    @IBOutlet weak var timeAmount2: NSTextField!
+
     @IBOutlet weak var terminateButton: NSButton!
 
     @IBOutlet weak var pieGraph: PieGraph!
@@ -35,7 +38,7 @@ internal class ContentViewController: NSViewController {
     @IBOutlet weak var totalTime: NSTextField!
     @IBOutlet weak var percentLabel: NSTextField!
     @IBOutlet weak var notifyCheckBox: NSButton!
-    
+
     @IBOutlet weak var versionLabel: NSTextField!
 
     private var state = false
@@ -46,20 +49,21 @@ internal class ContentViewController: NSViewController {
         }
     }
 
-    internal var desc: String = "Loading..." {
+    internal var desc: [String] = ["Loading...", "00"] {
         didSet {
-            descriptionLabel.stringValue = desc
+            updateDescription()
         }
     }
+
     internal var data: PieChartModel? {
         didSet {
             pieGraph.data = data
         }
     }
 
-    internal var desc2: String = "Loading..." {
+    internal var desc2: [String] = ["Loading...", "00"] {
         didSet {
-            descriptionLabel2.stringValue = desc2
+            updateDescription()
         }
     }
 
@@ -95,20 +99,20 @@ internal class ContentViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        legend1Colour.drawsBackground = true
-//        legend1Colour.wantsLayer = true
-//        legend1Colour.backgroundColor = vacantColour
-//        legend1Colour.layer?.cornerRadius = 2
-//
-//        legend2Colour.drawsBackground = true
-//        legend2Colour.wantsLayer = true
-//        legend2Colour.backgroundColor = occupiedColour
-//        legend2Colour.layer?.cornerRadius = 2
-//
-//        legend3Colour.drawsBackground = true
-//        legend3Colour.wantsLayer = true
-//        legend3Colour.backgroundColor = offlineColour
-//        legend3Colour.layer?.cornerRadius = 2
+        //        legend1Colour.drawsBackground = true
+        //        legend1Colour.wantsLayer = true
+        //        legend1Colour.backgroundColor = vacantColour
+        //        legend1Colour.layer?.cornerRadius = 2
+        //
+        //        legend2Colour.drawsBackground = true
+        //        legend2Colour.wantsLayer = true
+        //        legend2Colour.backgroundColor = occupiedColour
+        //        legend2Colour.layer?.cornerRadius = 2
+        //
+        //        legend3Colour.drawsBackground = true
+        //        legend3Colour.wantsLayer = true
+        //        legend3Colour.backgroundColor = offlineColour
+        //        legend3Colour.layer?.cornerRadius = 2
 
         motionCallback = { [unowned self] percentage in
             guard let percent = percentage?.roundTo(places: 1) else {
@@ -134,6 +138,7 @@ internal class ContentViewController: NSViewController {
             self.versionLabel.stringValue = "v\(version)"
         }
 
+        createBG()
         gestures()
     }
 
@@ -143,6 +148,18 @@ internal class ContentViewController: NSViewController {
         updateCharts()
 
         totalTime.stringValue = totalTimeString
+    }
+
+    private func createBG() {
+        descriptionLabel.drawsBackground = true
+        descriptionLabel.wantsLayer = true
+        descriptionLabel.backgroundColor = offlineColour
+        descriptionLabel.layer?.cornerRadius = 2
+
+        descriptionLabel2.drawsBackground = true
+        descriptionLabel2.wantsLayer = true
+        descriptionLabel2.backgroundColor = offlineColour
+        descriptionLabel2.layer?.cornerRadius = 2
     }
 
     private func gestures() {
@@ -177,8 +194,14 @@ internal class ContentViewController: NSViewController {
     }
 
     internal func updateDescription() {
-        descriptionLabel.stringValue = desc
-        descriptionLabel2.stringValue = desc2
+        descriptionLabel.stringValue = desc[0]
+        descriptionLabel2.stringValue = desc2[0]
+
+        timeAmount1.stringValue = desc[1]
+        timeAmount2.stringValue = desc2[1]
+
+        descriptionLabel.backgroundColor = colour(forState: desc[0])
+        descriptionLabel2.backgroundColor = colour(forState: desc2[0])
     }
 
     internal func updateCharts() {
@@ -189,6 +212,19 @@ internal class ContentViewController: NSViewController {
 
     @IBAction func terminateHandler(_ sender: NSButton) {
         NSApp.terminate(sender)
+    }
+
+    private func colour(forState state: String) -> NSColor {
+        switch state {
+        case "Vacant":
+            return vacantColour
+        case "Occupied":
+            return occupiedColour
+        case "Offline":
+            return offlineColour
+        default:
+            return NSColor.black
+        }
     }
 }
 

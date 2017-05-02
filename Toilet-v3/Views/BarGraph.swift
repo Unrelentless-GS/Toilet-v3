@@ -152,8 +152,6 @@ class BarGraph: NSView {
 
             let path = CGMutablePath()
 
-            Swift.print(percentage)
-
             path.move(to: bottomLeftPoint)
             path.addRect(CGRect(origin: origin, size: size))
             path.closeSubpath()

@@ -164,7 +164,7 @@ internal class ContentViewController: NSViewController {
 
         NSAnimationContext.beginGrouping()
         NSAnimationContext.current().duration = 1
-        NSAnimationContext.current().timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseOut)
+        NSAnimationContext.current().timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionDefault)
         pieHeightConstraint.animator().constant = state ? 0 : 250
         NSAnimationContext.endGrouping()
 //        NSApp.terminate(sender)

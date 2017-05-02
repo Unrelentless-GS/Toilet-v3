@@ -138,7 +138,7 @@
                         <constraint firstItem="gXW-3g-2bH" firstAttribute="centerY" secondItem="XSa-Ol-TVO" secondAttribute="centerY" id="y0o-XP-kzy"/>
                     </constraints>
                 </customView>
-                <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fHo-mS-6zd">
+                <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fHo-mS-6zd">
                     <rect key="frame" x="40" y="332" width="400" height="250"/>
                     <subviews>
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="RTA-5Q-DOa">

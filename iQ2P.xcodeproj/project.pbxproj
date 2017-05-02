@@ -71,6 +71,7 @@
 		121B63171EB8661A005CD571 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TodayViewController.xib; sourceTree = "<group>"; };
 		121B63191EB8661A005CD571 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		121B631B1EB8661A005CD571 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		121B63231EB86799005CD571 /* iQ2P.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iQ2P.entitlements; sourceTree = "<group>"; };
 		12703FB81EB6FE910070CBE8 /* BarGraphModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraphModel.swift; sourceTree = "<group>"; };
 		12703FB91EB6FE910070CBE8 /* PieChartModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartModel.swift; sourceTree = "<group>"; };
 		12703FBA1EB6FE910070CBE8 /* Toilet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toilet.swift; sourceTree = "<group>"; };
@@ -156,6 +157,7 @@
 		12CE485B1EA71DD700EAF189 = {
 			isa = PBXGroup;
 			children = (
+				121B63231EB86799005CD571 /* iQ2P.entitlements */,
 				12CE48761EA7204A00EAF189 /* Carthage */,
 				12CE48661EA71DD700EAF189 /* Toilet-v3 */,
 				121B63111EB8661A005CD571 /* iQ2P-Today */,
@@ -267,6 +269,11 @@
 						CreatedOnToolsVersion = 8.3;
 						DevelopmentTeam = FNW7L4X44S;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.Mac = {
+								enabled = 1;
+							};
+						};
 					};
 					12CE48631EA71DD700EAF189 = {
 						CreatedOnToolsVersion = 8.3;
@@ -274,7 +281,7 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.Mac = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -514,6 +521,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = iQ2P.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
@@ -536,6 +544,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = iQ2P.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";

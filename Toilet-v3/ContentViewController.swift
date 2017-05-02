@@ -24,6 +24,8 @@ internal class ContentViewController: NSViewController {
     @IBOutlet weak var pieHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var barHeightConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var pieExpandView: NSView!
+    @IBOutlet weak var barExpandView: NSView!
     @IBOutlet weak var legend1Colour: NSTextField!
     @IBOutlet weak var legend2Colour: NSTextField!
     @IBOutlet weak var legend3Colour: NSTextField!
@@ -40,7 +42,7 @@ internal class ContentViewController: NSViewController {
 
     internal var totalTimeString: String = "" {
         didSet {
-//            totalTime.stringValue = totalTimeString
+            totalTime.stringValue = totalTimeString
         }
     }
 
@@ -51,7 +53,7 @@ internal class ContentViewController: NSViewController {
     }
     internal var data: PieChartModel? {
         didSet {
-//            pieGraph.data = data
+            pieGraph.data = data
         }
     }
 
@@ -63,13 +65,13 @@ internal class ContentViewController: NSViewController {
 
     internal var data2: PieChartModel? {
         didSet {
-//            pieGraph2.data = data2
+            pieGraph2.data = data2
         }
     }
 
     internal var barData: BarGraphModel? {
         didSet {
-//            barGraph.data = barData!
+            barGraph.data = barData!
         }
     }
 
@@ -131,6 +133,8 @@ internal class ContentViewController: NSViewController {
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
             self.versionLabel.stringValue = "v\(version)"
         }
+
+        gestures()
     }
 
     override func viewWillAppear() {
@@ -139,13 +143,37 @@ internal class ContentViewController: NSViewController {
         updateCharts()
 
         totalTime.stringValue = totalTimeString
-
     }
 
-    override func viewDidAppear() {
-        super.viewDidAppear()
+    private func gestures() {
+        let gesture1 = NSClickGestureRecognizer(target: self, action: #selector(expandPies))
+        let gesture2 = NSClickGestureRecognizer(target: self, action: #selector(expandBar))
 
-        print("")
+        gesture1.numberOfClicksRequired = 1
+        gesture2.numberOfClicksRequired = 1
+
+        pieExpandView.addGestureRecognizer(gesture1)
+        barExpandView.addGestureRecognizer(gesture2)
+    }
+
+    @objc private func expandPies() {
+        let state = pieHeightConstraint.constant == 0
+        NSAnimationContext.beginGrouping()
+        NSAnimationContext.current().duration = 0.4
+        NSAnimationContext.current().timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
+        pieHeightConstraint.animator().constant = !state ? 0 : 250
+        pieImageView.animator().rotate(byDegrees: state ? -90.0 : 90.0)
+        NSAnimationContext.endGrouping()
+    }
+
+    @objc private func expandBar() {
+        let state = barHeightConstraint.constant == 0
+        NSAnimationContext.beginGrouping()
+        NSAnimationContext.current().duration = 0.4
+        NSAnimationContext.current().timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
+        barHeightConstraint.animator().constant = !state ? 0 : 200
+        barImageView.animator().rotate(byDegrees: state ? -90.0 : 90.0)
+        NSAnimationContext.endGrouping()
     }
 
     internal func updateDescription() {
@@ -160,14 +188,7 @@ internal class ContentViewController: NSViewController {
     }
 
     @IBAction func terminateHandler(_ sender: NSButton) {
-        state = !state
-
-        NSAnimationContext.beginGrouping()
-        NSAnimationContext.current().duration = 1
-        NSAnimationContext.current().timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionDefault)
-        pieHeightConstraint.animator().constant = state ? 0 : 250
-        NSAnimationContext.endGrouping()
-//        NSApp.terminate(sender)
+        NSApp.terminate(sender)
     }
 }
 

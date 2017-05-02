@@ -8,6 +8,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="ContentViewController" customModule="Toilet_v3" customModuleProvider="target">
             <connections>
+                <outlet property="barExpandView" destination="llp-Aj-2RM" id="6ef-FG-rYL"/>
                 <outlet property="barGraph" destination="Ahk-sy-Ide" id="f24-BY-kb9"/>
                 <outlet property="barHeightConstraint" destination="JBk-8Q-402" id="dFD-bN-fdi"/>
                 <outlet property="barImageView" destination="J5x-qZ-I18" id="HQC-9J-pIq"/>
@@ -15,6 +16,7 @@
                 <outlet property="descriptionLabel2" destination="Pqx-CH-3JL" id="ed6-hf-XTE"/>
                 <outlet property="notifyCheckBox" destination="P06-3M-KZi" id="zOJ-Kq-dc3"/>
                 <outlet property="percentLabel" destination="l4g-7p-G6Z" id="dIW-26-ORU"/>
+                <outlet property="pieExpandView" destination="XSa-Ol-TVO" id="6KP-TK-Cg7"/>
                 <outlet property="pieGraph" destination="z1o-RT-bpE" id="Ymd-pa-mFz"/>
                 <outlet property="pieGraph2" destination="zRr-ih-Pek" id="ihM-Iw-TRz"/>
                 <outlet property="pieHeightConstraint" destination="FSx-D2-n5V" id="i6b-Na-QcQ"/>
@@ -30,11 +32,11 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="Hz6-mo-xeY">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="697"/>
+            <rect key="frame" x="0.0" y="0.0" width="460" height="709"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zHv-7i-t1C">
-                    <rect key="frame" x="184" y="23" width="112" height="41"/>
+                    <rect key="frame" x="174" y="23" width="112" height="41"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="100" id="XGQ-gT-hcO"/>
                         <constraint firstAttribute="height" constant="30" id="hjY-jU-rws"/>
@@ -48,7 +50,7 @@
                     </connections>
                 </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QAL-jy-fou">
-                    <rect key="frame" x="38" y="626" width="184" height="21"/>
+                    <rect key="frame" x="38" y="638" width="184" height="21"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" usesSingleLineMode="YES" id="Y7R-kH-ugj">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -56,7 +58,7 @@
                     </textFieldCell>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zHr-Bp-xNj">
-                    <rect key="frame" x="38" y="656" width="184" height="21"/>
+                    <rect key="frame" x="38" y="668" width="184" height="21"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="180" id="7fs-Zu-OEk"/>
                         <constraint firstAttribute="height" constant="21" id="ATk-AF-UVs"/>
@@ -68,7 +70,7 @@
                     </textFieldCell>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6cr-rb-RWv">
-                    <rect key="frame" x="258" y="656" width="184" height="21"/>
+                    <rect key="frame" x="258" y="668" width="184" height="21"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Toilet 2" usesSingleLineMode="YES" id="diU-Uc-NMf">
                         <font key="font" metaFont="systemBold"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -76,7 +78,7 @@
                     </textFieldCell>
                 </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pqx-CH-3JL">
-                    <rect key="frame" x="258" y="626" width="184" height="21"/>
+                    <rect key="frame" x="258" y="638" width="184" height="21"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" usesSingleLineMode="YES" id="mEL-Wf-97O">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -84,14 +86,14 @@
                     </textFieldCell>
                 </textField>
                 <button hidden="YES" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="P06-3M-KZi">
-                    <rect key="frame" x="333" y="8" width="139" height="18"/>
+                    <rect key="frame" x="323" y="8" width="129" height="18"/>
                     <buttonCell key="cell" type="check" title="Notify when vacant" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="no4-UI-r7M">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
                 </button>
                 <textField horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tWc-Dq-ty5">
-                    <rect key="frame" x="18" y="10" width="4" height="17"/>
+                    <rect key="frame" x="8" y="10" width="4" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="hNn-Wn-63c">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -99,29 +101,29 @@
                     </textFieldCell>
                 </textField>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="XSa-Ol-TVO">
-                    <rect key="frame" x="20" y="582" width="440" height="36"/>
+                    <rect key="frame" x="20" y="582" width="420" height="36"/>
                     <subviews>
                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8t0-Xu-kRr">
-                            <rect key="frame" x="2" y="8" width="20" height="20"/>
+                            <rect key="frame" x="2" y="10" width="16" height="16"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="20" id="G3E-Hm-RwL"/>
-                                <constraint firstAttribute="width" constant="20" id="cYl-Ah-nx4"/>
+                                <constraint firstAttribute="height" constant="16" id="G3E-Hm-RwL"/>
+                                <constraint firstAttribute="width" constant="16" id="cYl-Ah-nx4"/>
                             </constraints>
-                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="tlZ-b7-rxu"/>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="arrow" id="tlZ-b7-rxu"/>
                         </imageView>
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="gXW-3g-2bH">
-                            <rect key="frame" x="142" y="18" width="296" height="1"/>
+                            <rect key="frame" x="147" y="18" width="271" height="1"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="64J-Hb-Vu1"/>
                             </constraints>
                         </customView>
                         <textField horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fj3-yT-ubT">
-                            <rect key="frame" x="30" y="8" width="104" height="20"/>
+                            <rect key="frame" x="26" y="8" width="113" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="xLS-5W-iOU"/>
                             </constraints>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Toilet availability" id="Q0P-Q6-t5n">
-                                <font key="font" metaFont="system"/>
+                                <font key="font" metaFont="systemBold"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
@@ -139,13 +141,13 @@
                     </constraints>
                 </customView>
                 <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fHo-mS-6zd">
-                    <rect key="frame" x="40" y="332" width="400" height="250"/>
+                    <rect key="frame" x="40" y="332" width="380" height="250"/>
                     <subviews>
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="RTA-5Q-DOa">
-                            <rect key="frame" x="0.0" y="200" width="400" height="50"/>
+                            <rect key="frame" x="0.0" y="200" width="380" height="50"/>
                             <subviews>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9eM-oe-NDV">
-                                    <rect key="frame" x="-2" y="22" width="404" height="24"/>
+                                    <rect key="frame" x="-2" y="22" width="384" height="24"/>
                                     <constraints>
                                         <constraint firstAttribute="height" priority="900" constant="24" id="cXf-Ul-aeh"/>
                                     </constraints>
@@ -156,7 +158,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l4g-7p-G6Z">
-                                    <rect key="frame" x="-2" y="2" width="404" height="17"/>
+                                    <rect key="frame" x="-2" y="2" width="384" height="17"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" id="4pk-eh-LOf">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -176,16 +178,16 @@
                             </constraints>
                         </customView>
                         <stackView distribution="fillProportionally" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iGp-lD-6ht">
-                            <rect key="frame" x="0.0" y="0.0" width="400" height="192"/>
+                            <rect key="frame" x="0.0" y="0.0" width="380" height="192"/>
                             <subviews>
                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="z1o-RT-bpE" customClass="PieGraph" customModule="Toilet_v3" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="196" height="192"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="186" height="192"/>
                                     <constraints>
                                         <constraint firstAttribute="height" priority="900" constant="192" id="ACZ-Eb-qox"/>
                                     </constraints>
                                 </customView>
                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="zRr-ih-Pek" customClass="PieGraph" customModule="Toilet_v3" customModuleProvider="target">
-                                    <rect key="frame" x="204" y="0.0" width="196" height="192"/>
+                                    <rect key="frame" x="194" y="0.0" width="186" height="192"/>
                                 </customView>
                             </subviews>
                             <constraints>
@@ -224,36 +226,36 @@
                     </customSpacing>
                 </stackView>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="Ahk-sy-Ide" customClass="BarGraph" customModule="Toilet_v3" customModuleProvider="target">
-                    <rect key="frame" x="40" y="80" width="400" height="200"/>
+                    <rect key="frame" x="40" y="80" width="380" height="200"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="200" id="JBk-8Q-402"/>
                     </constraints>
                 </customView>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="llp-Aj-2RM">
-                    <rect key="frame" x="20" y="288" width="440" height="36"/>
+                    <rect key="frame" x="20" y="288" width="420" height="36"/>
                     <subviews>
                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="J5x-qZ-I18">
-                            <rect key="frame" x="2" y="8" width="20" height="20"/>
+                            <rect key="frame" x="2" y="10" width="16" height="16"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="20" id="7YW-z9-vNf"/>
-                                <constraint firstAttribute="width" constant="20" id="LmM-du-p1S"/>
+                                <constraint firstAttribute="height" constant="16" id="7YW-z9-vNf"/>
+                                <constraint firstAttribute="width" constant="16" id="LmM-du-p1S"/>
                             </constraints>
-                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="LEG-YG-hx2"/>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="arrow" id="LEG-YG-hx2"/>
                         </imageView>
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="eZI-3t-Qn0">
-                            <rect key="frame" x="116" y="18" width="322" height="1"/>
+                            <rect key="frame" x="157" y="18" width="261" height="1"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="4GX-Ft-AMu"/>
                             </constraints>
                         </customView>
                         <textField horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N8F-va-leB">
-                            <rect key="frame" x="30" y="8" width="78" height="20"/>
+                            <rect key="frame" x="26" y="8" width="123" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="YKC-KG-kye"/>
                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="33" id="hd7-rq-Qy4"/>
                             </constraints>
-                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Toilet usage" id="fRe-hj-4wa">
-                                <font key="font" metaFont="system"/>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Hourly breakdown" id="fRe-hj-4wa">
+                                <font key="font" metaFont="systemBold"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
@@ -272,16 +274,15 @@
                 </customView>
             </subviews>
             <constraints>
-                <constraint firstItem="tWc-Dq-ty5" firstAttribute="top" secondItem="zHv-7i-t1C" secondAttribute="bottom" constant="3" id="3VE-pt-p5c"/>
                 <constraint firstItem="fHo-mS-6zd" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="40" id="8mH-qs-wQ5"/>
                 <constraint firstItem="QAL-jy-fou" firstAttribute="top" secondItem="zHr-Bp-xNj" secondAttribute="bottom" constant="9" id="92x-gW-Llj"/>
-                <constraint firstItem="XSa-Ol-TVO" firstAttribute="top" secondItem="Pqx-CH-3JL" secondAttribute="bottom" constant="8" id="AiL-cI-b64"/>
+                <constraint firstItem="XSa-Ol-TVO" firstAttribute="top" secondItem="Pqx-CH-3JL" secondAttribute="bottom" constant="20" id="AiL-cI-b64"/>
                 <constraint firstAttribute="trailing" secondItem="Ahk-sy-Ide" secondAttribute="trailing" constant="40" id="Cr4-ng-M3K"/>
                 <constraint firstItem="fHo-mS-6zd" firstAttribute="top" secondItem="XSa-Ol-TVO" secondAttribute="bottom" id="CrV-gG-Tz5"/>
                 <constraint firstItem="zHr-Bp-xNj" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="20" id="H8Z-Es-gT5"/>
                 <constraint firstItem="QAL-jy-fou" firstAttribute="height" secondItem="zHr-Bp-xNj" secondAttribute="height" id="HJ1-cH-BNV"/>
                 <constraint firstItem="Pqx-CH-3JL" firstAttribute="height" secondItem="QAL-jy-fou" secondAttribute="height" id="IVp-sj-bDd"/>
-                <constraint firstItem="P06-3M-KZi" firstAttribute="leading" secondItem="zHv-7i-t1C" secondAttribute="trailing" constant="45" id="LRb-u6-E3m"/>
+                <constraint firstItem="P06-3M-KZi" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="zHv-7i-t1C" secondAttribute="trailing" constant="45" id="LRb-u6-E3m"/>
                 <constraint firstItem="6cr-rb-RWv" firstAttribute="height" secondItem="zHr-Bp-xNj" secondAttribute="height" id="LuC-Gn-g9S"/>
                 <constraint firstItem="6cr-rb-RWv" firstAttribute="centerY" secondItem="zHr-Bp-xNj" secondAttribute="centerY" id="Q9l-E4-6AF"/>
                 <constraint firstItem="llp-Aj-2RM" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="QLx-Tf-XBF"/>
@@ -299,12 +300,15 @@
                 <constraint firstItem="zHv-7i-t1C" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="fcI-bh-UsO"/>
                 <constraint firstItem="Pqx-CH-3JL" firstAttribute="width" secondItem="6cr-rb-RWv" secondAttribute="width" id="fnZ-Uy-TH8"/>
                 <constraint firstItem="Pqx-CH-3JL" firstAttribute="centerX" secondItem="6cr-rb-RWv" secondAttribute="centerX" id="grc-c3-fsf"/>
+                <constraint firstAttribute="bottom" secondItem="tWc-Dq-ty5" secondAttribute="bottom" constant="10" id="kIt-JH-8j8"/>
                 <constraint firstItem="P06-3M-KZi" firstAttribute="top" secondItem="zHv-7i-t1C" secondAttribute="bottom" constant="6" id="lpg-CG-LhG"/>
+                <constraint firstAttribute="trailing" secondItem="P06-3M-KZi" secondAttribute="trailing" constant="10" id="oEI-Tk-qv6"/>
                 <constraint firstItem="XSa-Ol-TVO" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="ryz-C6-iKJ"/>
                 <constraint firstItem="6cr-rb-RWv" firstAttribute="width" secondItem="zHr-Bp-xNj" secondAttribute="width" id="vty-hJ-KdE"/>
                 <constraint firstItem="zHv-7i-t1C" firstAttribute="top" secondItem="Ahk-sy-Ide" secondAttribute="bottom" constant="20" id="wCO-c1-h55"/>
-                <constraint firstItem="tWc-Dq-ty5" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="xEa-c9-hM6"/>
+                <constraint firstItem="tWc-Dq-ty5" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="10" id="xEa-c9-hM6"/>
                 <constraint firstItem="6cr-rb-RWv" firstAttribute="leading" secondItem="zHr-Bp-xNj" secondAttribute="trailing" constant="40" id="yAL-7x-wEk"/>
+                <constraint firstAttribute="bottom" secondItem="P06-3M-KZi" secondAttribute="bottom" constant="10" id="zgu-Hv-Pfu"/>
                 <constraint firstItem="Pqx-CH-3JL" firstAttribute="top" secondItem="6cr-rb-RWv" secondAttribute="bottom" constant="9" id="zrQ-iV-Y1h"/>
             </constraints>
             <point key="canvasLocation" x="141" y="398.5"/>
@@ -316,4 +320,7 @@
         </objectController>
         <userDefaultsController representsSharedInstance="YES" id="Xfj-6E-vRW"/>
     </objects>
+    <resources>
+        <image name="arrow" width="40" height="40"/>
+    </resources>
 </document>

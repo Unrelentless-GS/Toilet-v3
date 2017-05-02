@@ -573,6 +573,7 @@
 				121B63221EB8661A005CD571 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		12CE485F1EA71DD700EAF189 /* Build configuration list for PBXProject "iQ2P" */ = {
 			isa = XCConfigurationList;

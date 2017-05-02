@@ -6,7 +6,7 @@
         <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="ContentViewController" customModule="Toilet_v3" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="ContentViewController" customModule="iQ2P" customModuleProvider="target">
             <connections>
                 <outlet property="barExpandView" destination="llp-Aj-2RM" id="6ef-FG-rYL"/>
                 <outlet property="barGraph" destination="Ahk-sy-Ide" id="f24-BY-kb9"/>
@@ -78,17 +78,17 @@
                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="arrow" id="tlZ-b7-rxu"/>
                         </imageView>
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="gXW-3g-2bH">
-                            <rect key="frame" x="137" y="18" width="281" height="1"/>
+                            <rect key="frame" x="142" y="18" width="276" height="1"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="64J-Hb-Vu1"/>
                             </constraints>
                         </customView>
                         <textField horizontalHuggingPriority="1000" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1000" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fj3-yT-ubT">
-                            <rect key="frame" x="21" y="8" width="108" height="20"/>
+                            <rect key="frame" x="21" y="8" width="113" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="xLS-5W-iOU"/>
                             </constraints>
-                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="iQ2P availability" id="Q0P-Q6-t5n">
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Toilet availability" id="Q0P-Q6-t5n">
                                 <font key="font" metaFont="systemBold"/>
                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -146,13 +146,13 @@
                         <stackView distribution="fillProportionally" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iGp-lD-6ht">
                             <rect key="frame" x="0.0" y="0.0" width="380" height="200"/>
                             <subviews>
-                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="z1o-RT-bpE" customClass="PieGraph" customModule="Toilet_v3" customModuleProvider="target">
+                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="z1o-RT-bpE" customClass="PieGraph" customModule="iQ2P" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="190" height="200"/>
                                     <constraints>
                                         <constraint firstAttribute="height" priority="900" constant="200" id="ACZ-Eb-qox"/>
                                     </constraints>
                                 </customView>
-                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="zRr-ih-Pek" customClass="PieGraph" customModule="Toilet_v3" customModuleProvider="target">
+                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="zRr-ih-Pek" customClass="PieGraph" customModule="iQ2P" customModuleProvider="target">
                                     <rect key="frame" x="190" y="0.0" width="190" height="200"/>
                                 </customView>
                             </subviews>
@@ -191,7 +191,7 @@
                         <real value="3.4028234663852886e+38"/>
                     </customSpacing>
                 </stackView>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="Ahk-sy-Ide" customClass="BarGraph" customModule="Toilet_v3" customModuleProvider="target">
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="Ahk-sy-Ide" customClass="BarGraph" customModule="iQ2P" customModuleProvider="target">
                     <rect key="frame" x="40" y="80" width="380" height="200"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="200" id="JBk-8Q-402"/>
@@ -249,7 +249,7 @@
                                     <constraints>
                                         <constraint firstAttribute="height" constant="24" id="MLq-S5-kMh"/>
                                     </constraints>
-                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="iQ2P 1" id="WaO-fl-tvZ">
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Toilet 1" id="WaO-fl-tvZ">
                                         <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -302,7 +302,7 @@
                                     <constraints>
                                         <constraint firstAttribute="height" constant="24" id="vnS-yh-Xiq"/>
                                     </constraints>
-                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="iQ2P 2" id="aNh-c8-jAM">
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Toilet 2" id="aNh-c8-jAM">
                                         <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>

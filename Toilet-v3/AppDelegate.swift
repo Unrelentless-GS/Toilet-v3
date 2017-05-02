@@ -179,6 +179,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let model = BarGraphModel(toilets: [toilet1, toilet2])
 
         viewController.barData = model
+
+        if let identifier = Bundle.main.infoDictionary?["TeamIdentifierPrefix"] as? String {
+            let defaults = UserDefaults(suiteName: identifier)
+            defaults?.set("\(statusString!)", forKey: "Toilet\(toilet.number)")
+            defaults?.synchronize()
+        }
     }
 
     private func updateImage(isFree: Bool) {

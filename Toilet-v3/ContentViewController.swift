@@ -29,9 +29,6 @@ internal class ContentViewController: NSViewController {
 
     @IBOutlet weak var pieExpandView: NSView!
     @IBOutlet weak var barExpandView: NSView!
-    @IBOutlet weak var legend1Colour: NSTextField!
-    @IBOutlet weak var legend2Colour: NSTextField!
-    @IBOutlet weak var legend3Colour: NSTextField!
 
     @IBOutlet weak var spacerView: NSView!
     @IBOutlet weak var spacerView2: NSView!
@@ -98,21 +95,6 @@ internal class ContentViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        //        legend1Colour.drawsBackground = true
-        //        legend1Colour.wantsLayer = true
-        //        legend1Colour.backgroundColor = vacantColour
-        //        legend1Colour.layer?.cornerRadius = 2
-        //
-        //        legend2Colour.drawsBackground = true
-        //        legend2Colour.wantsLayer = true
-        //        legend2Colour.backgroundColor = occupiedColour
-        //        legend2Colour.layer?.cornerRadius = 2
-        //
-        //        legend3Colour.drawsBackground = true
-        //        legend3Colour.wantsLayer = true
-        //        legend3Colour.backgroundColor = offlineColour
-        //        legend3Colour.layer?.cornerRadius = 2
 
         motionCallback = { [unowned self] percentage in
             guard let percent = percentage?.roundTo(places: 1) else {

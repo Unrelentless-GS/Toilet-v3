@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>$(TeamIdentifierPrefix)</string>
+		<string>au.com.gridstone.q2p</string>
 	</array>
 </dict>
 </plist>

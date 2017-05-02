@@ -180,11 +180,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         viewController.barData = model
 
-        if let identifier = Bundle.main.infoDictionary?["TeamIdentifierPrefix"] as? String {
-            let defaults = UserDefaults(suiteName: identifier)
-            defaults?.set("\(statusString!)", forKey: "Toilet\(toilet.number)")
-            defaults?.synchronize()
-        }
+        let defaults = UserDefaults(suiteName: "au.com.gridstone.q2p")
+        defaults?.set("\(statusString!)", forKey: "Toilet\(toilet.number)")
+        defaults?.synchronize()
     }
 
     private func updateImage(isFree: Bool) {
@@ -251,11 +249,11 @@ public class EventMonitor {
     deinit {
         stop()
     }
-
+    
     public func start() {
         monitor = NSEvent.addGlobalMonitorForEvents(matching: mask, handler: handler) as AnyObject
     }
-
+    
     public func stop() {
         if monitor != nil {
             NSEvent.removeMonitor(monitor!)
@@ -263,4 +261,4 @@ public class EventMonitor {
         }
     }
 }
- 
+

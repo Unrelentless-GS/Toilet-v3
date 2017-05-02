@@ -64,21 +64,19 @@ class TodayViewController: NSViewController, NCWidgetProviding {
         // Update your data and prepare for a snapshot. Call completion handler when you are done
         // with NoData if nothing has changed or NewData if there is new data since the last
         // time we called you
-        if let identifier = Bundle.main.infoDictionary?["TeamIdentifierPrefix"] as? String {
-            let defaults = UserDefaults(suiteName: identifier)
 
-            // Check for null value before setting
-            if let toilet1Value = defaults!.string(forKey: "Toilet1") {
-                toiletStatusLabel.backgroundColor = colour(forState: toilet1Value)
-            }
+        let defaults = UserDefaults(suiteName: "au.com.gridstone.q2p")
+
+        // Check for null value before setting
+        if let toilet1Value = defaults!.string(forKey: "Toilet1") {
+            toiletStatusLabel.backgroundColor = colour(forState: toilet1Value)
 
             if let toilet2Value = defaults!.string(forKey: "Toilet2") {
                 toiletStatusLabel.backgroundColor = colour(forState: toilet2Value)
             }
-            
             completionHandler(.newData)
-        } else {
-            completionHandler(.noData)
         }
+        
+        completionHandler(.noData)
     }
 }

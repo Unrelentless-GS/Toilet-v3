@@ -256,15 +256,15 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="751" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b0l-1j-ptf">
-                                    <rect key="frame" x="53" y="32" width="84" height="20"/>
+                                    <rect key="frame" x="55" y="32" width="80" height="20"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="20" id="CsP-XJ-eGN"/>
                                         <constraint firstAttribute="width" constant="80" id="JhX-b5-DQj"/>
                                     </constraints>
-                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Occupied" id="Gpt-3M-R9O">
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Occupied" drawsBackground="YES" id="Gpt-3M-R9O">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eC2-bJ-b0Z">
@@ -302,22 +302,22 @@
                                     <constraints>
                                         <constraint firstAttribute="height" constant="24" id="vnS-yh-Xiq"/>
                                     </constraints>
-                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Toilet 1" id="aNh-c8-jAM">
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Toilet 2" id="aNh-c8-jAM">
                                         <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="751" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m57-nk-aH5">
-                                    <rect key="frame" x="53" y="32" width="84" height="20"/>
+                                    <rect key="frame" x="55" y="32" width="80" height="20"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="80" id="e6B-Ay-IVy"/>
                                         <constraint firstAttribute="height" constant="20" id="nsA-wv-3ZW"/>
                                     </constraints>
-                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Occupied" id="vVj-qO-CvV">
+                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Occupied" drawsBackground="YES" id="vVj-qO-CvV">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9aH-1A-i0F">

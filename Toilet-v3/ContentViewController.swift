@@ -151,15 +151,15 @@ internal class ContentViewController: NSViewController {
     }
 
     private func createBG() {
-        descriptionLabel.drawsBackground = true
         descriptionLabel.wantsLayer = true
         descriptionLabel.backgroundColor = offlineColour
-        descriptionLabel.layer?.cornerRadius = 2
+        descriptionLabel.layer?.cornerRadius = 3
+        descriptionLabel.textColor = .black
 
-        descriptionLabel2.drawsBackground = true
         descriptionLabel2.wantsLayer = true
         descriptionLabel2.backgroundColor = offlineColour
-        descriptionLabel2.layer?.cornerRadius = 2
+        descriptionLabel2.layer?.cornerRadius = 3
+        descriptionLabel2.textColor = .black
     }
 
     private func gestures() {
@@ -200,8 +200,8 @@ internal class ContentViewController: NSViewController {
         timeAmount1.stringValue = desc[1]
         timeAmount2.stringValue = desc2[1]
 
-        descriptionLabel.backgroundColor = colour(forState: desc[0])
-        descriptionLabel2.backgroundColor = colour(forState: desc2[0])
+        descriptionLabel.backgroundColor = colour(forState: desc[0]).withAlphaComponent(0.8)
+        descriptionLabel2.backgroundColor = colour(forState: desc2[0]).withAlphaComponent(0.8)
     }
 
     internal func updateCharts() {

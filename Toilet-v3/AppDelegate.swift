@@ -155,19 +155,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let hour = Calendar.current.component(.hour, from: Date())
         let sinceDate = toilet.sinceDate
 
+        let value = Date().timeIntervalSince(sinceDate)
+
+        dataManager?.updateToilet(number: toilet.number, date: Date(), hour: hour, value: value, status: status)
+
         switch status {
         case .occupied: //occupied
             timeString = revealTime ? dateComponentsFormatter.string(from: sinceDate, to: Date()) : "[Classified]"
             statusString = "Occupied"
-            toilet.occupiedHours[hour] += Date().timeIntervalSince(sinceDate)
+            toilet.occupiedHours[hour] += value
         case .vacant: //vacant
             timeString = dateComponentsFormatter.string(from: sinceDate, to: Date())
             statusString = "Vacant"
-            toilet.vacantHours[hour] += Date().timeIntervalSince(sinceDate)
+            toilet.vacantHours[hour] += value
         case .offline: //offline
             timeString = dateComponentsFormatter.string(from: sinceDate, to: Date())
             statusString = "Offline"
-            toilet.offlineHours[hour] += Date().timeIntervalSince(sinceDate)
+            toilet.offlineHours[hour] += value
         }
 
         let pieModel = PieChartModel(toilet: toilet)

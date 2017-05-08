@@ -12,6 +12,12 @@ class DataManager: NSObject {
 
     var managedObjectContext: NSManagedObjectContext
 
+    lazy var dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYY-MM-dd"
+        return dateFormatter
+    }()
+
     init(completionClosure: @escaping () -> ()) {
         //This resource is the same name as your xcdatamodeld contained in your project
         guard let modelURL = Bundle.main.url(forResource: "Model", withExtension:"momd") else {
@@ -28,9 +34,9 @@ class DataManager: NSObject {
 
         let queue = DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
         queue.async {
-            guard let docURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last else {
-                fatalError("Unable to resolve document directory")
-            }
+            guard let docURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last
+                else
+            { fatalError("Unable to resolve document directory") }
 
             let urlPath = docURL.appendingPathComponent("iQ2P/")
             let storeURL = urlPath.appendingPathComponent("Model.sqlite")
@@ -39,7 +45,6 @@ class DataManager: NSObject {
 
             do {
                 try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
-                //The callback block is expected to complete the User Interface and therefore should be presented back on the main queue so that the user interface does not need to be concerned with which queue this call is coming from.
                 DispatchQueue.main.sync(execute: completionClosure)
             } catch {
                 fatalError("Error migrating store: \(error)")
@@ -48,31 +53,95 @@ class DataManager: NSObject {
     }
 
     func initToilets() {
-        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "ToiletObj")
-        let fetchedToilets = try? managedObjectContext.fetch(fetch) as! [ToiletObj]
+        let fetch = NSFetchRequest<ToiletObj>(entityName: "ToiletObj")
+        let fetchedToilets = try? managedObjectContext.fetch(fetch)
 
         guard (fetchedToilets?.count)! < 2 else { return }
 
-        createToilet(with: 1)
-        createToilet(with: 2)
+        let _ = createToilet(with: 1)
+        let _ = createToilet(with: 2)
     }
 
-    func initHour() {
-        
-    }
+    func updateToilet(number: Int, date: Date, hour: Int, value: Double, status: ToiletStatus) {
+        let toilet = fetchToilet(number: number)
+        let date = fetchDate(date: date, toilet: toilet)
+        let hour = fetchHour(hour: hour, date: date, toilet: toilet)
 
-    func createToilet(with id: Int) {
-        let toilet = NSEntityDescription.insertNewObject(forEntityName: "ToiletObj", into: managedObjectContext) as! ToiletObj
-        toilet.number = String(id)
+        switch status {
+        case .occupied:
+            hour.occupied += value
+        case .vacant:
+            hour.vacant += value
+        case .offline:
+            hour.offline += value
+        }
         save()
     }
 
-    func createDate(with date: Date) {
+    func createToilet(with id: Int) -> ToiletObj {
+        let toilet = NSEntityDescription.insertNewObject(forEntityName: "ToiletObj", into: managedObjectContext) as! ToiletObj
+        toilet.number = String(id)
 
+        save()
+        return toilet
+    }
+
+    func createDate(date: Date, toilet: ToiletObj) -> DateObj {
+        let dateString = dateFormatter.string(from: Date())
+        let date = NSEntityDescription.insertNewObject(forEntityName: "DateObj", into: managedObjectContext) as! DateObj
+        date.date = dateString
+
+        toilet.addToDates(date)
+
+        save()
+        return date
+    }
+
+    func createHour(hour: Int, date: DateObj) -> HourObj {
+        let hourObj = NSEntityDescription.insertNewObject(forEntityName: "HourObj", into: managedObjectContext) as! HourObj
+        hourObj.hour = "\(hour)"
+        date.addToHours(hourObj)
+
+        save()
+        return hourObj
+    }
+
+    func fetchToilet(number: Int) -> ToiletObj  {
+        let toiletFetch = NSFetchRequest<ToiletObj>(entityName: "ToiletObj")
+        toiletFetch.predicate = NSPredicate(format: "number == %@", String(number))
+        let fetchedToilet = try! managedObjectContext.fetch(toiletFetch).first
+
+        return fetchedToilet!
+    }
+
+    func fetchDate(date: Date, toilet: ToiletObj) -> DateObj {
+        let dateString = dateFormatter.string(from: date)
+        let predicate = NSPredicate(format: "date == %@", dateString)
+
+        let dates = toilet.dates?.filtered(using: predicate)
+
+        if dates?.count == 0 {
+            return createDate(date: date, toilet: toilet)
+        } else {
+            return dates?.firstObject as! DateObj
+        }
+    }
+
+    func fetchHour(hour: Int, date: DateObj, toilet: ToiletObj) -> HourObj {
+        let hourPredicate = NSPredicate(format: "hour == %@", "\(hour)")
+        let hours = date.hours?.filtered(using: hourPredicate)
+
+        if hours?.count == 0 {
+            return createHour(hour: hour, date: date)
+        } else {
+            return hours?.firstObject as! HourObj
+        }
     }
     
     func save() {
-        try? managedObjectContext.save()
+        do { try managedObjectContext.save() } catch {
+            fatalError("Failed to save: \(error)")
+        }
     }
     
 }

@@ -19,7 +19,6 @@ class DataManager: NSObject {
     }()
 
     init(completionClosure: @escaping () -> ()) {
-        //This resource is the same name as your xcdatamodeld contained in your project
         guard let modelURL = Bundle.main.url(forResource: "Model", withExtension:"momd") else {
             fatalError("Error loading model from bundle")
         }
@@ -34,9 +33,9 @@ class DataManager: NSObject {
 
         let queue = DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
         queue.async {
-            guard let docURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last
-                else
-            { fatalError("Unable to resolve document directory") }
+            guard let docURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last else {
+                    fatalError("Unable to resolve document directory")
+            }
 
             let urlPath = docURL.appendingPathComponent("iQ2P/")
             let storeURL = urlPath.appendingPathComponent("yourPoopData.sqlite")

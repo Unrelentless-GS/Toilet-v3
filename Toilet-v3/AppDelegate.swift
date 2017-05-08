@@ -18,6 +18,11 @@ enum ToiletStatus: Int {
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    private var dataManager: DataManager?
+    private var context: NSManagedObjectContext {
+        return dataManager!.managedObjectContext
+    }
+
     private var poopCode = ""
     private var revealTime = false
 
@@ -51,35 +56,40 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var deviceIDs = [String]()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        NSApp.setActivationPolicy(.accessory)
-        statusItem.button?.action = #selector(togglePopover)
-        popover.contentViewController = ContentViewController(nibName: String(describing: ContentViewController.self), bundle: nil)
-        let _ = viewController.view
 
-        updateImage(isFree: true)
-        doWebSocketStuff()
+        dataManager = DataManager { [unowned self] in
+            self.dataManager?.initToilets()
 
-        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(refreshBothStats), userInfo: nil, repeats: true)
+            NSApp.setActivationPolicy(.accessory)
+            self.statusItem.button?.action = #selector(self.togglePopover)
+            self.popover.contentViewController = ContentViewController(nibName: String(describing: ContentViewController.self), bundle: nil)
+            let _ = self.viewController.view
 
-        eventMonitor = EventMonitor(mask: [.leftMouseDown, .rightMouseDown]) { [unowned self] event in
-            if self.popover.isShown {
-                self.closePopover(sender: event)
+            self.updateImage(isFree: true)
+            self.doWebSocketStuff()
+
+            self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.refreshBothStats), userInfo: nil, repeats: true)
+
+            self.eventMonitor = EventMonitor(mask: [.leftMouseDown, .rightMouseDown]) { [unowned self] event in
+                if self.popover.isShown {
+                    self.closePopover(sender: event)
+                }
             }
-        }
-        eventMonitor?.start()
+            self.eventMonitor?.start()
 
-        NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
-            self.keyDown(with: $0)
-            return $0
-        }
+            NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
+                self.keyDown(with: $0)
+                return $0
+            }
 
-        viewController.notifyCallback = { [unowned self] in
-            let state = self.toilet1.status == .occupied ? self.toilet2.status == .occupied ? "1" : "2" : "1"
-            let notification = NSUserNotification()
-            notification.title = "Toilet Available"
-            notification.subtitle = "Toilet number \(state) is now available"
-            notification.soundName = NSUserNotificationDefaultSoundName
-            NSUserNotificationCenter.default.deliver(notification)
+            self.viewController.notifyCallback = { [unowned self] in
+                let state = self.toilet1.status == .occupied ? self.toilet2.status == .occupied ? "1" : "2" : "1"
+                let notification = NSUserNotification()
+                notification.title = "Toilet Available"
+                notification.subtitle = "Toilet number \(state) is now available"
+                notification.soundName = NSUserNotificationDefaultSoundName
+                NSUserNotificationCenter.default.deliver(notification)
+            }
         }
     }
 

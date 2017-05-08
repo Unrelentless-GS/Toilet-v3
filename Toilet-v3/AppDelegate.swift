@@ -19,9 +19,6 @@ enum ToiletStatus: Int {
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     private var dataManager: DataManager?
-    private var context: NSManagedObjectContext {
-        return dataManager!.managedObjectContext
-    }
 
     private var poopCode = ""
     private var revealTime = false
@@ -46,7 +43,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private lazy var dateComponentsFormatter: DateComponentsFormatter = {
         let dateComponentsFormatter = DateComponentsFormatter()
         dateComponentsFormatter.allowedUnits = [.day, .hour, .minute, .second]
-        dateComponentsFormatter.maximumUnitCount = 2
+        dateComponentsFormatter.maximumUnitCount = 4
         dateComponentsFormatter.unitsStyle = .abbreviated
 
         return dateComponentsFormatter

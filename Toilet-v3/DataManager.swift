@@ -39,7 +39,7 @@ class DataManager: NSObject {
             { fatalError("Unable to resolve document directory") }
 
             let urlPath = docURL.appendingPathComponent("iQ2P/")
-            let storeURL = urlPath.appendingPathComponent("Model.sqlite")
+            let storeURL = urlPath.appendingPathComponent("yourPoopData.sqlite")
 
             try? FileManager.default.createDirectory(at: urlPath, withIntermediateDirectories: true, attributes: nil)
 
@@ -78,7 +78,7 @@ class DataManager: NSObject {
         save()
     }
 
-    func createToilet(with id: Int) -> ToiletObj {
+    private func createToilet(with id: Int) -> ToiletObj {
         let toilet = NSEntityDescription.insertNewObject(forEntityName: "ToiletObj", into: managedObjectContext) as! ToiletObj
         toilet.number = String(id)
 
@@ -86,8 +86,8 @@ class DataManager: NSObject {
         return toilet
     }
 
-    func createDate(date: Date, toilet: ToiletObj) -> DateObj {
-        let dateString = dateFormatter.string(from: Date())
+    private func createDate(date: Date, toilet: ToiletObj) -> DateObj {
+        let dateString = dateFormatter.string(from: date)
         let date = NSEntityDescription.insertNewObject(forEntityName: "DateObj", into: managedObjectContext) as! DateObj
         date.date = dateString
 
@@ -97,7 +97,7 @@ class DataManager: NSObject {
         return date
     }
 
-    func createHour(hour: Int, date: DateObj) -> HourObj {
+    private func createHour(hour: Int, date: DateObj) -> HourObj {
         let hourObj = NSEntityDescription.insertNewObject(forEntityName: "HourObj", into: managedObjectContext) as! HourObj
         hourObj.hour = "\(hour)"
         date.addToHours(hourObj)
@@ -106,7 +106,7 @@ class DataManager: NSObject {
         return hourObj
     }
 
-    func fetchToilet(number: Int) -> ToiletObj  {
+    private func fetchToilet(number: Int) -> ToiletObj  {
         let toiletFetch = NSFetchRequest<ToiletObj>(entityName: "ToiletObj")
         toiletFetch.predicate = NSPredicate(format: "number == %@", String(number))
         let fetchedToilet = try! managedObjectContext.fetch(toiletFetch).first
@@ -114,7 +114,7 @@ class DataManager: NSObject {
         return fetchedToilet!
     }
 
-    func fetchDate(date: Date, toilet: ToiletObj) -> DateObj {
+    private func fetchDate(date: Date, toilet: ToiletObj) -> DateObj {
         let dateString = dateFormatter.string(from: date)
         let predicate = NSPredicate(format: "date == %@", dateString)
 
@@ -127,7 +127,7 @@ class DataManager: NSObject {
         }
     }
 
-    func fetchHour(hour: Int, date: DateObj, toilet: ToiletObj) -> HourObj {
+    private func fetchHour(hour: Int, date: DateObj, toilet: ToiletObj) -> HourObj {
         let hourPredicate = NSPredicate(format: "hour == %@", "\(hour)")
         let hours = date.hours?.filtered(using: hourPredicate)
 
@@ -138,7 +138,7 @@ class DataManager: NSObject {
         }
     }
     
-    func save() {
+    private func save() {
         do { try managedObjectContext.save() } catch {
             fatalError("Failed to save: \(error)")
         }

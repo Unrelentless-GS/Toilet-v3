@@ -238,12 +238,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         guard let characters = event.characters else { return }
 
         poopCode += characters
-
-        if poopCode == "qps" {
-            revealTime = true
-        } else {
-            revealTime = false
-        }
+        revealTime = poopCode == "qps"
     }
 }
 
@@ -256,10 +251,8 @@ public class EventMonitor {
         self.mask = mask
         self.handler = handler
     }
-
-    deinit {
-        stop()
-    }
+    
+    deinit { stop() }
     
     public func start() {
         monitor = NSEvent.addGlobalMonitorForEvents(matching: mask, handler: handler) as AnyObject

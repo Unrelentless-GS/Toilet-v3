@@ -77,6 +77,7 @@ internal class ContentViewController: NSViewController {
 
     internal var barData: BarGraphModel? {
         didSet {
+            guard BarSegement(rawValue: segmentedControl.selectedSegment) == .hourly else { return }
             barGraph.data = barData!
         }
     }
@@ -116,6 +117,8 @@ internal class ContentViewController: NSViewController {
         pieGraph2.number = 2
         pieGraph.motionCallback = motionCallback
         pieGraph2.motionCallback = motionCallback
+
+        barGraph.segment = .hourly
 
         notifyCheckBox.state = 0
 

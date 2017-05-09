@@ -116,7 +116,7 @@ class DataManager: NSObject {
         case .hourly:
             let populateValues: (ToiletObj, Toilet) -> () = { (toiletObj, toilet) in
                 let dates = toiletObj.dates?.array as! [DateObj]
-                let filteredDates = dates.filter{Int($0.day!)! >= 1 && Int($0.day!)! <= 6}
+                let filteredDates = dates.filter{Int($0.day!)! >= 2 && Int($0.day!)! <= 6}
 
                 let hours = filteredDates.flatMap{$0.hours?.array}.flatMap{$0} as! [HourObj]
 
@@ -132,12 +132,12 @@ class DataManager: NSObject {
             populateValues(toiletObj2, toilet2)
 
         case .monthly:
-
         let populateValues: (ToiletObj, Toilet) -> () = { (toiletObj, toilet) in
             var hours = [String: [DateObj]]()
             let dates = toiletObj.dates?.array as! [DateObj]
+            let filteredDates = dates.filter{Int($0.day!)! >= 2 && Int($0.day!)! <= 6}
 
-            for date in dates {
+            for date in filteredDates {
                 if hours[date.month!] != nil {
                     hours[date.month!]?.append(date)
                 } else {

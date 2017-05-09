@@ -188,9 +188,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         guard let string = dateComponentsFormatter.string(from: timeInterval) else { return }
         viewController.totalTimeString = "Total time: \(string)"
 
-        let model = BarGraphModel(toilets: [toilet1, toilet2])
-
-//        viewController.barData = model
+        viewController.barData = dataManager?.barData(for: .hourly)
 
         let defaults = UserDefaults(suiteName: "au.com.gridstone.q2p")
         defaults?.set("\(statusString!)", forKey: "Toilet\(toilet.number)")

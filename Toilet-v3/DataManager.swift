@@ -155,8 +155,8 @@ class DataManager: NSObject {
         let dateString = dateFormatter.string(from: date)
         let date = NSEntityDescription.insertNewObject(forEntityName: "DateObj", into: managedObjectContext) as! DateObj
         date.date = dateString
-        date.day = "\(day)"
-        date.month = "\(month)"
+        date.day = "\(day-1)"
+        date.month = "\(month-1)"
 
         toilet.addToDates(date)
 

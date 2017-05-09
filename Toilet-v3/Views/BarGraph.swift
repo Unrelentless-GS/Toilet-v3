@@ -160,9 +160,9 @@ class BarGraph: NSView {
 
             guard total != 0.0 else { continue }
 
-            let space = totalSize.width / CGFloat(numbers.count - 1)
+            let space = totalSize.width / CGFloat(segment == .hourly ? numbers.count - 1 : numbers.count)
             let sizeY = totalSize.height * percentage
-            let origin = CGPoint(x: bottomLeftPoint.x + (space * CGFloat(index)) - (segment == .hourly ? 0 : space/2), y: bottomLeftPoint.y)
+            let origin = CGPoint(x: bottomLeftPoint.x + (space * CGFloat(index)), y: bottomLeftPoint.y)
             let size = CGSize(width: space, height: sizeY)
 
             let path = CGMutablePath()

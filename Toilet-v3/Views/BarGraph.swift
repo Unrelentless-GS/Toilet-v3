@@ -113,8 +113,8 @@ class BarGraph: NSView {
 
         numbers.enumerated().forEach { (index, number) in
             let stringSize = number.size(withAttributes: attrs)
-            let space = totalSize.width / CGFloat(numbers.count - 1)
-            let bottomX = (bottomLeftPoint.x + (CGFloat(index) * space)) - (stringSize.width / 2)
+            let space = totalSize.width / CGFloat(segment == .hourly ? numbers.count - 1 : numbers.count)
+            let bottomX = (segment == .hourly ? 0 : space/2) + (bottomLeftPoint.x + (CGFloat(index) * space)) - (stringSize.width / 2)
             let bottomY = bottomLeftPoint.y
 
             let rect = CGRect(x: bottomX,
@@ -162,7 +162,7 @@ class BarGraph: NSView {
 
             let space = totalSize.width / CGFloat(numbers.count - 1)
             let sizeY = totalSize.height * percentage
-            let origin = CGPoint(x: bottomLeftPoint.x + (space * CGFloat(index)), y: bottomLeftPoint.y)
+            let origin = CGPoint(x: bottomLeftPoint.x + (space * CGFloat(index)) - (segment == .hourly ? 0 : space/2), y: bottomLeftPoint.y)
             let size = CGSize(width: space, height: sizeY)
 
             let path = CGMutablePath()

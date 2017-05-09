@@ -10,7 +10,11 @@ import Cocoa
 
 class BarGraph: NSView {
 
-    private let numbers: [NSString] = ["7am", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm"]
+    private let hours: [NSString] = ["7am", "8am", "9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm"]
+    private let days: [NSString] = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"]
+    private let months: [NSString] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+    private var numbers = [NSString]()
 
     private var bottomLeftPoint: CGPoint {
         return CGPoint(x: self.bounds.origin.x + 20.0, y: 20)
@@ -41,8 +45,17 @@ class BarGraph: NSView {
         }
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    internal var segment: BarSegement = .hourly {
+        didSet {
+            switch segment {
+            case .daily:
+                numbers = days
+            case .hourly:
+                numbers = hours
+            case .monthly:
+                numbers = months
+            }
+        }
     }
 
     override func draw(_ dirtyRect: NSRect) {

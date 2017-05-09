@@ -2,6 +2,8 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16E195" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="DateObj" representedClassName="DateObj" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="day" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="month" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="hours" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="HourObj" inverseName="date" inverseEntity="HourObj" syncable="YES"/>
         <relationship name="toilet" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ToiletObj" inverseName="dates" inverseEntity="ToiletObj" syncable="YES"/>
     </entity>
@@ -17,7 +19,7 @@
         <relationship name="dates" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DateObj" inverseName="toilet" inverseEntity="DateObj" syncable="YES"/>
     </entity>
     <elements>
-        <element name="DateObj" positionX="18" positionY="63" width="128" height="88"/>
+        <element name="DateObj" positionX="18" positionY="63" width="128" height="118"/>
         <element name="HourObj" positionX="223" positionY="72" width="128" height="118"/>
         <element name="ToiletObj" positionX="-218" positionY="69" width="128" height="73"/>
     </elements>

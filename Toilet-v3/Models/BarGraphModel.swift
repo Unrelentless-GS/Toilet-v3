@@ -11,6 +11,7 @@ import Cocoa
 struct BarGraphModel {
 
     var toilets: [Toilet]
+    var segment: BarSegement = .daily
 
     var totalTimes: [TimeInterval] {
         let occupied = totalOccupiedTimes
@@ -41,11 +42,11 @@ struct BarGraphModel {
     }
 
     func occupiedTime(forIndex index: Int) -> TimeInterval {
-        return totalOccupiedTimes[index + 7]
+        return totalOccupiedTimes[segment == .hourly ? index + 7 : index]
     }
 
     func totalTime(forIndex index: Int) -> TimeInterval {
-        return totalTimes[index + 7]
+        return totalTimes[segment == .hourly ? index + 7 : index]
     }
 
     init(toilets: [Toilet]) {

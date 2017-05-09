@@ -34,7 +34,7 @@ class DataManager: NSObject {
         let queue = DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
         queue.async {
             guard let docURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last else {
-                    fatalError("Unable to resolve document directory")
+                fatalError("Unable to resolve document directory")
             }
 
             let urlPath = docURL.appendingPathComponent("iQ2P/")
@@ -81,29 +81,63 @@ class DataManager: NSObject {
         let toilet1 = Toilet(number: 1)
         let toilet2 = Toilet(number: 2)
 
-        var toiletObj = fetchToilet(number: 1)
-        var dates = toiletObj.dates?.array as! [DateObj]
-        var hours = dates.flatMap{$0.hours?.array}.flatMap{$0} as! [HourObj]
+        let toiletObj1 = fetchToilet(number: 1)
+        let toiletObj2 = fetchToilet(number: 2)
 
-        for hour in hours {
-            let hourIndex = Int(hour.hour!)!
-            toilet1.occupiedHours[hourIndex] += hour.occupied
-            toilet1.vacantHours[hourIndex] += hour.vacant
-            toilet1.offlineHours[hourIndex] += hour.offline
+        switch segment {
+        case .daily:
+            let populateValues: (ToiletObj, Toilet) -> () = { (toiletObj, toilet) in
+                var hours = [String: [DateObj]]()
+                let dates = toiletObj.dates?.array as! [DateObj]
+
+                for date in dates {
+                    if hours[date.day!] != nil {
+                        hours[date.day!]?.append(date)
+                    } else {
+                        hours[date.day!] = [date]
+                    }
+                }
+
+                for date in Array(hours.keys) {
+                    let something = hours[date]!.flatMap{$0.hours?.array}.flatMap{$0} as! [HourObj]
+                    for hour in something {
+                        let dayIndex = Int(date)!
+                        toilet.occupiedHours[dayIndex] += hour.occupied
+                        toilet.vacantHours[dayIndex] += hour.vacant
+                        toilet.offlineHours[dayIndex] += hour.offline
+                    }
+                }
+            }
+
+            populateValues(toiletObj1, toilet1)
+            populateValues(toiletObj2, toilet2)
+
+            print("")
+
+        case .hourly:
+            let populateValues: (ToiletObj, Toilet) -> () = { (toiletObj, toilet) in
+                let dates = toiletObj.dates?.array as! [DateObj]
+                let hours = dates.flatMap{$0.hours?.array}.flatMap{$0} as! [HourObj]
+
+                for hour in hours {
+                    let hourIndex = Int(hour.hour!)!
+                    toilet.occupiedHours[hourIndex] += hour.occupied
+                    toilet.vacantHours[hourIndex] += hour.vacant
+                    toilet.offlineHours[hourIndex] += hour.offline
+                }
+            }
+
+            populateValues(toiletObj1, toilet1)
+            populateValues(toiletObj2, toilet2)
+
+        case .monthly: break
+
         }
 
-        toiletObj = fetchToilet(number: 2)
-        dates = toiletObj.dates?.array as! [DateObj]
-        hours = dates.flatMap{$0.hours?.array}.flatMap{$0} as! [HourObj]
+        var model = BarGraphModel(toilets: [toilet1, toilet2])
+        model.segment = segment
 
-        for hour in hours {
-            let hourIndex = Int(hour.hour!)!
-            toilet2.occupiedHours[hourIndex] += hour.occupied
-            toilet2.vacantHours[hourIndex] += hour.vacant
-            toilet2.offlineHours[hourIndex] += hour.offline
-        }
-
-        return BarGraphModel(toilets: [toilet1, toilet2])
+        return model
     }
 
     private func createToilet(with id: Int) -> ToiletObj {
@@ -115,9 +149,14 @@ class DataManager: NSObject {
     }
 
     private func createDate(date: Date, toilet: ToiletObj) -> DateObj {
+        let day = Calendar.current.component(.weekday, from: date)
+        let month = Calendar.current.component(.month, from: date)
+
         let dateString = dateFormatter.string(from: date)
         let date = NSEntityDescription.insertNewObject(forEntityName: "DateObj", into: managedObjectContext) as! DateObj
         date.date = dateString
+        date.day = "\(day)"
+        date.month = "\(month)"
 
         toilet.addToDates(date)
 

@@ -219,6 +219,7 @@ internal class ContentViewController: NSViewController {
     }
     @IBAction func didChange(_ sender: NSSegmentedControl) {
         let segment = BarSegement(rawValue: sender.selectedSegment)
+        barGraph.segment = segment!
         barGraph.data = dataManager?.barData(for: segment!)
     }
 }

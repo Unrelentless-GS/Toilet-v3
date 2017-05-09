@@ -117,18 +117,13 @@ internal class ContentViewController: NSViewController {
         pieGraph.motionCallback = motionCallback
         pieGraph2.motionCallback = motionCallback
 
-        spacerView.wantsLayer = true
-        spacerView2.wantsLayer = true
-        spacerView.layer?.backgroundColor = spacerColour.cgColor
-        spacerView2.layer?.backgroundColor = spacerColour.cgColor
-
         notifyCheckBox.state = 0
 
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
             self.versionLabel.stringValue = "v\(version)"
         }
 
-        createBG()
+        prettify()
         gestures()
     }
 
@@ -140,7 +135,12 @@ internal class ContentViewController: NSViewController {
         totalTime.stringValue = totalTimeString
     }
 
-    private func createBG() {
+    private func prettify() {
+        spacerView.wantsLayer = true
+        spacerView2.wantsLayer = true
+        spacerView.layer?.backgroundColor = spacerColour.cgColor
+        spacerView2.layer?.backgroundColor = spacerColour.cgColor
+
         descriptionLabel.wantsLayer = true
         descriptionLabel.backgroundColor = offlineColour
         descriptionLabel.layer?.cornerRadius = 3

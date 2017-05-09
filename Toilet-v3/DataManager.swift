@@ -99,8 +99,9 @@ class DataManager: NSObject {
                 }
 
                 for date in Array(hours.keys) {
-                    let something = hours[date]!.flatMap{$0.hours?.array}.flatMap{$0} as! [HourObj]
-                    for hour in something {
+                    let hourObjs = hours[date]!.flatMap{$0.hours?.array}.flatMap{$0} as! [HourObj]
+                    let filteredHours = hourObjs.filter{Int($0.hour!)! >= 7 && Int($0.hour!)! <= 19}
+                    for hour in filteredHours {
                         let dayIndex = Int(date)!
                         toilet.occupiedHours[dayIndex] += hour.occupied
                         toilet.vacantHours[dayIndex] += hour.vacant
@@ -112,12 +113,12 @@ class DataManager: NSObject {
             populateValues(toiletObj1, toilet1)
             populateValues(toiletObj2, toilet2)
 
-            print("")
-
         case .hourly:
             let populateValues: (ToiletObj, Toilet) -> () = { (toiletObj, toilet) in
                 let dates = toiletObj.dates?.array as! [DateObj]
-                let hours = dates.flatMap{$0.hours?.array}.flatMap{$0} as! [HourObj]
+                let filteredDates = dates.filter{Int($0.day!)! >= 1 && Int($0.day!)! <= 6}
+
+                let hours = filteredDates.flatMap{$0.hours?.array}.flatMap{$0} as! [HourObj]
 
                 for hour in hours {
                     let hourIndex = Int(hour.hour!)!
@@ -130,7 +131,34 @@ class DataManager: NSObject {
             populateValues(toiletObj1, toilet1)
             populateValues(toiletObj2, toilet2)
 
-        case .monthly: break
+        case .monthly:
+
+        let populateValues: (ToiletObj, Toilet) -> () = { (toiletObj, toilet) in
+            var hours = [String: [DateObj]]()
+            let dates = toiletObj.dates?.array as! [DateObj]
+
+            for date in dates {
+                if hours[date.month!] != nil {
+                    hours[date.month!]?.append(date)
+                } else {
+                    hours[date.month!] = [date]
+                }
+            }
+
+            for date in Array(hours.keys) {
+                let hourObjs = hours[date]!.flatMap{$0.hours?.array}.flatMap{$0} as! [HourObj]
+                let filteredHours = hourObjs.filter{Int($0.hour!)! >= 7 && Int($0.hour!)! <= 19}
+                for hour in filteredHours {
+                    let dayIndex = Int(date)!
+                    toilet.occupiedHours[dayIndex] += hour.occupied
+                    toilet.vacantHours[dayIndex] += hour.vacant
+                    toilet.offlineHours[dayIndex] += hour.offline
+                }
+            }
+        }
+
+        populateValues(toiletObj1, toilet1)
+        populateValues(toiletObj2, toilet2)
 
         }
 
@@ -197,7 +225,7 @@ class DataManager: NSObject {
     private func fetchHour(hour: Int, date: DateObj, toilet: ToiletObj) -> HourObj {
         let hourPredicate = NSPredicate(format: "hour == %@", "\(hour)")
         let hours = date.hours?.filtered(using: hourPredicate)
-
+        
         if hours?.count == 0 {
             return createHour(hour: hour, date: date)
         } else {

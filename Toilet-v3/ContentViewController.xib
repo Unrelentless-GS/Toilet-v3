@@ -9,8 +9,8 @@
         <customObject id="-2" userLabel="File's Owner" customClass="ContentViewController" customModule="iQ2P" customModuleProvider="target">
             <connections>
                 <outlet property="barExpandView" destination="llp-Aj-2RM" id="6ef-FG-rYL"/>
-                <outlet property="barGraph" destination="Ahk-sy-Ide" id="f24-BY-kb9"/>
-                <outlet property="barHeightConstraint" destination="JBk-8Q-402" id="dFD-bN-fdi"/>
+                <outlet property="barGraph" destination="fMv-u4-gjk" id="tHw-dM-Lu8"/>
+                <outlet property="barHeightConstraint" destination="ORh-5s-cPr" id="Iqh-Bx-zM4"/>
                 <outlet property="barImageView" destination="J5x-qZ-I18" id="HQC-9J-pIq"/>
                 <outlet property="descriptionLabel" destination="b0l-1j-ptf" id="oMh-sk-dMy"/>
                 <outlet property="descriptionLabel2" destination="m57-nk-aH5" id="qyc-BP-6y5"/>
@@ -21,6 +21,7 @@
                 <outlet property="pieGraph2" destination="zRr-ih-Pek" id="ihM-Iw-TRz"/>
                 <outlet property="pieHeightConstraint" destination="FSx-D2-n5V" id="i6b-Na-QcQ"/>
                 <outlet property="pieImageView" destination="8t0-Xu-kRr" id="ScY-6V-Yud"/>
+                <outlet property="segmentedControl" destination="MnA-Bh-ILm" id="cNx-4C-1TF"/>
                 <outlet property="spacerView" destination="gXW-3g-2bH" id="n9g-uU-CRt"/>
                 <outlet property="spacerView2" destination="eZI-3t-Qn0" id="RX4-3z-39Z"/>
                 <outlet property="terminateButton" destination="zHv-7i-t1C" id="92O-oR-c8D"/>
@@ -34,7 +35,7 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="Hz6-mo-xeY">
-            <rect key="frame" x="0.0" y="0.0" width="460" height="734"/>
+            <rect key="frame" x="0.0" y="0.0" width="460" height="764"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zHv-7i-t1C">
@@ -67,7 +68,7 @@
                     </textFieldCell>
                 </textField>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="XSa-Ol-TVO">
-                    <rect key="frame" x="20" y="582" width="420" height="36"/>
+                    <rect key="frame" x="20" y="612" width="420" height="36"/>
                     <subviews>
                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8t0-Xu-kRr">
                             <rect key="frame" x="2" y="10" width="16" height="16"/>
@@ -107,7 +108,7 @@
                     </constraints>
                 </customView>
                 <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fHo-mS-6zd">
-                    <rect key="frame" x="40" y="332" width="380" height="250"/>
+                    <rect key="frame" x="40" y="362" width="380" height="250"/>
                     <subviews>
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="RTA-5Q-DOa">
                             <rect key="frame" x="0.0" y="200" width="380" height="50"/>
@@ -191,14 +192,8 @@
                         <real value="3.4028234663852886e+38"/>
                     </customSpacing>
                 </stackView>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="Ahk-sy-Ide" customClass="BarGraph" customModule="iQ2P" customModuleProvider="target">
-                    <rect key="frame" x="40" y="80" width="380" height="200"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="200" id="JBk-8Q-402"/>
-                    </constraints>
-                </customView>
                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="llp-Aj-2RM">
-                    <rect key="frame" x="20" y="288" width="420" height="36"/>
+                    <rect key="frame" x="20" y="318" width="420" height="36"/>
                     <subviews>
                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="J5x-qZ-I18">
                             <rect key="frame" x="2" y="10" width="16" height="16"/>
@@ -239,7 +234,7 @@
                     </constraints>
                 </customView>
                 <stackView distribution="fillEqually" orientation="horizontal" alignment="top" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o1x-Ck-x4s">
-                    <rect key="frame" x="40" y="628" width="380" height="86"/>
+                    <rect key="frame" x="40" y="658" width="380" height="86"/>
                     <subviews>
                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="UE1-Q1-uFN">
                             <rect key="frame" x="0.0" y="0.0" width="190" height="86"/>
@@ -362,22 +357,62 @@
                         <real value="3.4028234663852886e+38"/>
                     </customSpacing>
                 </stackView>
+                <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8wo-ty-K0b">
+                    <rect key="frame" x="40" y="80" width="380" height="230"/>
+                    <subviews>
+                        <segmentedControl horizontalHuggingPriority="1000" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MnA-Bh-ILm">
+                            <rect key="frame" x="97" y="202" width="187" height="24"/>
+                            <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="qg0-Oe-HM7">
+                                <font key="font" metaFont="system"/>
+                                <segments>
+                                    <segment label="Hourly" selected="YES"/>
+                                    <segment label="Daily" tag="1"/>
+                                    <segment label="Monthly"/>
+                                </segments>
+                            </segmentedCell>
+                            <connections>
+                                <action selector="didChange:" target="-2" id="G55-Ih-2ll"/>
+                            </connections>
+                        </segmentedControl>
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="fMv-u4-gjk" customClass="BarGraph" customModule="iQ2P" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="380" height="200"/>
+                            <constraints>
+                                <constraint firstAttribute="height" priority="500" constant="200" id="pgG-Eg-yUt"/>
+                            </constraints>
+                        </customView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="MnA-Bh-ILm" firstAttribute="centerX" secondItem="8wo-ty-K0b" secondAttribute="centerX" id="JJW-sB-yhd"/>
+                        <constraint firstAttribute="height" priority="900" constant="230" id="ORh-5s-cPr"/>
+                        <constraint firstItem="MnA-Bh-ILm" firstAttribute="top" secondItem="8wo-ty-K0b" secondAttribute="top" priority="900" constant="5" id="f3z-ii-m27"/>
+                        <constraint firstItem="fMv-u4-gjk" firstAttribute="leading" secondItem="8wo-ty-K0b" secondAttribute="leading" id="j9C-ks-tR2"/>
+                        <constraint firstAttribute="trailing" secondItem="fMv-u4-gjk" secondAttribute="trailing" id="nAs-dz-9VI"/>
+                    </constraints>
+                    <visibilityPriorities>
+                        <integer value="1000"/>
+                        <integer value="1000"/>
+                    </visibilityPriorities>
+                    <customSpacing>
+                        <real value="3.4028234663852886e+38"/>
+                        <real value="3.4028234663852886e+38"/>
+                    </customSpacing>
+                </stackView>
             </subviews>
             <constraints>
                 <constraint firstItem="XSa-Ol-TVO" firstAttribute="top" secondItem="o1x-Ck-x4s" secondAttribute="bottom" constant="10" id="7tw-4j-1nE"/>
                 <constraint firstItem="fHo-mS-6zd" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="40" id="8mH-qs-wQ5"/>
-                <constraint firstAttribute="trailing" secondItem="Ahk-sy-Ide" secondAttribute="trailing" constant="40" id="Cr4-ng-M3K"/>
                 <constraint firstItem="fHo-mS-6zd" firstAttribute="top" secondItem="XSa-Ol-TVO" secondAttribute="bottom" id="CrV-gG-Tz5"/>
+                <constraint firstItem="8wo-ty-K0b" firstAttribute="top" secondItem="llp-Aj-2RM" secondAttribute="bottom" constant="8" id="IDv-Vs-tf3"/>
+                <constraint firstAttribute="trailing" secondItem="8wo-ty-K0b" secondAttribute="trailing" constant="40" id="KU5-oW-UWN"/>
                 <constraint firstItem="P06-3M-KZi" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="zHv-7i-t1C" secondAttribute="trailing" constant="45" id="LRb-u6-E3m"/>
                 <constraint firstItem="llp-Aj-2RM" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="QLx-Tf-XBF"/>
                 <constraint firstAttribute="bottom" secondItem="zHv-7i-t1C" secondAttribute="bottom" constant="30" id="Rx0-An-8Ui"/>
+                <constraint firstItem="8wo-ty-K0b" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="40" id="S8N-89-7Yt"/>
                 <constraint firstItem="zHv-7i-t1C" firstAttribute="leading" relation="lessThanOrEqual" secondItem="tWc-Dq-ty5" secondAttribute="trailing" constant="170" id="SyJ-tV-d2J"/>
                 <constraint firstAttribute="trailing" secondItem="fHo-mS-6zd" secondAttribute="trailing" constant="40" id="TQU-Ao-PyT"/>
                 <constraint firstItem="llp-Aj-2RM" firstAttribute="top" secondItem="fHo-mS-6zd" secondAttribute="bottom" constant="8" id="WRw-cF-UrV"/>
-                <constraint firstItem="Ahk-sy-Ide" firstAttribute="top" secondItem="llp-Aj-2RM" secondAttribute="bottom" constant="8" id="ZBd-Z4-GtY"/>
                 <constraint firstAttribute="trailing" secondItem="XSa-Ol-TVO" secondAttribute="trailing" constant="20" id="Zoa-Ol-2ll"/>
                 <constraint firstAttribute="trailing" secondItem="llp-Aj-2RM" secondAttribute="trailing" constant="20" id="aHu-WA-4bX"/>
-                <constraint firstItem="Ahk-sy-Ide" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="40" id="cKf-eR-v8v"/>
                 <constraint firstItem="o1x-Ck-x4s" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="20" id="dfu-tN-M2b"/>
                 <constraint firstItem="zHv-7i-t1C" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="fcI-bh-UsO"/>
                 <constraint firstAttribute="trailing" secondItem="o1x-Ck-x4s" secondAttribute="trailing" constant="40" id="hs6-an-n10"/>
@@ -385,7 +420,7 @@
                 <constraint firstItem="P06-3M-KZi" firstAttribute="top" secondItem="zHv-7i-t1C" secondAttribute="bottom" constant="6" id="lpg-CG-LhG"/>
                 <constraint firstAttribute="trailing" secondItem="P06-3M-KZi" secondAttribute="trailing" constant="10" id="oEI-Tk-qv6"/>
                 <constraint firstItem="XSa-Ol-TVO" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="ryz-C6-iKJ"/>
-                <constraint firstItem="zHv-7i-t1C" firstAttribute="top" secondItem="Ahk-sy-Ide" secondAttribute="bottom" constant="20" id="wCO-c1-h55"/>
+                <constraint firstItem="zHv-7i-t1C" firstAttribute="top" secondItem="8wo-ty-K0b" secondAttribute="bottom" constant="20" id="vzw-J3-rYG"/>
                 <constraint firstItem="o1x-Ck-x4s" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="40" id="wZV-35-Lqj"/>
                 <constraint firstItem="tWc-Dq-ty5" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="10" id="xEa-c9-hM6"/>
                 <constraint firstAttribute="bottom" secondItem="P06-3M-KZi" secondAttribute="bottom" constant="10" id="zgu-Hv-Pfu"/>

@@ -138,6 +138,8 @@ class BarGraph: NSView {
         let colour = occupiedColour.withAlphaComponent(0.9).cgColor
         let context = NSGraphicsContext.current()?.cgContext
 
+        guard data != nil else { return }
+
         for index in 0..<numbers.count {
             let occupied = data!.occupiedTime(forIndex: index)
             let total = data!.totalTime(forIndex: index)

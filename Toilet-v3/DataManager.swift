@@ -10,7 +10,7 @@ import Cocoa
 
 class DataManager: NSObject {
 
-    var managedObjectContext: NSManagedObjectContext
+    private var managedObjectContext: NSManagedObjectContext
 
     lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
@@ -75,6 +75,35 @@ class DataManager: NSObject {
             hour.offline += value
         }
         save()
+    }
+
+    func barData(for segment: BarSegement) -> BarGraphModel {
+        let toilet1 = Toilet(number: 1)
+        let toilet2 = Toilet(number: 2)
+
+        var toiletObj = fetchToilet(number: 1)
+        var dates = toiletObj.dates?.array as! [DateObj]
+        var hours = dates.flatMap{$0.hours?.array}.flatMap{$0} as! [HourObj]
+
+        for hour in hours {
+            let hourIndex = Int(hour.hour!)!
+            toilet1.occupiedHours[hourIndex] += hour.occupied
+            toilet1.vacantHours[hourIndex] += hour.vacant
+            toilet1.offlineHours[hourIndex] += hour.offline
+        }
+
+        toiletObj = fetchToilet(number: 2)
+        dates = toiletObj.dates?.array as! [DateObj]
+        hours = dates.flatMap{$0.hours?.array}.flatMap{$0} as! [HourObj]
+
+        for hour in hours {
+            let hourIndex = Int(hour.hour!)!
+            toilet2.occupiedHours[hourIndex] += hour.occupied
+            toilet2.vacantHours[hourIndex] += hour.vacant
+            toilet2.offlineHours[hourIndex] += hour.offline
+        }
+
+        return BarGraphModel(toilets: [toilet1, toilet2])
     }
 
     private func createToilet(with id: Int) -> ToiletObj {

@@ -87,6 +87,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 notification.soundName = NSUserNotificationDefaultSoundName
                 NSUserNotificationCenter.default.deliver(notification)
             }
+            self.viewController.dataManager = self.dataManager
         }
     }
 
@@ -189,7 +190,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         let model = BarGraphModel(toilets: [toilet1, toilet2])
 
-        viewController.barData = model
+//        viewController.barData = model
 
         let defaults = UserDefaults(suiteName: "au.com.gridstone.q2p")
         defaults?.set("\(statusString!)", forKey: "Toilet\(toilet.number)")

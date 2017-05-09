@@ -8,6 +8,12 @@
 
 import Cocoa
 
+enum BarSegement: Int {
+    case hourly = 0
+    case daily = 1
+    case monthly = 2
+}
+
 internal class ContentViewController: NSViewController {
 
     @IBOutlet weak var descriptionLabel: NSTextField!
@@ -15,6 +21,7 @@ internal class ContentViewController: NSViewController {
     @IBOutlet weak var timeAmount1: NSTextField!
     @IBOutlet weak var timeAmount2: NSTextField!
 
+    @IBOutlet weak var segmentedControl: NSSegmentedControl!
     @IBOutlet weak var terminateButton: NSButton!
 
     @IBOutlet weak var pieGraph: PieGraph!
@@ -37,8 +44,6 @@ internal class ContentViewController: NSViewController {
     @IBOutlet weak var notifyCheckBox: NSButton!
 
     @IBOutlet weak var versionLabel: NSTextField!
-
-    private var state = false
 
     internal var totalTimeString: String = "" {
         didSet {
@@ -92,6 +97,9 @@ internal class ContentViewController: NSViewController {
 
     internal var motionCallback: ((Double?) -> ())?
     internal var notifyCallback: (() -> ())?
+
+    private var state = false
+    weak var dataManager: DataManager?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -170,8 +178,9 @@ internal class ContentViewController: NSViewController {
         NSAnimationContext.beginGrouping()
         NSAnimationContext.current().duration = 0.4
         NSAnimationContext.current().timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
-        barHeightConstraint.animator().constant = !state ? 0 : 200
+        barHeightConstraint.animator().constant = state ? 230 : 0
         barImageView.animator().rotate(byDegrees: state ? -90.0 : 90.0)
+        segmentedControl.animator().isHidden = !state
         NSAnimationContext.endGrouping()
     }
 
@@ -189,7 +198,7 @@ internal class ContentViewController: NSViewController {
     internal func updateCharts() {
         pieGraph.data = data
         pieGraph2.data = data2
-        barGraph.data = barData!
+        barGraph.data = barData
     }
 
     @IBAction func terminateHandler(_ sender: NSButton) {
@@ -207,6 +216,10 @@ internal class ContentViewController: NSViewController {
         default:
             return NSColor.black
         }
+    }
+    @IBAction func didChange(_ sender: NSSegmentedControl) {
+        let segment = BarSegement(rawValue: sender.selectedSegment)
+        barGraph.data = dataManager?.barData(for: segment!)
     }
 }
 

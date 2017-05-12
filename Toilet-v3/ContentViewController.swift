@@ -132,6 +132,9 @@ internal class ContentViewController: NSViewController {
 
     override func viewWillAppear() {
         super.viewWillAppear()
+
+        barData = dataManager?.barData(for: BarSegement(rawValue: segmentedControl.selectedSegment)!)
+
         updateDescription()
         updateCharts()
 

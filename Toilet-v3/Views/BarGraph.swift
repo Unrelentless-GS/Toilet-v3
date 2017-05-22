@@ -153,7 +153,9 @@ class BarGraph: NSView {
 
         guard data != nil else { return }
 
-        for index in 0..<numbers.count {
+        let count = (segment == .hourly) ? numbers.count - 1 : numbers.count
+
+        for index in 0..<count {
             let occupied = data!.occupiedTime(forIndex: index)
             let total = data!.totalTime(forIndex: index)
             let percentage = CGFloat((occupied / total))
@@ -175,6 +177,5 @@ class BarGraph: NSView {
             context?.addPath(path)
             context?.drawPath(using: .fill)
         }
-        
     }
 }

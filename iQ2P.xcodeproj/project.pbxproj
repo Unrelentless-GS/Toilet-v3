@@ -14,6 +14,9 @@
 		121B63181EB8661A005CD571 /* TodayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 121B63161EB8661A005CD571 /* TodayViewController.xib */; };
 		121B631C1EB8661A005CD571 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 121B631A1EB8661A005CD571 /* InfoPlist.strings */; };
 		121B631F1EB8661A005CD571 /* iQ2P-Today.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 121B630F1EB8661A005CD571 /* iQ2P-Today.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		121DC4F41FC3C6FE00F35F47 /* Starscream.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 121DC4F21FC3C6FE00F35F47 /* Starscream.framework.dSYM */; };
+		121DC4F51FC3C70700F35F47 /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121DC4F11FC3C6FE00F35F47 /* Starscream.framework */; };
+		121DC4F61FC3C70700F35F47 /* Starscream.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 121DC4F11FC3C6FE00F35F47 /* Starscream.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		12703FBE1EB6FE910070CBE8 /* BarGraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12703FB81EB6FE910070CBE8 /* BarGraphModel.swift */; };
 		12703FBF1EB6FE910070CBE8 /* PieChartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12703FB91EB6FE910070CBE8 /* PieChartModel.swift */; };
 		12703FC01EB6FE910070CBE8 /* Toilet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12703FBA1EB6FE910070CBE8 /* Toilet.swift */; };
@@ -58,6 +61,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				12CE487E1EA7205000EAF189 /* SocketIO.framework in Embed Frameworks */,
+				121DC4F61FC3C70700F35F47 /* Starscream.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -74,6 +78,8 @@
 		121B63191EB8661A005CD571 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		121B631B1EB8661A005CD571 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		121B63231EB86799005CD571 /* iQ2P.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iQ2P.entitlements; sourceTree = "<group>"; };
+		121DC4F11FC3C6FE00F35F47 /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Starscream.framework; sourceTree = "<group>"; };
+		121DC4F21FC3C6FE00F35F47 /* Starscream.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = Starscream.framework.dSYM; sourceTree = "<group>"; };
 		12703FB81EB6FE910070CBE8 /* BarGraphModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraphModel.swift; sourceTree = "<group>"; };
 		12703FB91EB6FE910070CBE8 /* PieChartModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartModel.swift; sourceTree = "<group>"; };
 		12703FBA1EB6FE910070CBE8 /* Toilet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toilet.swift; sourceTree = "<group>"; };
@@ -105,6 +111,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				12CE487D1EA7205000EAF189 /* SocketIO.framework in Frameworks */,
+				121DC4F51FC3C70700F35F47 /* Starscream.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,6 +222,8 @@
 		12CE48781EA7204A00EAF189 /* Mac */ = {
 			isa = PBXGroup;
 			children = (
+				121DC4F11FC3C6FE00F35F47 /* Starscream.framework */,
+				121DC4F21FC3C6FE00F35F47 /* Starscream.framework.dSYM */,
 				12CE48791EA7204A00EAF189 /* SocketIO.framework */,
 				12CE487A1EA7204A00EAF189 /* SocketIO.framework.dSYM */,
 			);
@@ -330,6 +339,7 @@
 				12CE486C1EA71DD700EAF189 /* Assets.xcassets in Resources */,
 				12CE487C1EA7204A00EAF189 /* SocketIO.framework.dSYM in Resources */,
 				12CE486F1EA71DD700EAF189 /* Main.storyboard in Resources */,
+				121DC4F41FC3C6FE00F35F47 /* Starscream.framework.dSYM in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

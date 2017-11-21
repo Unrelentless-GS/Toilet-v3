@@ -36,9 +36,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private let statusItem = NSStatusBar.system().statusItem(withLength: NSSquareStatusItemLength)
-    private let socket = SocketIOClient(
+    private let socketManager = SocketManager(
         socketURL: URL(string: "http://internals.gridstone.com.au")!,
         config: [.forceWebsockets(true)])
+
+    private lazy var socket: SocketIOClient = {
+        return self.socketManager.defaultSocket
+    }()
 
     private lazy var dateComponentsFormatter: DateComponentsFormatter = {
         let dateComponentsFormatter = DateComponentsFormatter()

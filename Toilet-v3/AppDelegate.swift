@@ -35,7 +35,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return popover.contentViewController as! ContentViewController
     }
 
-    private let statusItem = NSStatusBar.system().statusItem(withLength: NSSquareStatusItemLength)
+    private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     private let socketManager = SocketManager(
         socketURL: URL(string: "http://internals.gridstone.com.au")!,
         config: [.forceWebsockets(true)])
@@ -63,7 +63,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
             NSApp.setActivationPolicy(.accessory)
             self.statusItem.button?.action = #selector(self.togglePopover)
-            self.popover.contentViewController = ContentViewController(nibName: String(describing: ContentViewController.self), bundle: nil)
+            self.popover.contentViewController = ContentViewController(nibName: NSNib.Name(rawValue: String(describing: ContentViewController.self)), bundle: nil)
             let _ = self.viewController.view
 
             self.updateImage(isFree: true)
@@ -71,14 +71,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
             self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.refreshBothStats), userInfo: nil, repeats: true)
 
-            self.eventMonitor = EventMonitor(mask: [.leftMouseDown, .rightMouseDown]) { [unowned self] event in
+            self.eventMonitor = EventMonitor(mask: [NSEvent.EventTypeMask.leftMouseDown, NSEvent.EventTypeMask.rightMouseDown]) { [unowned self] event in
                 if self.popover.isShown {
                     self.closePopover(sender: event)
                 }
             }
             self.eventMonitor?.start()
 
-            NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
+            NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown) {
                 self.keyDown(with: $0)
                 return $0
             }
@@ -176,7 +176,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             toilet.offlineHours[hour] += value
         }
 
-        let pieModel = PieChartModel(toilet: toilet)
+//        let pieModel = PieChartModel(toilet: toilet)
 
         switch toilet.number {
         case 1:
@@ -188,8 +188,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         default: break
         }
 
-        let timeInterval = NSDate().timeIntervalSince(self.startDate)
-        guard let string = dateComponentsFormatter.string(from: timeInterval) else { return }
+//        let timeInterval = NSDate().timeIntervalSince(self.startDate)
+//        guard let string = dateComponentsFormatter.string(from: timeInterval) else { return }
 //        viewController.totalTimeString = "Total time: \(string)"
 
         viewController.barData = dataManager?.barData(for: .hourly)
@@ -203,9 +203,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         var icon: NSImage?
 
         if isFree {
-            icon = NSImage(named: "toilet-yes")
+            icon = NSImage(named: NSImage.Name(rawValue: "toilet-yes"))
         } else {
-            icon = NSImage(named: "toilet-no")
+            icon = NSImage(named: NSImage.Name(rawValue: "toilet-no"))
         }
 
         statusItem.button?.image = icon
@@ -247,10 +247,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 public class EventMonitor {
     private var monitor: AnyObject?
-    private let mask: NSEventMask
+    private let mask: NSEvent.EventTypeMask
     private let handler: (NSEvent?) -> ()
 
-    public init(mask: NSEventMask, handler: @escaping (NSEvent?) -> ()) {
+    public init(mask: NSEvent.EventTypeMask, handler: @escaping (NSEvent?) -> ()) {
         self.mask = mask
         self.handler = handler
     }

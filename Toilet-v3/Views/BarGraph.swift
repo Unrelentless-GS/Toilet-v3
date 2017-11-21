@@ -96,7 +96,7 @@ class BarGraph: NSView {
     private func drawBackground() {
         let colour = vacantColour.withAlphaComponent(0.5).cgColor
 
-        let context = NSGraphicsContext.current()?.cgContext
+        let context = NSGraphicsContext.current?.cgContext
         let path = CGMutablePath()
 
         path.move(to: bottomLeftPoint)
@@ -109,7 +109,7 @@ class BarGraph: NSView {
     }
 
     private func drawXLabels() {
-        let attrs = [NSFontAttributeName: NSFont(name: "HelveticaNeue-Thin", size: 8)!]
+        let attrs = [NSAttributedStringKey.font: NSFont(name: "HelveticaNeue-Thin", size: 8)!]
 
         numbers.enumerated().forEach { (index, number) in
             let stringSize = number.size(withAttributes: attrs)
@@ -130,7 +130,7 @@ class BarGraph: NSView {
         let top: NSString = "100%"
         let bottom: NSString = "0%"
 
-        let attrs = [NSFontAttributeName: NSFont(name: "HelveticaNeue-Thin", size: 8)!]
+        let attrs = [NSAttributedStringKey.font: NSFont(name: "HelveticaNeue-Thin", size: 8)!]
         let stringSize = top.size(withAttributes: attrs)
         let rect = CGRect(x: topLeftPoint.x - stringSize.width,
                           y:topLeftPoint.y - 10,
@@ -149,7 +149,7 @@ class BarGraph: NSView {
 
     private func drawGraph() {
         let colour = occupiedColour.withAlphaComponent(0.9).cgColor
-        let context = NSGraphicsContext.current()?.cgContext
+        let context = NSGraphicsContext.current?.cgContext
 
         guard data != nil else { return }
 

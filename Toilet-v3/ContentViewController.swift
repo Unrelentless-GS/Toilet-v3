@@ -85,9 +85,9 @@ internal class ContentViewController: NSViewController {
         didSet {
             if isFree == false { notifyCheckBox.isHidden = false }
             defer { wasFree = isFree }
-            if isFree == true, wasFree == false, notifyCheckBox.state == 1 {
+            if isFree == true, wasFree == false, notifyCheckBox.state.rawValue == 1 {
                 notifyCallback?()
-                notifyCheckBox.state = 0
+                notifyCheckBox.state = NSControl.StateValue(rawValue: 0)
                 notifyCheckBox.isHidden = true
             }
             if isFree == true { self.notifyCheckBox.isHidden = true }
@@ -118,7 +118,7 @@ internal class ContentViewController: NSViewController {
 
         barGraph.segment = .hourly
 
-        notifyCheckBox.state = 0
+        notifyCheckBox.state = NSControl.StateValue(rawValue: 0)
 
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
             self.versionLabel.stringValue = "v\(version)"

@@ -92,21 +92,21 @@ internal class PieGraph: NSView {
     private func track() {
         if let path = self.bezierPaths[0] {
             self.removeTrackingArea(tAreas[0])
-            let area = NSTrackingArea(rect: path.bounds, options: [.activeAlways, .mouseEnteredAndExited], owner: self, userInfo: ["status": ToiletStatus.vacant])
+            let area = NSTrackingArea(rect: path.bounds, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited], owner: self, userInfo: ["status": ToiletStatus.vacant])
             tAreas[0] = area
             self.addTrackingArea(area)
         }
 
         if let path = self.bezierPaths[1] {
             self.removeTrackingArea(tAreas[1])
-            let area = NSTrackingArea(rect: path.bounds, options: [.activeAlways, .mouseEnteredAndExited], owner: self, userInfo: ["status": ToiletStatus.occupied])
+            let area = NSTrackingArea(rect: path.bounds, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited], owner: self, userInfo: ["status": ToiletStatus.occupied])
             tAreas[1] = area
             self.addTrackingArea(area)
         }
 
         if let path = self.bezierPaths[2] {
             self.removeTrackingArea(tAreas[2])
-            let area = NSTrackingArea(rect: path.bounds, options: [.activeAlways, .mouseEnteredAndExited], owner: self, userInfo: ["status": ToiletStatus.offline])
+            let area = NSTrackingArea(rect: path.bounds, options: [NSTrackingArea.Options.activeAlways, NSTrackingArea.Options.mouseEnteredAndExited], owner: self, userInfo: ["status": ToiletStatus.offline])
             tAreas[2] = area
             self.addTrackingArea(area)
         }

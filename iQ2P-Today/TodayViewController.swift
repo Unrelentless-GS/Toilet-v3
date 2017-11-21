@@ -22,8 +22,8 @@ class TodayViewController: NSViewController, NCWidgetProviding {
     @IBOutlet weak var toiletStatusLabel: NSTextField!
     @IBOutlet weak var toilet2StatusLabel: NSTextField!
 
-    override var nibName: String? {
-        return "TodayViewController"
+    override var nibName: NSNib.Name? {
+        return NSNib.Name(rawValue: "TodayViewController")
     }
 
     override func viewDidLoad() {

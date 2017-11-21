@@ -181,16 +181,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         switch toilet.number {
         case 1:
             viewController.desc = ["\(statusString!)", "\(timeString!)"]
-            viewController.data = pieModel
+//            viewController.data = pieModel
         case 2:
             viewController.desc2 = ["\(statusString!)", "\(timeString!)"]
-            viewController.data2 = pieModel
+//            viewController.data2 = pieModel
         default: break
         }
 
         let timeInterval = NSDate().timeIntervalSince(self.startDate)
         guard let string = dateComponentsFormatter.string(from: timeInterval) else { return }
-        viewController.totalTimeString = "Total time: \(string)"
+//        viewController.totalTimeString = "Total time: \(string)"
 
         viewController.barData = dataManager?.barData(for: .hourly)
 

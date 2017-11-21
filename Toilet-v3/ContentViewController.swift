@@ -18,38 +18,36 @@ internal class ContentViewController: NSViewController {
 
     @IBOutlet weak var descriptionLabel: NSTextField!
     @IBOutlet weak var descriptionLabel2: NSTextField!
+    @IBOutlet weak var descriptionLabel3: NSTextField!
+    @IBOutlet weak var descriptionLabel4: NSTextField!
+
     @IBOutlet weak var timeAmount1: NSTextField!
     @IBOutlet weak var timeAmount2: NSTextField!
+    @IBOutlet weak var timeAmount3: NSTextField!
+    @IBOutlet weak var timeAmount4: NSTextField!
 
     @IBOutlet weak var segmentedControl: NSSegmentedControl!
+    @IBOutlet weak var segmentedControlToilets: NSSegmentedControl!
     @IBOutlet weak var terminateButton: NSButton!
 
-    @IBOutlet weak var pieGraph: PieGraph!
-    @IBOutlet weak var pieGraph2: PieGraph!
     @IBOutlet weak var barGraph: BarGraph!
 
-    @IBOutlet weak var pieImageView: NSImageView!
     @IBOutlet weak var barImageView: NSImageView!
 
-    @IBOutlet weak var pieHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var barHeightConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var pieExpandView: NSView!
     @IBOutlet weak var barExpandView: NSView!
 
-    @IBOutlet weak var spacerView: NSView!
     @IBOutlet weak var spacerView2: NSView!
-    @IBOutlet weak var totalTime: NSTextField!
-    @IBOutlet weak var percentLabel: NSTextField!
     @IBOutlet weak var notifyCheckBox: NSButton!
 
     @IBOutlet weak var versionLabel: NSTextField!
 
-    internal var totalTimeString: String = "" {
-        didSet {
-            totalTime.stringValue = totalTimeString
-        }
-    }
+//    internal var totalTimeString: String = "" {
+//        didSet {
+//            totalTime.stringValue = totalTimeString
+//        }
+//    }
 
     internal var desc: [String] = ["Loading...", "00"] {
         didSet {
@@ -57,11 +55,11 @@ internal class ContentViewController: NSViewController {
         }
     }
 
-    internal var data: PieChartModel? {
-        didSet {
-            pieGraph.data = data
-        }
-    }
+//    internal var data: PieChartModel? {
+//        didSet {
+//            pieGraph.data = data
+//        }
+//    }
 
     internal var desc2: [String] = ["Loading...", "00"] {
         didSet {
@@ -69,11 +67,11 @@ internal class ContentViewController: NSViewController {
         }
     }
 
-    internal var data2: PieChartModel? {
-        didSet {
-            pieGraph2.data = data2
-        }
-    }
+//    internal var data2: PieChartModel? {
+//        didSet {
+//            pieGraph2.data = data2
+//        }
+//    }
 
     internal var barData: BarGraphModel? {
         didSet {
@@ -105,18 +103,18 @@ internal class ContentViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        motionCallback = { [unowned self] percentage in
-            guard let percent = percentage?.roundTo(places: 1) else {
-                self.percentLabel.stringValue = ""
-                return
-            }
-            self.percentLabel.stringValue = "\(percent)%"
-        }
+//        motionCallback = { [unowned self] percentage in
+//            guard let percent = percentage?.roundTo(places: 1) else {
+//                self.percentLabel.stringValue = ""
+//                return
+//            }
+//            self.percentLabel.stringValue = "\(percent)%"
+//        }
 
-        pieGraph.number = 1
-        pieGraph2.number = 2
-        pieGraph.motionCallback = motionCallback
-        pieGraph2.motionCallback = motionCallback
+//        pieGraph.number = 1
+//        pieGraph2.number = 2
+//        pieGraph.motionCallback = motionCallback
+//        pieGraph2.motionCallback = motionCallback
 
         barGraph.segment = .hourly
 
@@ -127,7 +125,7 @@ internal class ContentViewController: NSViewController {
         }
 
         prettify()
-        gestures()
+//        gestures()
     }
 
     override func viewWillAppear() {
@@ -138,13 +136,13 @@ internal class ContentViewController: NSViewController {
         updateDescription()
         updateCharts()
 
-        totalTime.stringValue = totalTimeString
+//        totalTime.stringValue = totalTimeString
     }
 
     private func prettify() {
-        spacerView.wantsLayer = true
+//        spacerView.wantsLayer = true
         spacerView2.wantsLayer = true
-        spacerView.layer?.backgroundColor = spacerColour.cgColor
+//        spacerView.layer?.backgroundColor = spacerColour.cgColor
         spacerView2.layer?.backgroundColor = spacerColour.cgColor
 
         descriptionLabel.wantsLayer = true
@@ -156,39 +154,49 @@ internal class ContentViewController: NSViewController {
         descriptionLabel2.backgroundColor = offlineColour
         descriptionLabel2.layer?.cornerRadius = 3
         descriptionLabel2.textColor = .black
+
+        descriptionLabel3.wantsLayer = true
+        descriptionLabel3.backgroundColor = offlineColour
+        descriptionLabel3.layer?.cornerRadius = 3
+        descriptionLabel3.textColor = .black
+
+        descriptionLabel4.wantsLayer = true
+        descriptionLabel4.backgroundColor = offlineColour
+        descriptionLabel4.layer?.cornerRadius = 3
+        descriptionLabel4.textColor = .black
     }
 
-    private func gestures() {
-        let gesture1 = NSClickGestureRecognizer(target: self, action: #selector(expandPies))
-        let gesture2 = NSClickGestureRecognizer(target: self, action: #selector(expandBar))
-
-        gesture1.numberOfClicksRequired = 1
-        gesture2.numberOfClicksRequired = 1
-
-        pieExpandView.addGestureRecognizer(gesture1)
-        barExpandView.addGestureRecognizer(gesture2)
-    }
-
-    @objc private func expandPies() {
-        let state = pieHeightConstraint.constant == 0
-        NSAnimationContext.beginGrouping()
-        NSAnimationContext.current().duration = 0.4
-        NSAnimationContext.current().timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
-        pieHeightConstraint.animator().constant = !state ? 0 : 250
-        pieImageView.animator().rotate(byDegrees: state ? -90.0 : 90.0)
-        NSAnimationContext.endGrouping()
-    }
-
-    @objc private func expandBar() {
-        let state = barHeightConstraint.constant == 0
-        NSAnimationContext.beginGrouping()
-        NSAnimationContext.current().duration = 0.4
-        NSAnimationContext.current().timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
-        barHeightConstraint.animator().constant = state ? 230 : 0
-        barImageView.animator().rotate(byDegrees: state ? -90.0 : 90.0)
-        segmentedControl.animator().isHidden = !state
-        NSAnimationContext.endGrouping()
-    }
+//    private func gestures() {
+//        let gesture1 = NSClickGestureRecognizer(target: self, action: #selector(expandPies))
+//        let gesture2 = NSClickGestureRecognizer(target: self, action: #selector(expandBar))
+//
+//        gesture1.numberOfClicksRequired = 1
+//        gesture2.numberOfClicksRequired = 1
+//
+//        pieExpandView.addGestureRecognizer(gesture1)
+//        barExpandView.addGestureRecognizer(gesture2)
+//    }
+//
+//    @objc private func expandPies() {
+//        let state = pieHeightConstraint.constant == 0
+//        NSAnimationContext.beginGrouping()
+//        NSAnimationContext.current().duration = 0.4
+//        NSAnimationContext.current().timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
+//        pieHeightConstraint.animator().constant = !state ? 0 : 250
+//        pieImageView.animator().rotate(byDegrees: state ? -90.0 : 90.0)
+//        NSAnimationContext.endGrouping()
+//    }
+//
+//    @objc private func expandBar() {
+//        let state = barHeightConstraint.constant == 0
+//        NSAnimationContext.beginGrouping()
+//        NSAnimationContext.current().duration = 0.4
+//        NSAnimationContext.current().timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
+//        barHeightConstraint.animator().constant = state ? 260 : 0
+//        barImageView.animator().rotate(byDegrees: state ? -90.0 : 90.0)
+//        segmentedControl.animator().isHidden = !state
+//        NSAnimationContext.endGrouping()
+//    }
 
     internal func updateDescription() {
         descriptionLabel.stringValue = desc[0]
@@ -202,8 +210,8 @@ internal class ContentViewController: NSViewController {
     }
 
     internal func updateCharts() {
-        pieGraph.data = data
-        pieGraph2.data = data2
+//        pieGraph.data = data
+//        pieGraph2.data = data2
         barGraph.data = barData
     }
 
@@ -223,6 +231,11 @@ internal class ContentViewController: NSViewController {
             return NSColor.black
         }
     }
+    @IBAction func toiletDidChange(_ sender: NSSegmentedControl) {
+        print(sender.indexOfSelectedItem)
+    }
+
+
     @IBAction func didChange(_ sender: NSSegmentedControl) {
         let segment = BarSegement(rawValue: sender.selectedSegment)
         barGraph.segment = segment!

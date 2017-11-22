@@ -21,28 +21,10 @@ internal class ContentViewController: NSViewController {
     @IBOutlet weak var descriptionLabel3: NSTextField!
     @IBOutlet weak var descriptionLabel4: NSTextField!
 
-    private lazy var descs = {
-        return [
-            descriptionLabel1,
-            descriptionLabel2,
-            descriptionLabel3,
-            descriptionLabel4
-        ]
-    }()
-
     @IBOutlet weak var timeAmount1: NSTextField!
     @IBOutlet weak var timeAmount2: NSTextField!
     @IBOutlet weak var timeAmount3: NSTextField!
     @IBOutlet weak var timeAmount4: NSTextField!
-
-    private lazy var timeAmount = {
-        return [
-            timeAmount1,
-            timeAmount2,
-            timeAmount3,
-            timeAmount4
-        ]
-    }()
 
     @IBOutlet weak var segmentedControl: NSSegmentedControl!
     @IBOutlet weak var segmentedControlToilets: NSSegmentedControl!
@@ -58,6 +40,24 @@ internal class ContentViewController: NSViewController {
 
     @IBOutlet weak var versionLabel: NSTextField!
 
+    private lazy var descs = {
+        return [
+            descriptionLabel1,
+            descriptionLabel2,
+            descriptionLabel3,
+            descriptionLabel4
+        ]
+    }()
+
+    private lazy var timeAmount = {
+        return [
+            timeAmount1,
+            timeAmount2,
+            timeAmount3,
+            timeAmount4
+        ]
+    }()
+
     internal var barData: BarGraphModel? {
         didSet {
             guard BarSegement(rawValue: segmentedControl.selectedSegment) == .hourly else { return }
@@ -68,6 +68,7 @@ internal class ContentViewController: NSViewController {
     internal var wasFree: Bool = false
     internal var isFree: Bool = false {
         didSet {
+            guard notifyCheckBox != nil else { return }
             if isFree == false { notifyCheckBox.isHidden = false }
             defer { wasFree = isFree }
             if isFree == true, wasFree == false, notifyCheckBox.state.rawValue == 1 {
@@ -82,9 +83,7 @@ internal class ContentViewController: NSViewController {
     internal var motionCallback: ((Double?) -> ())?
     internal var notifyCallback: (() -> ())?
 
-    weak var dataManager: DataManager?
-
-    private var state = false
+    weak internal var dataManager: DataManager?
 
     override func viewDidLoad() {
         super.viewDidLoad()

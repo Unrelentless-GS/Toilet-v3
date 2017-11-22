@@ -51,14 +51,15 @@ class DataManager: NSObject {
         }
     }
 
-    func initToilets() {
+    func initToilets(count: Int) {
         let fetch = NSFetchRequest<ToiletObj>(entityName: "ToiletObj")
         let fetchedToilets = try? managedObjectContext.fetch(fetch)
 
-        guard (fetchedToilets?.count)! < 2 else { return }
+        guard (fetchedToilets?.count)! < 4 else { return }
 
-        let _ = createToilet(with: 1)
-        let _ = createToilet(with: 2)
+        for i in 0..<count {
+            let _ = createToilet(with: i+1)
+        }
     }
 
     func updateToilet(number: Int, date: Date, hour: Int, value: Double, status: ToiletStatus) {
@@ -80,9 +81,13 @@ class DataManager: NSObject {
     func barData(for segment: BarSegement) -> BarGraphModel {
         let toilet1 = Toilet(number: 1)
         let toilet2 = Toilet(number: 2)
+        let toilet3 = Toilet(number: 3)
+        let toilet4 = Toilet(number: 4)
 
         let toiletObj1 = fetchToilet(number: 1)
         let toiletObj2 = fetchToilet(number: 2)
+        let toiletObj3 = fetchToilet(number: 3)
+        let toiletObj4 = fetchToilet(number: 4)
 
         switch segment {
         case .daily:
@@ -112,6 +117,8 @@ class DataManager: NSObject {
 
             populateValues(toiletObj1, toilet1)
             populateValues(toiletObj2, toilet2)
+            populateValues(toiletObj3, toilet3)
+            populateValues(toiletObj4, toilet4)
 
         case .hourly:
             let populateValues: (ToiletObj, Toilet) -> () = { (toiletObj, toilet) in
@@ -130,6 +137,8 @@ class DataManager: NSObject {
 
             populateValues(toiletObj1, toilet1)
             populateValues(toiletObj2, toilet2)
+            populateValues(toiletObj3, toilet3)
+            populateValues(toiletObj4, toilet4)
 
         case .monthly:
         let populateValues: (ToiletObj, Toilet) -> () = { (toiletObj, toilet) in
@@ -159,10 +168,12 @@ class DataManager: NSObject {
 
         populateValues(toiletObj1, toilet1)
         populateValues(toiletObj2, toilet2)
+        populateValues(toiletObj3, toilet3)
+        populateValues(toiletObj4, toilet4)
 
         }
 
-        var model = BarGraphModel(toilets: [toilet1, toilet2])
+        var model = BarGraphModel(toilets: [toilet1, toilet2, toilet3, toilet4])
         model.segment = segment
 
         return model

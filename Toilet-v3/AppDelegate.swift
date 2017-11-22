@@ -23,8 +23,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var poopCode = ""
     private var revealTime = false
 
-    private var toilet1 = Toilet(number: 1)
-    private var toilet2 = Toilet(number: 2)
+    private var toilets: [Toilet] {
+        var toilets = [Toilet]()
+        deviceIDs.enumerated().forEach { count, id in
+            toilets.append(Toilet(number: count+1))
+        }
+        return toilets
+    }
 
     private var startDate = Date()
 
@@ -54,22 +59,32 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }()
 
     private var timer: Timer?
-    private var deviceIDs = [String]()
+    private var deviceIDs = [String]() {
+        didSet {
+            beginEverything()
+        }
+    }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        NSApp.setActivationPolicy(.accessory)
+        statusItem.button?.action = #selector(togglePopover)
+        popover.contentViewController = ContentViewController(nibName: NSNib.Name(rawValue: String(describing: ContentViewController.self)), bundle: nil)
+        let _ = self.viewController.view
+        getDevices()
+        updateImage()
+//        doWebSocketStuff()
+    }
+
+    private func beginEverything() {
 
         dataManager = DataManager { [unowned self] in
-            self.dataManager?.initToilets()
+            self.dataManager?.initToilets(count: self.deviceIDs.count)
 
-            NSApp.setActivationPolicy(.accessory)
-            self.statusItem.button?.action = #selector(self.togglePopover)
-            self.popover.contentViewController = ContentViewController(nibName: NSNib.Name(rawValue: String(describing: ContentViewController.self)), bundle: nil)
-            let _ = self.viewController.view
-
-            self.updateImage(isFree: true)
-            self.doWebSocketStuff()
-
-            self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.refreshBothStats), userInfo: nil, repeats: true)
+            self.timer = Timer.scheduledTimer(timeInterval: 1,
+                                              target: self,
+                                              selector: #selector(self.refreshAll),
+                                              userInfo: nil,
+                                              repeats: true)
 
             self.eventMonitor = EventMonitor(mask: [NSEvent.EventTypeMask.leftMouseDown, NSEvent.EventTypeMask.rightMouseDown]) { [unowned self] event in
                 if self.popover.isShown {
@@ -84,33 +99,36 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
 
             self.viewController.notifyCallback = { [unowned self] in
-                let state = self.toilet1.status == .occupied ? self.toilet2.status == .occupied ? "1" : "2" : "1"
-                let notification = NSUserNotification()
-                notification.title = "Toilet Available"
-                notification.subtitle = "Toilet number \(state) is now available"
-                notification.soundName = NSUserNotificationDefaultSoundName
-                NSUserNotificationCenter.default.deliver(notification)
+//                let state = self.toilet1.status == .occupied ? self.toilet2.status == .occupied ? "1" : "2" : "1"
+//                let notification = NSUserNotification()
+//                notification.title = "Toilet Available"
+//                notification.subtitle = "Toilet number \(state) is now available"
+//                notification.soundName = NSUserNotificationDefaultSoundName
+//                NSUserNotificationCenter.default.deliver(notification)
             }
             self.viewController.dataManager = self.dataManager
+            self.doWebSocketStuff()
         }
     }
 
-    private func doWebSocketStuff() {
-        socket.on("error") { data, ack in
-            self.toilet1.sinceDate = Date()
-            self.toilet2.sinceDate = Date()
-            self.statusItem.button?.appearsDisabled = true
-            self.toilet1.status = .offline
-            self.toilet2.status = .offline
-            self.refreshStats(toilet: self.toilet1)
-            self.refreshStats(toilet: self.toilet2)
-        }
-
-        socket.on("devices") { data, ack in
+    private func getDevices() {
+        socket.once("devices") { data, ack in
             self.deviceIDs = data
                 .map{$0 as! [[String: AnyObject]]}
                 .flatMap{$0}
                 .flatMap{$0["deviceId"]} as! [String]
+        }
+        socket.connect()
+    }
+
+    private func doWebSocketStuff() {
+        socket.on("error") { [unowned self] data, ack in
+            for toilet in self.toilets {
+                toilet.sinceDate = Date()
+                toilet.status = .offline
+                self.refreshStats(toilet: toilet)
+            }
+            self.statusItem.button?.appearsDisabled = true
         }
 
         socket.on("data") { data, ack in
@@ -124,29 +142,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
                 let isFree = lightState == "0"
 
-                if index == 0 {
-                    self.toilet1.sinceDate = Date()
-                    self.toilet1.status = isFree ? .vacant : .occupied
-                    self.refreshStats(toilet: self.toilet1)
-                } else {
-                    self.toilet2.sinceDate = Date()
-                    self.toilet2.status = isFree ? .vacant : .occupied
-                    self.refreshStats(toilet: self.toilet2)
-                }
+                self.toilets[index].sinceDate = Date()
+                self.toilets[index].status = isFree ? .vacant : .occupied
+                self.refreshStats(toilet: self.toilets[index])
             }
 
-            self.updateImage(isFree: (self.toilet1.status == .vacant || self.toilet2.status == .vacant) ? true : false)
-            self.viewController.isFree = (self.toilet1.status == .vacant || self.toilet2.status == .vacant) ? true : false
+            self.updateImage()
+//            self.viewController.isFree = (self.toilet1.status == .vacant || self.toilet2.status == .vacant) ? true : false
 
             ack.with("HAHA!", "THX")
         }
-
-        socket.connect()
     }
 
-    @objc private func refreshBothStats() {
-        self.refreshStats(toilet: toilet1)
-        self.refreshStats(toilet: toilet2)
+    @objc private func refreshAll() {
+        for toilet in toilets {
+            refreshStats(toilet: toilet)
+        }
     }
 
     private func refreshStats(toilet: Toilet) {
@@ -190,7 +201,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 //        let timeInterval = NSDate().timeIntervalSince(self.startDate)
 //        guard let string = dateComponentsFormatter.string(from: timeInterval) else { return }
-//        viewController.totalTimeString = "Total time: \(string)"
+//        self.viewController.totalTimeString = "Total time: \(string)"
 
         viewController.barData = dataManager?.barData(for: .hourly)
 
@@ -199,14 +210,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         defaults?.synchronize()
     }
 
-    private func updateImage(isFree: Bool) {
-        var icon: NSImage?
+    private func updateImage() {
+        var imageName = "toilet_"
 
-        if isFree {
-            icon = NSImage(named: NSImage.Name(rawValue: "toilet-yes"))
-        } else {
-            icon = NSImage(named: NSImage.Name(rawValue: "toilet-no"))
+        for (index, toilet) in toilets.enumerated() {
+            imageName += toilet.status == .occupied ? "\(index)" : ""
+            print(imageName)
         }
+
+        let icon = NSImage(named: NSImage.Name(rawValue: imageName))
 
         statusItem.button?.image = icon
         statusItem.button?.image?.isTemplate = true

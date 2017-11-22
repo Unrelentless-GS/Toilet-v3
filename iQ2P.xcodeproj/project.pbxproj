@@ -17,6 +17,7 @@
 		121DC4F41FC3C6FE00F35F47 /* Starscream.framework.dSYM in Resources */ = {isa = PBXBuildFile; fileRef = 121DC4F21FC3C6FE00F35F47 /* Starscream.framework.dSYM */; };
 		121DC4F51FC3C70700F35F47 /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 121DC4F11FC3C6FE00F35F47 /* Starscream.framework */; };
 		121DC4F61FC3C70700F35F47 /* Starscream.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 121DC4F11FC3C6FE00F35F47 /* Starscream.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		122580971FC51C8700B8A8DA /* SocketMan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122580961FC51C8700B8A8DA /* SocketMan.swift */; };
 		12703FBE1EB6FE910070CBE8 /* BarGraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12703FB81EB6FE910070CBE8 /* BarGraphModel.swift */; };
 		12703FBF1EB6FE910070CBE8 /* PieChartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12703FB91EB6FE910070CBE8 /* PieChartModel.swift */; };
 		12703FC01EB6FE910070CBE8 /* Toilet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12703FBA1EB6FE910070CBE8 /* Toilet.swift */; };
@@ -80,6 +81,7 @@
 		121B63231EB86799005CD571 /* iQ2P.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iQ2P.entitlements; sourceTree = "<group>"; };
 		121DC4F11FC3C6FE00F35F47 /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Starscream.framework; sourceTree = "<group>"; };
 		121DC4F21FC3C6FE00F35F47 /* Starscream.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = Starscream.framework.dSYM; sourceTree = "<group>"; };
+		122580961FC51C8700B8A8DA /* SocketMan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketMan.swift; sourceTree = "<group>"; };
 		12703FB81EB6FE910070CBE8 /* BarGraphModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarGraphModel.swift; sourceTree = "<group>"; };
 		12703FB91EB6FE910070CBE8 /* PieChartModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieChartModel.swift; sourceTree = "<group>"; };
 		12703FBA1EB6FE910070CBE8 /* Toilet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toilet.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 				120271691EADB93A0048298C /* ContentViewController.swift */,
 				1202716A1EADB93A0048298C /* ContentViewController.xib */,
 				12BECB971EC01C610025131D /* DataManager.swift */,
+				122580961FC51C8700B8A8DA /* SocketMan.swift */,
 			);
 			path = "Toilet-v3";
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 				12703FBF1EB6FE910070CBE8 /* PieChartModel.swift in Sources */,
 				1202716B1EADB93A0048298C /* ContentViewController.swift in Sources */,
 				12BECB961EC01B570025131D /* Model.xcdatamodeld in Sources */,
+				122580971FC51C8700B8A8DA /* SocketMan.swift in Sources */,
 				12CE48681EA71DD700EAF189 /* AppDelegate.swift in Sources */,
 				12703FC21EB6FE910070CBE8 /* PieGraph.swift in Sources */,
 				12703FC01EB6FE910070CBE8 /* Toilet.swift in Sources */,

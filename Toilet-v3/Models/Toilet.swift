@@ -13,7 +13,7 @@ class Toilet {
     var vacantHours = [TimeInterval]()
     var offlineHours = [TimeInterval]()
 
-    var status: ToiletStatus = .vacant
+    var status: ToiletStatus = .offline
     var sinceDate: Date = Date()
 
     var number: Int

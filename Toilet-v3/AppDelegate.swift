@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import SocketIO
 
 enum ToiletStatus: Int {
     case offline = -1
@@ -19,6 +18,7 @@ enum ToiletStatus: Int {
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     private var dataManager: DataManager?
+    private var socketManager = SocketMan()
 
     private var poopCode = ""
     private var revealTime = false
@@ -41,13 +41,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-    private let socketManager = SocketManager(
-        socketURL: URL(string: "http://internals.gridstone.com.au")!,
-        config: [.forceWebsockets(true)])
-
-    private lazy var socket: SocketIOClient = {
-        return self.socketManager.defaultSocket
-    }()
 
     private lazy var dateComponentsFormatter: DateComponentsFormatter = {
         let dateComponentsFormatter = DateComponentsFormatter()
@@ -70,7 +63,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.button?.action = #selector(togglePopover)
         popover.contentViewController = ContentViewController(nibName: NSNib.Name(rawValue: String(describing: ContentViewController.self)), bundle: nil)
         let _ = self.viewController.view
-        getDevices()
+
+        socketManager.getDeviceIDs { devices in
+            self.deviceIDs = devices
+        }
     }
 
     private func beginEverything() {
@@ -107,60 +103,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 //                NSUserNotificationCenter.default.deliver(notification)
             }
             self.viewController.dataManager = self.dataManager
-            self.doWebSocketStuff()
 
-        }
-    }
-
-    private func getDevices() {
-        socket.once("devices") { [weak self] data, ack in
-            self?.deviceIDs = data
-                .map{$0 as! [[String: AnyObject]]}
-                .flatMap{$0}
-                .flatMap{$0["deviceId"]} as! [String]
-
-            ack.with("HAHA!", "THX")
-            self?.socket.disconnect()
-        }
-        socket.connect()
-    }
-
-    private func doWebSocketStuff() {
-        socket.on("error") { [weak self] data, ack in
-            guard let `self` = self else { return }
-
-            for toilet in self.toilets {
-                toilet.sinceDate = Date()
-                toilet.status = .offline
-                self.refreshStats(toilet: toilet)
-            }
-            self.statusItem.button?.appearsDisabled = true
-            ack.with("HAHA!", "THX")
-        }
-
-        socket.on("data") { [weak self] data, ack in
-            guard let `self` = self else { return }
-            self.statusItem.button?.appearsDisabled = false
-
-            for something in data {
-                guard let object = something as? [String: AnyObject] else { return }
-                guard let lightState = object["lightState"] as? String else { return }
-                guard let deviceId = object["deviceId"] as? String else { return }
-                guard let index = self.deviceIDs.index(of: deviceId) else { return }
-
-                let isFree = lightState == "0"
-
-                self.toilets[index].sinceDate = Date()
-                self.toilets[index].status = isFree ? .vacant : .occupied
-                self.refreshStats(toilet: self.toilets[index])
+            self.socketManager.listenToError {
+                for toilet in self.toilets {
+                    toilet.sinceDate = Date()
+                    toilet.status = .offline
+                    self.refreshStats(toilet: toilet)
+                }
+                self.statusItem.button?.appearsDisabled = true
             }
 
-            self.updateImage()
-            //            self.viewController.isFree = (self.toilet1.status == .vacant || self.toilet2.status == .vacant) ? true : false
+            self.socketManager.listenToData { deviceID, isFree in
+                self.statusItem.button?.appearsDisabled = false
+                guard let index = self.deviceIDs.index(of: deviceID) else { return }
 
-            ack.with("HAHA!", "THX")
+                    self.toilets[index].sinceDate = Date()
+                    self.toilets[index].status = isFree ? .vacant : .occupied
+                    self.refreshStats(toilet: self.toilets[index])
+
+                self.updateImage()
+                //            self.viewController.isFree = (self.toilet1.status == .vacant || self.toilet2.status == .vacant) ? true : false
+
+            }
+
         }
-        socket.connect()
     }
 
     @objc private func refreshAll() {

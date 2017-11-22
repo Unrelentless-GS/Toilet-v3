@@ -79,6 +79,7 @@ class DataManager: NSObject {
     }
 
     func barData(for segment: BarSegement) -> BarGraphModel {
+        
         let toilet1 = Toilet(number: 1)
         let toilet2 = Toilet(number: 2)
         let toilet3 = Toilet(number: 3)

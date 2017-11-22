@@ -19,9 +19,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     private var dataManager: DataManager?
     private var socketManager = SocketMan()
+    private var eventMonitor: EventMonitor?
 
     private var poopCode = ""
     private var revealTime = false
+    private var startDate = Date()
 
     private lazy var toilets: [Toilet] = {
         var toilets = [Toilet]()
@@ -31,14 +33,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return toilets
     }()
 
-    private var startDate = Date()
 
-    let popover = NSPopover()
+    private let popover = NSPopover()
+    private lazy var viewController: ContentViewController = {
+        return ContentViewController(nibName: NSNib.Name(rawValue: String(describing: ContentViewController.self)), bundle: nil)
+    }()
 
-    var eventMonitor: EventMonitor?
-    var viewController: ContentViewController {
-        return popover.contentViewController as! ContentViewController
-    }
 
     private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
 
@@ -61,8 +61,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NSApp.setActivationPolicy(.accessory)
         statusItem.button?.action = #selector(togglePopover)
-        popover.contentViewController = ContentViewController(nibName: NSNib.Name(rawValue: String(describing: ContentViewController.self)), bundle: nil)
-        let _ = self.viewController.view
 
         socketManager.getDeviceIDs { devices in
             self.deviceIDs = devices
@@ -117,9 +115,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self.statusItem.button?.appearsDisabled = false
                 guard let index = self.deviceIDs.index(of: deviceID) else { return }
 
-                    self.toilets[index].sinceDate = Date()
-                    self.toilets[index].status = isFree ? .vacant : .occupied
-                    self.refreshStats(toilet: self.toilets[index])
+                self.toilets[index].sinceDate = Date()
+                self.toilets[index].status = isFree ? .vacant : .occupied
+                self.refreshStats(toilet: self.toilets[index])
 
                 self.updateImage()
                 //            self.viewController.isFree = (self.toilet1.status == .vacant || self.toilet2.status == .vacant) ? true : false
@@ -130,8 +128,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func refreshAll() {
-        for toilet in toilets {
-            refreshStats(toilet: toilet)
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            guard let toilets = self?.toilets else { return }
+            for toilet in toilets {
+                self?.refreshStats(toilet: toilet)
+            }
         }
     }
 
@@ -164,28 +165,29 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         //        let pieModel = PieChartModel(toilet: toilet)
 
-        switch toilet.number {
-        case 1:
-            viewController.desc1 = ["\(statusString!)", "\(timeString!)"]
-        //            viewController.data = pieModel
-        case 2:
-            viewController.desc2 = ["\(statusString!)", "\(timeString!)"]
-        //            viewController.data2 = pieModel
-        case 3:
-            viewController.desc3 = ["\(statusString!)", "\(timeString!)"]
-        //            viewController.data2 = pieModel
-        case 4:
-            viewController.desc4 = ["\(statusString!)", "\(timeString!)"]
-        //            viewController.data2 = pieModel
-        default: break
-        }
+        DispatchQueue.main.async { [unowned self] in
+            if self.popover.isShown {
+                switch toilet.number {
+                case 1:
+                    self.viewController.desc1 = ["\(statusString!)", "\(timeString!)"]
+                //            viewController.data = pieModel
+                case 2:
+                    self.viewController.desc2 = ["\(statusString!)", "\(timeString!)"]
+                //            viewController.data2 = pieModel
+                case 3:
+                    self.viewController.desc3 = ["\(statusString!)", "\(timeString!)"]
+                //            viewController.data2 = pieModel
+                case 4:
+                    self.viewController.desc4 = ["\(statusString!)", "\(timeString!)"]
+                //            viewController.data2 = pieModel
+                default: break
+                }
+                //        let timeInterval = NSDate().timeIntervalSince(self.startDate)
+                //        guard let string = dateComponentsFormatter.string(from: timeInterval) else { return }
+                //        self.viewController.totalTimeString = "Total time: \(string)"
 
-        //        let timeInterval = NSDate().timeIntervalSince(self.startDate)
-        //        guard let string = dateComponentsFormatter.string(from: timeInterval) else { return }
-        //        self.viewController.totalTimeString = "Total time: \(string)"
-
-        if popover.isShown {
-            viewController.barData = dataManager?.barData(for: .hourly)
+                self.viewController.barData = self.dataManager?.barData(for: .hourly)
+            }
         }
 
         let defaults = UserDefaults(suiteName: "au.com.gridstone.q2p")
@@ -221,6 +223,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func showPopover(sender: AnyObject?) {
         if let button = statusItem.button {
+            popover.contentViewController = viewController
             popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
         }
     }
@@ -229,6 +232,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         popover.performClose(sender)
         poopCode = ""
         revealTime = false
+        popover.contentViewController = nil
     }
 
     func keyDown(with event: NSEvent) {

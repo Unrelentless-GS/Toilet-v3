@@ -167,26 +167,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         DispatchQueue.main.async { [unowned self] in
             if self.popover.isShown {
-                switch toilet.number {
-                case 1:
-                    self.viewController.desc1 = ["\(statusString!)", "\(timeString!)"]
-                //            viewController.data = pieModel
-                case 2:
-                    self.viewController.desc2 = ["\(statusString!)", "\(timeString!)"]
-                //            viewController.data2 = pieModel
-                case 3:
-                    self.viewController.desc3 = ["\(statusString!)", "\(timeString!)"]
-                //            viewController.data2 = pieModel
-                case 4:
-                    self.viewController.desc4 = ["\(statusString!)", "\(timeString!)"]
-                //            viewController.data2 = pieModel
-                default: break
-                }
-                //        let timeInterval = NSDate().timeIntervalSince(self.startDate)
-                //        guard let string = dateComponentsFormatter.string(from: timeInterval) else { return }
-                //        self.viewController.totalTimeString = "Total time: \(string)"
-
-                self.viewController.barData = self.dataManager?.barData(for: .hourly)
+                self.viewController.update(toilet: toilet, with: (status: statusString!, time: timeString!))
             }
         }
 

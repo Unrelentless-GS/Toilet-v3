@@ -23,13 +23,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var poopCode = ""
     private var revealTime = false
 
-    private var toilets: [Toilet] {
+    private lazy var toilets: [Toilet] = {
         var toilets = [Toilet]()
         deviceIDs.enumerated().forEach { count, id in
             toilets.append(Toilet(number: count+1))
         }
         return toilets
-    }
+    }()
 
     private var startDate = Date()
 
@@ -71,11 +71,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         popover.contentViewController = ContentViewController(nibName: NSNib.Name(rawValue: String(describing: ContentViewController.self)), bundle: nil)
         let _ = self.viewController.view
         getDevices()
-        updateImage()
-//        doWebSocketStuff()
     }
 
     private func beginEverything() {
+        updateImage()
 
         dataManager = DataManager { [unowned self] in
             self.dataManager?.initToilets(count: self.deviceIDs.count)
@@ -117,6 +116,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 .map{$0 as! [[String: AnyObject]]}
                 .flatMap{$0}
                 .flatMap{$0["deviceId"]} as! [String]
+
+            ack.with("HAHA!", "THX")
+            self.socket.disconnect()
         }
         socket.connect()
     }
@@ -129,6 +131,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self.refreshStats(toilet: toilet)
             }
             self.statusItem.button?.appearsDisabled = true
+            ack.with("HAHA!", "THX")
         }
 
         socket.on("data") { data, ack in
@@ -152,6 +155,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
             ack.with("HAHA!", "THX")
         }
+        socket.connect()
     }
 
     @objc private func refreshAll() {
@@ -214,7 +218,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         var imageName = "toilet_"
 
         for (index, toilet) in toilets.enumerated() {
-            imageName += toilet.status == .occupied ? "\(index)" : ""
+            imageName += toilet.status == .occupied ? "\(index+1)" : ""
             print(imageName)
         }
 

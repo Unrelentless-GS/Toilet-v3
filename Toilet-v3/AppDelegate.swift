@@ -76,7 +76,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private func beginEverything() {
         updateImage()
 
-        dataManager = DataManager { [unowned self] in
+        dataManager = DataManager { [weak self] in
+            guard let `self` = self else { return }
             self.dataManager?.initToilets(count: self.deviceIDs.count)
 
             self.timer = Timer.scheduledTimer(timeInterval: 1,
@@ -85,19 +86,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                               userInfo: nil,
                                               repeats: true)
 
-            self.eventMonitor = EventMonitor(mask: [NSEvent.EventTypeMask.leftMouseDown, NSEvent.EventTypeMask.rightMouseDown]) { [unowned self] event in
-                if self.popover.isShown {
-                    self.closePopover(sender: event)
+            self.eventMonitor = EventMonitor(mask: [NSEvent.EventTypeMask.leftMouseDown, NSEvent.EventTypeMask.rightMouseDown]) { [weak self] event in
+                if let isShown = self?.popover.isShown, isShown == true {
+                    self?.closePopover(sender: event)
                 }
             }
             self.eventMonitor?.start()
 
-            NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown) {
-                self.keyDown(with: $0)
-                return $0
-            }
+//            NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown) { [weak self] in
+//                self?.keyDown(with: $0)
+//                return $0
+//            }
 
-            self.viewController.notifyCallback = { [unowned self] in
+            self.viewController.notifyCallback = { [weak self] in
 //                let state = self.toilet1.status == .occupied ? self.toilet2.status == .occupied ? "1" : "2" : "1"
 //                let notification = NSUserNotification()
 //                notification.title = "Toilet Available"
@@ -111,20 +112,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func getDevices() {
-        socket.once("devices") { data, ack in
-            self.deviceIDs = data
+        socket.once("devices") { [weak self] data, ack in
+            self?.deviceIDs = data
                 .map{$0 as! [[String: AnyObject]]}
                 .flatMap{$0}
                 .flatMap{$0["deviceId"]} as! [String]
 
             ack.with("HAHA!", "THX")
-            self.socket.disconnect()
+            self?.socket.disconnect()
         }
         socket.connect()
     }
 
     private func doWebSocketStuff() {
-        socket.on("error") { [unowned self] data, ack in
+        socket.on("error") { [weak self] data, ack in
+            guard let `self` = self else { return }
+
             for toilet in self.toilets {
                 toilet.sinceDate = Date()
                 toilet.status = .offline
@@ -134,7 +137,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             ack.with("HAHA!", "THX")
         }
 
-        socket.on("data") { data, ack in
+        socket.on("data") { [weak self] data, ack in
+            guard let `self` = self else { return }
             self.statusItem.button?.appearsDisabled = false
 
             for something in data {
@@ -195,11 +199,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         switch toilet.number {
         case 1:
-            viewController.desc = ["\(statusString!)", "\(timeString!)"]
+            viewController.desc1 = ["\(statusString!)", "\(timeString!)"]
 //            viewController.data = pieModel
         case 2:
             viewController.desc2 = ["\(statusString!)", "\(timeString!)"]
-//            viewController.data2 = pieModel
+        //            viewController.data2 = pieModel
+        case 3:
+            viewController.desc3 = ["\(statusString!)", "\(timeString!)"]
+        //            viewController.data2 = pieModel
+        case 4:
+            viewController.desc4 = ["\(statusString!)", "\(timeString!)"]
+        //            viewController.data2 = pieModel
         default: break
         }
 

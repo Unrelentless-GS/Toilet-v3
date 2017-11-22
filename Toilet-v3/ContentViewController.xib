@@ -13,7 +13,7 @@
                 <outlet property="barGraph" destination="fMv-u4-gjk" id="tHw-dM-Lu8"/>
                 <outlet property="barHeightConstraint" destination="ORh-5s-cPr" id="Iqh-Bx-zM4"/>
                 <outlet property="barImageView" destination="J5x-qZ-I18" id="HQC-9J-pIq"/>
-                <outlet property="descriptionLabel" destination="b0l-1j-ptf" id="oMh-sk-dMy"/>
+                <outlet property="descriptionLabel1" destination="b0l-1j-ptf" id="CwK-Uv-WaM"/>
                 <outlet property="descriptionLabel2" destination="m57-nk-aH5" id="qyc-BP-6y5"/>
                 <outlet property="descriptionLabel3" destination="XVS-9A-bsl" id="Orb-O4-5nf"/>
                 <outlet property="descriptionLabel4" destination="I85-2V-rQR" id="xbn-rz-FwZ"/>

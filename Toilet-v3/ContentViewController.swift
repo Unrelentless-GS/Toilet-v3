@@ -16,7 +16,7 @@ enum BarSegement: Int {
 
 internal class ContentViewController: NSViewController {
 
-    @IBOutlet weak var descriptionLabel: NSTextField!
+    @IBOutlet weak var descriptionLabel1: NSTextField!
     @IBOutlet weak var descriptionLabel2: NSTextField!
     @IBOutlet weak var descriptionLabel3: NSTextField!
     @IBOutlet weak var descriptionLabel4: NSTextField!
@@ -49,7 +49,7 @@ internal class ContentViewController: NSViewController {
 //        }
 //    }
 
-    internal var desc: [String] = ["Loading...", "00"] {
+    internal var desc1: [String] = ["Loading...", "00"] {
         didSet {
             updateDescription()
         }
@@ -62,6 +62,18 @@ internal class ContentViewController: NSViewController {
 //    }
 
     internal var desc2: [String] = ["Loading...", "00"] {
+        didSet {
+            updateDescription()
+        }
+    }
+
+    internal var desc3: [String] = ["Loading...", "00"] {
+        didSet {
+            updateDescription()
+        }
+    }
+
+    internal var desc4: [String] = ["Loading...", "00"] {
         didSet {
             updateDescription()
         }
@@ -145,10 +157,10 @@ internal class ContentViewController: NSViewController {
 //        spacerView.layer?.backgroundColor = spacerColour.cgColor
         spacerView2.layer?.backgroundColor = spacerColour.cgColor
 
-        descriptionLabel.wantsLayer = true
-        descriptionLabel.backgroundColor = offlineColour
-        descriptionLabel.layer?.cornerRadius = 3
-        descriptionLabel.textColor = .black
+        descriptionLabel1.wantsLayer = true
+        descriptionLabel1.backgroundColor = offlineColour
+        descriptionLabel1.layer?.cornerRadius = 3
+        descriptionLabel1.textColor = .black
 
         descriptionLabel2.wantsLayer = true
         descriptionLabel2.backgroundColor = offlineColour
@@ -199,14 +211,17 @@ internal class ContentViewController: NSViewController {
 //    }
 
     internal func updateDescription() {
-        descriptionLabel.stringValue = desc[0]
+        descriptionLabel1.stringValue = desc1[0]
         descriptionLabel2.stringValue = desc2[0]
+        descriptionLabel3.stringValue = desc3[0]
 
-        timeAmount1.stringValue = desc[1]
+        timeAmount1.stringValue = desc1[1]
         timeAmount2.stringValue = desc2[1]
+        timeAmount3.stringValue = desc3[1]
 
-        descriptionLabel.backgroundColor = colour(forState: desc[0]).withAlphaComponent(0.8)
+        descriptionLabel1.backgroundColor = colour(forState: desc1[0]).withAlphaComponent(0.8)
         descriptionLabel2.backgroundColor = colour(forState: desc2[0]).withAlphaComponent(0.8)
+        descriptionLabel3.backgroundColor = colour(forState: desc3[0]).withAlphaComponent(0.8)
     }
 
     internal func updateCharts() {

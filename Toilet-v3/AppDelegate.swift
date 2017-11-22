@@ -75,16 +75,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func beginEverything() {
         updateImage()
+        self.timer = Timer.scheduledTimer(timeInterval: 1,
+                                          target: self,
+                                          selector: #selector(self.refreshAll),
+                                          userInfo: nil,
+                                          repeats: true)
 
-        dataManager = DataManager { [weak self] in
+        self.dataManager = DataManager { [weak self] in
             guard let `self` = self else { return }
             self.dataManager?.initToilets(count: self.deviceIDs.count)
 
-            self.timer = Timer.scheduledTimer(timeInterval: 1,
-                                              target: self,
-                                              selector: #selector(self.refreshAll),
-                                              userInfo: nil,
-                                              repeats: true)
 
             self.eventMonitor = EventMonitor(mask: [NSEvent.EventTypeMask.leftMouseDown, NSEvent.EventTypeMask.rightMouseDown]) { [weak self] event in
                 if let isShown = self?.popover.isShown, isShown == true {
@@ -93,21 +93,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             self.eventMonitor?.start()
 
-//            NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown) { [weak self] in
-//                self?.keyDown(with: $0)
-//                return $0
-//            }
+            //            NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown) { [weak self] in
+            //                self?.keyDown(with: $0)
+            //                return $0
+            //            }
 
             self.viewController.notifyCallback = { [weak self] in
-//                let state = self.toilet1.status == .occupied ? self.toilet2.status == .occupied ? "1" : "2" : "1"
-//                let notification = NSUserNotification()
-//                notification.title = "Toilet Available"
-//                notification.subtitle = "Toilet number \(state) is now available"
-//                notification.soundName = NSUserNotificationDefaultSoundName
-//                NSUserNotificationCenter.default.deliver(notification)
+                //                let state = self.toilet1.status == .occupied ? self.toilet2.status == .occupied ? "1" : "2" : "1"
+                //                let notification = NSUserNotification()
+                //                notification.title = "Toilet Available"
+                //                notification.subtitle = "Toilet number \(state) is now available"
+                //                notification.soundName = NSUserNotificationDefaultSoundName
+                //                NSUserNotificationCenter.default.deliver(notification)
             }
             self.viewController.dataManager = self.dataManager
             self.doWebSocketStuff()
+
         }
     }
 
@@ -155,7 +156,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
 
             self.updateImage()
-//            self.viewController.isFree = (self.toilet1.status == .vacant || self.toilet2.status == .vacant) ? true : false
+            //            self.viewController.isFree = (self.toilet1.status == .vacant || self.toilet2.status == .vacant) ? true : false
 
             ack.with("HAHA!", "THX")
         }
@@ -195,12 +196,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             toilet.offlineHours[hour] += value
         }
 
-//        let pieModel = PieChartModel(toilet: toilet)
+        //        let pieModel = PieChartModel(toilet: toilet)
 
         switch toilet.number {
         case 1:
             viewController.desc1 = ["\(statusString!)", "\(timeString!)"]
-//            viewController.data = pieModel
+        //            viewController.data = pieModel
         case 2:
             viewController.desc2 = ["\(statusString!)", "\(timeString!)"]
         //            viewController.data2 = pieModel
@@ -213,11 +214,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         default: break
         }
 
-//        let timeInterval = NSDate().timeIntervalSince(self.startDate)
-//        guard let string = dateComponentsFormatter.string(from: timeInterval) else { return }
-//        self.viewController.totalTimeString = "Total time: \(string)"
+        //        let timeInterval = NSDate().timeIntervalSince(self.startDate)
+        //        guard let string = dateComponentsFormatter.string(from: timeInterval) else { return }
+        //        self.viewController.totalTimeString = "Total time: \(string)"
 
-        viewController.barData = dataManager?.barData(for: .hourly)
+        if popover.isShown {
+            viewController.barData = dataManager?.barData(for: .hourly)
+        }
 
         let defaults = UserDefaults(suiteName: "au.com.gridstone.q2p")
         defaults?.set("\(statusString!)", forKey: "Toilet\(toilet.number)")
@@ -229,7 +232,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         for (index, toilet) in toilets.enumerated() {
             imageName += toilet.status == .occupied ? "\(index+1)" : ""
-            print(imageName)
         }
 
         let icon = NSImage(named: NSImage.Name(rawValue: imageName))

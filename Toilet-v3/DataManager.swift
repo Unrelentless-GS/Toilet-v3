@@ -44,7 +44,7 @@ class DataManager: NSObject {
 
             do {
                 try psc.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
-                DispatchQueue.main.sync(execute: completionClosure)
+                DispatchQueue.global(qos: .background).sync(execute: completionClosure)
             } catch {
                 fatalError("Error migrating store: \(error)")
             }

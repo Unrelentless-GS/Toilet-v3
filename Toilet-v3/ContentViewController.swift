@@ -94,7 +94,7 @@ internal class ContentViewController: NSViewController {
         notifyCheckBox.state = NSControl.StateValue(rawValue: 0)
 
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-            self.versionLabel.stringValue = "v\(version)"
+            versionLabel.stringValue = "v\(version)"
         }
 
         prettify()
@@ -102,6 +102,28 @@ internal class ContentViewController: NSViewController {
 
     override func viewWillAppear() {
         super.viewWillAppear()
+        barData = dataManager?.barData(for: BarSegement(rawValue: segmentedControl.selectedSegment)!)
+    }
+
+    @IBAction func terminateHandler(_ sender: NSButton) {
+        NSApp.terminate(sender)
+    }
+
+    @IBAction func toiletDidChange(_ sender: NSSegmentedControl) {
+        print(sender.indexOfSelectedItem)
+    }
+
+    @IBAction func didChange(_ sender: NSSegmentedControl) {
+        let segment = BarSegement(rawValue: sender.selectedSegment)
+        barGraph.segment = segment!
+        barGraph.data = dataManager?.barData(for: segment!)
+    }
+
+    internal func update(toilet: Toilet, with status: (status: String, time: String)) {
+        descs[toilet.number-1]?.stringValue = status.status
+        descs[toilet.number-1]?.backgroundColor = colour(forState: status.status).withAlphaComponent(0.8)
+        timeAmount[toilet.number-1]?.stringValue = status.time
+
         barData = dataManager?.barData(for: BarSegement(rawValue: segmentedControl.selectedSegment)!)
     }
 
@@ -117,18 +139,6 @@ internal class ContentViewController: NSViewController {
         }
     }
 
-    internal func update(toilet: Toilet, with status: (status: String, time: String)) {
-        descs[toilet.number-1]?.stringValue = status.status
-        descs[toilet.number-1]?.backgroundColor = colour(forState: status.status).withAlphaComponent(0.8)
-        timeAmount[toilet.number-1]?.stringValue = status.time
-
-        barData = self.dataManager?.barData(for: .hourly)
-    }
-
-    @IBAction func terminateHandler(_ sender: NSButton) {
-        NSApp.terminate(sender)
-    }
-
     private func colour(forState state: String) -> NSColor {
         switch state {
         case "Vacant":
@@ -142,15 +152,6 @@ internal class ContentViewController: NSViewController {
         }
     }
 
-    @IBAction func toiletDidChange(_ sender: NSSegmentedControl) {
-        print(sender.indexOfSelectedItem)
-    }
-
-    @IBAction func didChange(_ sender: NSSegmentedControl) {
-        let segment = BarSegement(rawValue: sender.selectedSegment)
-        barGraph.segment = segment!
-        barGraph.data = dataManager?.barData(for: segment!)
-    }
 }
 
 extension Double {

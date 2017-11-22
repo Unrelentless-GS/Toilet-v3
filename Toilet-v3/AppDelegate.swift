@@ -39,7 +39,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return ContentViewController(nibName: NSNib.Name(rawValue: String(describing: ContentViewController.self)), bundle: nil)
     }()
 
-
     private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
 
     private lazy var dateComponentsFormatter: DateComponentsFormatter = {
@@ -87,18 +86,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             self.eventMonitor?.start()
 
-            //            NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown) { [weak self] in
-            //                self?.keyDown(with: $0)
-            //                return $0
-            //            }
-
-            self.viewController.notifyCallback = { [weak self] in
-                //                let state = self.toilet1.status == .occupied ? self.toilet2.status == .occupied ? "1" : "2" : "1"
-                //                let notification = NSUserNotification()
-                //                notification.title = "Toilet Available"
-                //                notification.subtitle = "Toilet number \(state) is now available"
-                //                notification.soundName = NSUserNotificationDefaultSoundName
-                //                NSUserNotificationCenter.default.deliver(notification)
+            self.viewController.notifyCallback = {
+                let notification = NSUserNotification()
+                notification.title = "Toilet Available"
+                notification.subtitle = "A toilet is now available"
+                notification.soundName = NSUserNotificationDefaultSoundName
+                NSUserNotificationCenter.default.deliver(notification)
             }
             self.viewController.dataManager = self.dataManager
 
@@ -120,8 +113,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 self.refreshStats(toilet: self.toilets[index])
 
                 self.updateImage()
-                //            self.viewController.isFree = (self.toilet1.status == .vacant || self.toilet2.status == .vacant) ? true : false
 
+                let vacant = self.toilets.filter{$0.status == .vacant}.count > 0
+                self.viewController.isFree = vacant
             }
 
         }
@@ -162,8 +156,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             statusString = "Offline"
             toilet.offlineHours[hour] += value
         }
-
-        //        let pieModel = PieChartModel(toilet: toilet)
 
         DispatchQueue.main.async { [unowned self] in
             if self.popover.isShown {

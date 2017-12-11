@@ -42,11 +42,15 @@ struct BarGraphModel {
     }
 
     func occupiedTime(forIndex index: Int) -> TimeInterval {
-        return totalOccupiedTimes[segment == .hourly ? index + 7 : index]
+        let occupiedTime = totalOccupiedTimes[segment == .hourly ? index + 7 : index]
+//        print("occupiedTime = \(occupiedTime)")
+        return occupiedTime
     }
 
     func totalTime(forIndex index: Int) -> TimeInterval {
-        return totalTimes[segment == .hourly ? index + 7 : index]
+        let times = totalTimes[segment == .hourly ? index + 7 : index]
+//        print("TotalTimes = \(times)")
+        return times
     }
 
     init(toilets: [Toilet]) {

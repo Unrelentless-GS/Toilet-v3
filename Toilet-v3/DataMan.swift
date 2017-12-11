@@ -8,9 +8,10 @@
 
 import Cocoa
 
-class DataManager: NSObject {
+class DataMan: NSObject {
 
-    private var managedObjectContext: NSManagedObjectContext
+    private var mainObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+    private var backgroundObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
 
     lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
@@ -28,8 +29,9 @@ class DataManager: NSObject {
 
         let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
 
-        managedObjectContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.mainQueueConcurrencyType)
-        managedObjectContext.persistentStoreCoordinator = psc
+        mainObjectContext.persistentStoreCoordinator = psc
+
+        backgroundObjectContext.parent = mainObjectContext
 
         let queue = DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
         queue.async {
@@ -53,7 +55,7 @@ class DataManager: NSObject {
 
     func initToilets(count: Int) {
         let fetch = NSFetchRequest<ToiletObj>(entityName: "ToiletObj")
-        let fetchedToilets = try? managedObjectContext.fetch(fetch)
+        let fetchedToilets = try? backgroundObjectContext.fetch(fetch)
 
         guard (fetchedToilets?.count)! < 4 else { return }
 
@@ -75,6 +77,8 @@ class DataManager: NSObject {
         case .offline:
             hour.offline += value
         }
+
+//        print("\(toilet.number) \((toilet.dates?.lastObject as! DateObj).date)")
         save()
     }
 
@@ -181,7 +185,7 @@ class DataManager: NSObject {
     }
 
     private func createToilet(with id: Int) -> ToiletObj {
-        let toilet = NSEntityDescription.insertNewObject(forEntityName: "ToiletObj", into: managedObjectContext) as! ToiletObj
+        let toilet = NSEntityDescription.insertNewObject(forEntityName: "ToiletObj", into: backgroundObjectContext) as! ToiletObj
         toilet.number = String(id)
 
         save()
@@ -193,7 +197,7 @@ class DataManager: NSObject {
         let month = Calendar.current.component(.month, from: date)
 
         let dateString = dateFormatter.string(from: date)
-        let date = NSEntityDescription.insertNewObject(forEntityName: "DateObj", into: managedObjectContext) as! DateObj
+        let date = NSEntityDescription.insertNewObject(forEntityName: "DateObj", into: backgroundObjectContext) as! DateObj
         date.date = dateString
         date.day = "\(day-1)"
         date.month = "\(month-1)"
@@ -205,7 +209,7 @@ class DataManager: NSObject {
     }
 
     private func createHour(hour: Int, date: DateObj) -> HourObj {
-        let hourObj = NSEntityDescription.insertNewObject(forEntityName: "HourObj", into: managedObjectContext) as! HourObj
+        let hourObj = NSEntityDescription.insertNewObject(forEntityName: "HourObj", into: backgroundObjectContext) as! HourObj
         hourObj.hour = "\(hour)"
         date.addToHours(hourObj)
 
@@ -216,7 +220,7 @@ class DataManager: NSObject {
     private func fetchToilet(number: Int) -> ToiletObj  {
         let toiletFetch = NSFetchRequest<ToiletObj>(entityName: "ToiletObj")
         toiletFetch.predicate = NSPredicate(format: "number == %@", String(number))
-        let fetchedToilet = try! managedObjectContext.fetch(toiletFetch).first
+        let fetchedToilet = try! backgroundObjectContext.fetch(toiletFetch).first
 
         return fetchedToilet!
     }
@@ -228,8 +232,10 @@ class DataManager: NSObject {
         let dates = toilet.dates?.filtered(using: predicate)
 
         if dates?.count == 0 {
+            print("Creating date \(date) for \(toilet.number!)")
             return createDate(date: date, toilet: toilet)
         } else {
+            print("Fetching date \(date) for \(toilet.number!)")
             return dates?.firstObject as! DateObj
         }
     }
@@ -239,15 +245,30 @@ class DataManager: NSObject {
         let hours = date.hours?.filtered(using: hourPredicate)
         
         if hours?.count == 0 {
+            print("Creating hour \(hour) for \(toilet.number!)")
             return createHour(hour: hour, date: date)
         } else {
+            print("Fetching hour \(hour) for \(toilet.number!)")
             return hours?.firstObject as! HourObj
         }
     }
     
     private func save() {
-        do { try managedObjectContext.save() } catch {
-            fatalError("Failed to save: \(error)")
+        backgroundObjectContext.performAndWait {
+            do {
+                print("Saving BG \(Date())")
+                try self.backgroundObjectContext.save()
+                self.mainObjectContext.performAndWait {
+                    do {
+                        print("Saving main \(Date())")
+                       try self.mainObjectContext.save()
+                    } catch {
+                        fatalError("Failed to save: \(error)")
+                    }
+                }
+            } catch {
+                fatalError("Failed to save: \(error)")
+            }
         }
     }
     

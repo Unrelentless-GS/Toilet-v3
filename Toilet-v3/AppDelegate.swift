@@ -17,7 +17,7 @@ enum ToiletStatus: Int {
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    private var dataManager: DataManager?
+    private var dataManager: DataMan?
     private var socketManager = SocketMan()
     private var eventMonitor: EventMonitor?
 
@@ -74,7 +74,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                                           userInfo: nil,
                                           repeats: true)
 
-        self.dataManager = DataManager { [weak self] in
+        self.dataManager = DataMan { [weak self] in
             guard let `self` = self else { return }
             self.dataManager?.initToilets(count: self.deviceIDs.count)
 

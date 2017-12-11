@@ -24,7 +24,7 @@
 		12703FC11EB6FE910070CBE8 /* BarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12703FBC1EB6FE910070CBE8 /* BarGraph.swift */; };
 		12703FC21EB6FE910070CBE8 /* PieGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12703FBD1EB6FE910070CBE8 /* PieGraph.swift */; };
 		12BECB961EC01B570025131D /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 12BECB941EC01B570025131D /* Model.xcdatamodeld */; };
-		12BECB981EC01C610025131D /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12BECB971EC01C610025131D /* DataManager.swift */; };
+		12BECB981EC01C610025131D /* DataMan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12BECB971EC01C610025131D /* DataMan.swift */; };
 		12CE48681EA71DD700EAF189 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12CE48671EA71DD700EAF189 /* AppDelegate.swift */; };
 		12CE486C1EA71DD700EAF189 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12CE486B1EA71DD700EAF189 /* Assets.xcassets */; };
 		12CE486F1EA71DD700EAF189 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 12CE486D1EA71DD700EAF189 /* Main.storyboard */; };
@@ -89,7 +89,7 @@
 		12703FBD1EB6FE910070CBE8 /* PieGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieGraph.swift; sourceTree = "<group>"; };
 		129041ED1EB84E45009CE7DB /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		12BECB951EC01B570025131D /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		12BECB971EC01C610025131D /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		12BECB971EC01C610025131D /* DataMan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataMan.swift; sourceTree = "<group>"; };
 		12CE48641EA71DD700EAF189 /* iQ2P.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iQ2P.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		12CE48671EA71DD700EAF189 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		12CE486B1EA71DD700EAF189 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -200,7 +200,7 @@
 				12CE48701EA71DD700EAF189 /* Info.plist */,
 				120271691EADB93A0048298C /* ContentViewController.swift */,
 				1202716A1EADB93A0048298C /* ContentViewController.xib */,
-				12BECB971EC01C610025131D /* DataManager.swift */,
+				12BECB971EC01C610025131D /* DataMan.swift */,
 				122580961FC51C8700B8A8DA /* SocketMan.swift */,
 			);
 			path = "Toilet-v3";
@@ -371,7 +371,7 @@
 				12CE48681EA71DD700EAF189 /* AppDelegate.swift in Sources */,
 				12703FC21EB6FE910070CBE8 /* PieGraph.swift in Sources */,
 				12703FC01EB6FE910070CBE8 /* Toilet.swift in Sources */,
-				12BECB981EC01C610025131D /* DataManager.swift in Sources */,
+				12BECB981EC01C610025131D /* DataMan.swift in Sources */,
 				12703FBE1EB6FE910070CBE8 /* BarGraphModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

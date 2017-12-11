@@ -83,7 +83,7 @@ internal class ContentViewController: NSViewController {
     internal var motionCallback: ((Double?) -> ())?
     internal var notifyCallback: (() -> ())?
 
-    weak internal var dataManager: DataManager?
+    weak internal var dataManager: DataMan?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,6 +120,7 @@ internal class ContentViewController: NSViewController {
     }
 
     internal func update(toilet: Toilet, with status: (status: String, time: String)) {
+        print("Updating UI")
         descs[toilet.number-1]?.stringValue = status.status
         descs[toilet.number-1]?.backgroundColor = colour(forState: status.status).withAlphaComponent(0.8)
         timeAmount[toilet.number-1]?.stringValue = status.time
